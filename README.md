@@ -1,2 +1,2 @@
 # CS3305_Project
-# NO fun lads only work
+# No fun lads only work
