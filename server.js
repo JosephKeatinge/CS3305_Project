@@ -18,41 +18,40 @@ server.listen(5000, function() {
 });
  //Add the WebSocket handlers
 var players = {};
+
+setInterval(function(){
+  io.sockets.emit('heartbeat',players);
+},1000/30);
 io.on('connection', function(socket) {
   //A player has connected and sent there initial x,y postion
   socket.on('new player', function(data) {
     //Server stores this in a dictionary with the socket id as the key and player object
     //as the value with the x and y value
-    console.log(data);
+    //console.log(data);
     players[socket.id] = {
       x: data.x,
       y: data.y
     };
-    console.log(players);
+    //console.log(players);
   });
   socket.on('position', function(data) {
     //Every few seconds the player sends their position as a object
     //The server finds this player and updates there position
      for(var id in players){
-       var player=players[id];
-       player.x=data.x;
-       player.y=data.y;
+       if (id==socket.id){
+         var player=players[id];
+         player.x=data.x;
+         player.y=data.y;
+       }
+       console.log(players);
+
 
      }
     //console.log(data);
 
   });
-});
 
- setInterval(function(){
-   io.sockets.emit('message',"Connected");
- },1000/60);
-
-    //console.log(data);
-
+  socket.on('disconnect',function(){
+    console.log("Player has left");
   });
 });
-
- setInterval(function(){
-   io.sockets.emit('message',"Connected");
- },1000/60);
