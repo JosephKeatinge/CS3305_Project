@@ -12,7 +12,7 @@ function Proxy(socket){
 }
 
 Proxy.prototype = {
-    addPlayer : function(id,x,y,Local){
+    newPlayer : function(id,x,y,Local){
         //Local is a boolean to see if the player is the clients object
         var t = new Player(id,x,y,Local);
         if(Local){
@@ -28,7 +28,8 @@ Proxy.prototype = {
             this.sendData();
         }
 
-    }
+    },
+
 
     sendData : function(){
         //send data to server
