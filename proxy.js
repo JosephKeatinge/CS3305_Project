@@ -1,14 +1,15 @@
 var INTERVAL = 50;
 
 function Proxy(socket){
-    this.players=[];//list of players other than local player
+    this.players={};//list of players other than local player
     this.socket=socket;
+    this.player={x:0,y:0};
 
-    var g=this;
+    /*var g=this;
     setInterval(function(){
         //set an interval for teh mainloop
         g.mainLoop();
-    },INTERVAL);
+    },INTERVAL);*/
 }
 
 Proxy.prototype = {
@@ -28,21 +29,35 @@ Proxy.prototype = {
             this.sendData();
         }
 
-    }
-
-    sendData : function(){
-        //send data to server
-        var Data={} //data to be sent to server
-
-        var playData={
-            id :this.localPlayer.id,
-            x : this.localPlayer.x,
-            y: this.localPlayer.y
-        };
-        Data.Player = playData;
-
-        this.socket.emit('sync',Data);
     },
+
+    sendData : function(player){
+        //send data to server
+        //var Data={} //data to be sent to server
+
+       /* var playData={
+            id :1,
+            x : 0,
+            y: 0
+        };
+        //Data.Player = playData;*/
+      //  console.log(player);
+        this.socket.emit('newplayer',player);
+    },
+    sendPos:function(player){
+          this.socket.emit('position',player);
+
+    }
+    ,
+
+    receiveData:function(players){
+
+        this.players=players;
+        return this.players;
+    },
+
+
+
 
     receiveData : function(Data){
         //get and process data from server
@@ -64,4 +79,3 @@ Proxy.prototype = {
 
     }
 }
-
