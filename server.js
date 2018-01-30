@@ -16,43 +16,68 @@ app.get('/', function(request, response) {
 server.listen(5000, function() {
   console.log('Starting server on port 5000');
 });
- //Add the WebSocket handlers
-var players = {};
+//Server Class
+function GameServer(){
+    this.players={};
+    this.count=0;
+}
+//Define Methods
+GameServer.prototype={
+
+       addPlayer: function(player,id){
+         this.players[id]={
+           x:player.x,
+           y:player.y
+         }
+       },
+
+       updatePlayers:function(newpos,pid){
+         for(var id in  this.players){
+           if (id==pid){
+             var player=this.players[id];
+             player.x=newpos.x;
+             player.y=newpos.y;
+           }
+           console.log(this.players);
+         }
+
+       },
+       sendPlayerData:function(){
+            io.sockets.emit('heartbeat',this.players);
+       },
+
+       playerDisconnect:function(socket){
+         console.log(socket.id+"player has disconnected");
+         delete this.players[socket.id];
+         console.log(this.players);
+
+       }
+}
+
+//Main Server Stuff
+var server=new GameServer();
+
+setInterval(function(){
+  //Send Disctionary of players positions to Client's
+  server.sendPlayerData();
+},1000/30);
+
 io.on('connection', function(socket) {
   //A player has connected and sent there initial x,y postion
-  socket.on('new player', function(data) {
+  socket.on('new player', function(player) {
     //Server stores this in a dictionary with the socket id as the key and player object
     //as the value with the x and y value
-    console.log(data);
-    players[socket.id] = {
-      x: data.x,
-      y: data.y
-    };
-    console.log(players);
+    //console.log(data);
+    server.addPlayer(player,socket.id);
+    //console.log(players);
   });
-  socket.on('position', function(data) {
+  socket.on('position', function(newpos) {
     //Every few seconds the player sends their position as a object
     //The server finds this player and updates there position
-     for(var id in players){
-       var player=players[id];
-       player.x=data.x;
-       player.y=data.y;
+     server.updatePlayers(newpos,socket.id);
+  });
 
-     }
-    //console.log(data);
-
+  socket.on('disconnect',function(){
+    server.playerDisconnect(socket);
   });
 });
-
- setInterval(function(){
-   io.sockets.emit('message',"Connected");
- },1000/60);
-
-    //console.log(data);
-
-  });
-});
-
- setInterval(function(){
-   io.sockets.emit('message',"Connected");
- },1000/60);
