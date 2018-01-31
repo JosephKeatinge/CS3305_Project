@@ -23,14 +23,14 @@ function GameServer(){
 }
 //Define Methods
 GameServer.prototype={
-
+       //Add player to dictionary storing x and y
        addPlayer: function(player,id){
          this.players[id]={
            x:player.x,
            y:player.y
          }
        },
-
+       //Update position of each player 
        updatePlayers:function(newpos,pid){
          for(var id in  this.players){
            if (id==pid){
@@ -38,18 +38,16 @@ GameServer.prototype={
              player.x=newpos.x;
              player.y=newpos.y;
            }
-           console.log(this.players);
          }
 
        },
+       //Send dictionary to player
        sendPlayerData:function(){
             io.sockets.emit('heartbeat',this.players);
        },
-
+       //Delete player from dictionary when they leave
        playerDisconnect:function(socket){
-         console.log(socket.id+"player has disconnected");
          delete this.players[socket.id];
-         console.log(this.players);
 
        }
 }
@@ -64,12 +62,10 @@ setInterval(function(){
 
 io.on('connection', function(socket) {
   //A player has connected and sent there initial x,y postion
-  socket.on('new player', function(player) {
+  socket.on('newplayer', function(player) {
     //Server stores this in a dictionary with the socket id as the key and player object
     //as the value with the x and y value
-    //console.log(data);
     server.addPlayer(player,socket.id);
-    //console.log(players);
   });
   socket.on('position', function(newpos) {
     //Every few seconds the player sends their position as a object
@@ -77,7 +73,7 @@ io.on('connection', function(socket) {
      server.updatePlayers(newpos,socket.id);
   });
 
-  socket.on('disconnect',function(){
+socket.on('disconnect',function(){
     server.playerDisconnect(socket);
   });
 });
