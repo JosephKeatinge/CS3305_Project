@@ -8,9 +8,9 @@
   var player = {
     x: 250,
     y: 350,
-    w: 25,
-    h: 25,
-    size: 25,
+    w: 32,
+    h: 32,
+    size: 32,
     yChange: 0
   };
   var moveRight = false;

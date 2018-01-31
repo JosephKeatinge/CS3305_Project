@@ -15,6 +15,8 @@ var player={
    x:0,
    y:0
 };
+
+
 document.addEventListener('DOMContentLoaded', init, false);
 
 function init(){
@@ -27,9 +29,8 @@ function init(){
   interval_id= window.setInterval(draw, 1000/30);
   window.addEventListener('keydown',activate,false);
   window.addEventListener('keyup',deactivate,false);
-//  socket.emit('new player',player);
+  //Send initial position to Server
   proxy.sendData(player);
-  //drawOtherPlayers();
 }
 
 function draw(){
@@ -37,11 +38,12 @@ function draw(){
     context.clearRect(0,0,width,height);
     drawPlayer();
     drawOtherPlayers();
+    //Receive Other players positions copy to client
     socket.on('heartbeat', function(data) {
             otherPlayers=data;
     });
+    //Send my position to the server every second
     proxy.sendPos(player);
-    //socket.emit('position', player);
 
     if (moveLeft){
       player.x-=3
@@ -105,109 +107,8 @@ function drawOtherPlayers(){
 }
 
 
-
-})();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-var canvas = document.getElementById('canvas');
-var player={x:100,
-            y:200};
-canvas.width = 800;
-canvas.height = 600;
-var context = canvas.getContext('2d');
-context.clearRect(0, 0, 800, 600);
-context.fillStyle = 'green';
-context.fillRect(player.x,player.y,75,80);
-
-var movement = {
-  up: false,
-  down: false,
-  left: false,
-  right: false
+function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
+  canvasContext.fillStyle = fillColor;
+  canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
 }
-
-
-document.addEventListener('keydown', function(event) {
-  switch (event.keyCode) {
-    case 65: // A
-      movement.left = true;
-      console.log(movement);
-      break;
-    case 87: // W
-      movement.up = true;
-      break;
-    case 68: // D
-      movement.right = true;
-      break;
-    case 83: // S
-      movement.down = true;
-      break;
-  }
-});
-document.addEventListener('keyup', function(event) {
-  switch (event.keyCode) {
-
-    case 65: // A
-      movement.left = false;
-      break;
-    case 87: // W
-      movement.up = false;
-      break;
-    case 68: // D
-      movement.right = false;
-      break;
-    case 83: // S
-      movement.down = false;
-      break;
-  }
-});
-if (movement.left) {
-     console.log("helloooos")
-     player.x -= 5;
-     console.log(player.x);
-   }
-   if (movement.up) {
-     player.y -= 5;
-   }
-   if (movement.right) {
-     player.x += 5;
-   }
-   if (movement.down) {
-     player.y += 5;
-   }
-
-
-//Server Communication
-var socket = io();
-socket.on('message', function(data) {
-  console.log(data+"Adam");
-});
-socket.emit('new player',player);
-setInterval(function() {
-  //console.log(player);
-  socket.emit('position', player);
-}, 1000 / 60);
-*/
+})();
