@@ -18,7 +18,7 @@ function playerImageLoad() {
     playerPic.onload = function() {
 		playerLoaded = true;
 	}
-	playerPic.src = "ghost.png";
+	playerPic.src = "ghost_player.png";
 }
 
 function activate(event) {
@@ -100,7 +100,6 @@ function playerReset() {
 				tileGrid[arrayIndex] = TILE_FLOOR;
 				player.x = eachCol * TILE_W + TILE_W/2;
 				player.y = eachRow * TILE_H + TILE_H/2;
-                console.log(player.x, player.y);
 			}
 		}
 	}

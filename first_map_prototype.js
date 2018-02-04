@@ -45,7 +45,7 @@ const TILE_WALL = 1;
 const PLAYERSTART = 2;
 
 window.onload = function() {
-	canvas = document.getElementById('gameCanvas');
+	canvas = document.getElementById('canvas');
 	canvasContext = canvas.getContext('2d');
 
 	var framesPerSecond = 30;
@@ -100,11 +100,9 @@ function drawMap() {
 			var arrayIndex = rowColToArrayIndex(eachCol, eachRow); 
 
 			if(tileGrid[arrayIndex] == TILE_FLOOR) {
-				canvasContext.drawImage(floorPic,
-					TILE_W*eachCol,TILE_H*eachRow);
+				canvasContext.drawImage(floorPic, TILE_W*eachCol,TILE_H*eachRow);
 			} else if(tileGrid[arrayIndex] == TILE_WALL) {
-				canvasContext.drawImage(wallPic,
-					TILE_W*eachCol,TILE_H*eachRow);
+				canvasContext.drawImage(wallPic, TILE_W*eachCol,TILE_H*eachRow);
 			}
 		}
 	}
