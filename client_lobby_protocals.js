@@ -46,7 +46,7 @@ function request_lobbies(socket){
  *
  *@param lobby_info a lobby json object that holds all the required info
  */
-socket.on("requestInfo",lobby_info){
+socket.on("requestInfo",function(data)){
   //pass
 }
 
@@ -59,8 +59,7 @@ socket.on("startGame"){
 /*procceses the info recieved for all open lobbies on the server
  */
 socket.on("requestLobbies",function(data)){
-  lobbies_info = JSON.parse(lobbies)
-  
+  lobbies_info = JSON.parse(data)
 }
 
 
