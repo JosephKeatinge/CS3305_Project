@@ -5,7 +5,7 @@ var canvas = document.getElementById("Canvas");
         var timerId=0;
         var timerId = setInterval(update, 1000/frames);
         var ctx = canvas.getContext("2d");
-        ctx.font = "30px Arial";
+        ctx.font = "30px Silkscreen";
         ctx.textAlign = "center";
         window.addEventListener("keydown",Controls);
         var words = ["Play","Settings","How to play","Credits"];
@@ -16,14 +16,15 @@ var canvas = document.getElementById("Canvas");
 
         }
         function clear(){
-            ctx.clearRect(0,0,width,height);
+            ctx.fillStyle="#000000";
+            ctx.fillRect(0,0,width,height);
         }
         function draw(){
-            ctx.fillStyle="#000000";
+            ctx.fillStyle="#888888";
             for(i=0;i<words.length;i++){
                 ctx.fillText(words[i],canvas.width/2,300+60*i);
             }
-            ctx.fillStyle="#555555";
+            ctx.fillStyle="#ffffff";
             ctx.fillText(words[pointer],canvas.width/2,300+60*pointer);
         }
         function Controls(e){

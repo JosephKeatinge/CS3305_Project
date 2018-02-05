@@ -7,7 +7,7 @@ var canvas = document.getElementById("Canvas");
         var pagesPerPage=10;
         var timerId = setInterval(update, 1000/frames);
         var ctx = canvas.getContext("2d");
-        ctx.font = "20px Arial";
+        ctx.font = "20px Silkscreen";
         ctx.textAlign = "center";
         window.addEventListener("keydown",Controls);
         var lobbies=[];
@@ -17,10 +17,11 @@ var canvas = document.getElementById("Canvas");
             draw();
         }
         function clear(){
-            ctx.clearRect(0,0,width,height);
+            ctx.fillStyle="#000000";
+            ctx.fillRect(0,0,width,height);
         }
         function draw(){
-            ctx.fillStyle="#000000";
+            ctx.fillStyle="#888888";
             if(lobbies.length-(pageNum*pagesPerPage)<=10){
                 for(i=pageNum*pagesPerPage;i<lobbies.length-(pageNum*pagesPerPage);i++){
                 ctx.fillText(lobbies[i],canvas.width/2,300+20*i-(pagesPerPage*pageNum));
@@ -31,7 +32,7 @@ var canvas = document.getElementById("Canvas");
                     ctx.fillText(lobbies[i],canvas.width/2,300+20*i-(pagesPerPage*pageNum));
                 }
             }
-            ctx.fillStyle="#555555";
+            ctx.fillStyle="#ffffff";
             ctx.fillText(lobbies[pointer],canvas.width/2,300+60*pointer);
         }
         function Controls(e){
