@@ -1,56 +1,87 @@
-var canvas = document.getElementById("Canvas");
-        var width =1080;
-        var height=720;
-        var frames=30;
-        var timerId=0;
-        var pageNum=1;
-        var pagesPerPage=10;
-        var timerId = setInterval(update, 1000/frames);
-        var ctx = canvas.getContext("2d");
-        ctx.font = "20px Silkscreen";
-        ctx.textAlign = "center";
-        window.addEventListener("keydown",Controls);
-        var lobbies=[];
-        var pointer=0;
-        function update(){
-            clear();
-            draw();
-        }
-        function clear(){
-            ctx.fillStyle="#000000";
-            ctx.fillRect(0,0,width,height);
-        }
-        function draw(){
-            ctx.fillStyle="#888888";
-            if(lobbies.length-(pageNum*pagesPerPage)<=10){
-                for(i=pageNum*pagesPerPage;i<lobbies.length-(pageNum*pagesPerPage);i++){
-                ctx.fillText(lobbies[i],canvas.width/2,300+20*i-(pagesPerPage*pageNum));
-                }
-            }
-            else{
-                for(i=pagesPerPage*pageNum;i<(pagesPerPage*pageNum)+pagesPerPage;i++){
-                    ctx.fillText(lobbies[i],canvas.width/2,300+20*i-(pagesPerPage*pageNum));
-                }
-            }
-            ctx.fillStyle="#ffffff";
-            ctx.fillText(lobbies[pointer],canvas.width/2,300+60*pointer);
-        }
-        function Controls(e){
-            switch(e.keyCode){
-            case 87:
-                pointer=pointer-1;
-                break;
-            case 83:
-                pointer=pointer+1;
-                break;
-            case 13:
-                break;
-            }
-            if(pointer<0){
-                pointer=0;
-            }else if(pointer>=pagesPerPage*pageNum){
-                pageNum=pageNum+1;
-            }else if(pointer<=pagesPerPage*pageNum-pagesPerPage){
-                pageNum=pageNum-1;
-            }
+/**
+ * Creates a menu of available lobbies which can be selected
+ * When a user selects a lobby they will be brought to that game of selection 
+ * The lobby menu displays the host,number of players and if there is a password
+ *  
+*/
+
+/*
+
+startlobbymenu() []
+updatelobbymenu() []
+drawlobbymenu() []
+endlobbymenu() []
+*/
+var pageNum=0;
+var pagesPerPage=15;
+var canavsCo = canvas.getContext("2d");
+canvasContext.font = "20px Silkscreen";
+canvasContext.textAlign = "center";
+window.addEventListener("keydown",Controls);
+var lobbies;
+var pointer=0;
+function startlobbymenu(){
+    lobbies=request_lobbies();
+}
+function updatelobbymenu(){
+    /* 
+    Creates an interval to call clear and draw
+    */
+    lobbymenudraw();
+}
+function lobbymenuparseArray(i){
+    /* 
+    Generates the text for the draw function
+    */
+
+    var str=""
+    if(lobbies[i].password!=false){
+        str=lobbies[i].host+" - "+lobbies[i].max_players+" - "+"Yes";
+    }else{
+        str=lobbies[i].host+" - "+lobbies[i].max_players+" - "+"No";
     }
+    return str;
+}
+function lobbymenudraw(){
+     /* 
+    Draws the text to the screen
+    */
+    canvasContext.fillStyle="#000000";
+    canvasContext.fillRect(0,0,canvas.width,canvas.height);
+    canvasContext.fillStyle="#ffffff";
+    canvasContext.fillText(("Select Lobby"),canvas.width/2,20);
+    canvasContext.fillText(("      Host - Max Players - Password"),canvas.width/2,40);
+    canvasContext.fillStyle="#888888";
+    for(i=0;i<Math.min(lobbies.length-(pagesPerPage*pageNum),pagesPerPage);i++){
+        canvasContext.fillText(parseArray(i+pagesPerPage*pageNum),canvas.width/2,60+40*i);
+    }
+
+    canvasContext.fillStyle="#ffffff";
+    canvasContext.fillText(parseArray(pointer),canvas.width/2,60+40*(pointer-(pagesPerPage*pageNum)));
+}
+function lobbymenucontrols(e){
+    /*
+    Sets the controls for the user and keeps track of pointers 
+    */
+    switch(e.keyCode){
+        case 87:
+            if(pointer > 0 + (pagesPerPage*pageNum)){
+                pointer-=1;
+            }else if(pageNum>0){
+                pointer-=1;
+                pageNum-=1;
+            }                      
+            break;
+        case 83:
+            if(pointer < lobbies.length-1){
+                pointer+=1;
+            }if(pointer>(pagesPerPage-1)+(pagesPerPage*pageNum)){
+                pageNum+=1;
+            }       
+            break;
+        case 13:
+            join_lobby(lobies(pointer).id,socket);
+            break;
+        }
+        console.log(pageNum);
+}
