@@ -1,114 +1,55 @@
-//Game Logic
-(function() {
-var canvas;
-var context;
-var width;
-var height;
-var moveRight = false;
-var moveUp = false;
-var moveDown = false;
-var moveLeft=false;
-var socket = io();
-var otherPlayers={}
-var proxy;
-var player={
-   x:0,
-   y:0
-};
+//updateGame function
+//drawGame function
+//startGame function
+//endState function -Remove Event Listeners
+//instantiate player objects
+//Server stuff is commented out for now
 
 
-document.addEventListener('DOMContentLoaded', init, false);
 
-function init(){
+function startGame(){
+  bullets=new Bullet(3,3,10);
+  player=new Player(250,350,32,32,32,"/static/hero.png");
   proxy=new Proxy(socket);
 
-  canvas = document.querySelector('canvas');
-  context = canvas.getContext('2d');
-  width = canvas.width;
-  height = canvas.height;
-  interval_id= window.setInterval(draw, 1000/30);
-  window.addEventListener('keydown',activate,false);
-  window.addEventListener('keyup',deactivate,false);
-  //Send initial position to Server
-  proxy.sendData(player);
+
+  //A map function
+  loadImages();
+  playerReset(player);
+  //end
+  player.imageLoad();
+
+  window.addEventListener("keydown", player.activate, false);
+  window.addEventListener("keyup", player.deactivate, false);
+  canvas.addEventListener('mousemove', mouseMove, true);
+  canvas.addEventListener("click", function() {
+    bullets.create(mouseX, mouseY, player.x, player.y);
+    //bullets.list.forEach( function(bullet, j) {
+      //socket.emit('shoot',bullet);
+    //});
+  });
 }
 
-function draw(){
-//keep local position of other players and update
-    context.clearRect(0,0,width,height);
-    drawPlayer();
-    drawOtherPlayers();
-    //Receive Other players positions copy to client
+
+function updateGame(){
+    player.move();
+    drawGame();
+    bullets.move();
+    /*
     socket.on('heartbeat', function(data) {
             otherPlayers=data;
     });
-    //Send my position to the server every second
-    proxy.sendPos(player);
-
-    if (moveLeft){
-      player.x-=3
-    }
-     if (moveRight) {
-           player.x += 3;
-       }
-       if (moveUp) {
-           player.y -= 3;
-       }
-       if (moveDown) {
-           player.y += 3;
-       }
-}
-function activate(event){
-  var keyCode=event.keyCode;
-
-  if (keyCode===65){
-moveLeft=true;
-  }
-  if (keyCode===87){
-moveUp=true;
-  }else if (keyCode===68){
-moveRight=true;
-  }else if (keyCode===83){
-moveDown=true;
-}
+    socket.on('bullets',function(bullets){
+             allBullets=bullets;
+    });*/
+    //Send player position if they have moved
+    if(player.hasMoved()){proxy.sendPos(player);}
 }
 
-function deactivate(event){
-  var keyCode=event.keyCode;
-
-  if (keyCode===65){
-moveLeft=false;
-  }
-  if (keyCode===87){
-moveUp=false;
-  }else if (keyCode===68){
-moveRight=false;
-  }else if (keyCode===83){
-moveDown=false;
-
-  }
-
+function drawGame(){
+    drawMap();
+    player.draw();
+    bullets.draw();
+    //drawOtherPlayer();
+    //drawOtherBulelts();
 }
-
-
-function drawPlayer(){
-  context.fillStyle = 'green';
-  context.fillRect(player.x,player.y,20,20);
-
-}
-function drawOtherPlayers(){
-  for(var id in otherPlayers){
-    if (id != socket.id){
-      var player=otherPlayers[id];
-      context.fillStyle = 'red';
-      context.fillRect(player.x,player.y,20,20);
-    }
-  }
-}
-
-
-function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
-  canvasContext.fillStyle = fillColor;
-  canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
-}
-})();
