@@ -4,30 +4,27 @@
  * The lobby menu displays the host,number of players and if there is a password
  *  
 */
-
-/*
-
-startlobbymenu() []
-updatelobbymenu() []
-drawlobbymenu() []
-endlobbymenu() []
-*/
-var pageNum=0;
-var pagesPerPage=15;
-var canavsCo = canvas.getContext("2d");
+var pageNum;
+var pagesPerPage;
+var lobbyMenuKeyDown;
 canvasContext.font = "20px Silkscreen";
 canvasContext.textAlign = "center";
 window.addEventListener("keydown",Controls);
 var lobbies;
-var pointer=0;
+var LobbyMenuLobbyMenuPointer;
 function startlobbymenu(){
     lobbies=request_lobbies();
+    lobbyMenuKeyDown=window.addEventListener("keydown",lobbymenucontrols);
+    pageNum=0;
+    pagesPerPage=15;
+    LobbyMenuLobbyMenuPointer=0
 }
 function updatelobbymenu(){
     /* 
     Creates an interval to call clear and draw
     */
     lobbymenudraw();
+    
 }
 function lobbymenuparseArray(i){
     /* 
@@ -57,31 +54,35 @@ function lobbymenudraw(){
     }
 
     canvasContext.fillStyle="#ffffff";
-    canvasContext.fillText(parseArray(pointer),canvas.width/2,60+40*(pointer-(pagesPerPage*pageNum)));
+    canvasContext.fillText(parseArray(LobbyMenuPointer),canvas.width/2,60+40*(LobbyMenuPointer-(pagesPerPage*pageNum)));
 }
 function lobbymenucontrols(e){
     /*
-    Sets the controls for the user and keeps track of pointers 
+    Sets the controls for the user and keeps track of LobbyMenuPointers 
     */
     switch(e.keyCode){
         case 87:
-            if(pointer > 0 + (pagesPerPage*pageNum)){
-                pointer-=1;
+            if(LobbyMenuPointer > 0 + (pagesPerPage*pageNum)){
+                LobbyMenuPointer-=1;
             }else if(pageNum>0){
-                pointer-=1;
+                LobbyMenuPointer-=1;
                 pageNum-=1;
             }                      
             break;
         case 83:
-            if(pointer < lobbies.length-1){
-                pointer+=1;
-            }if(pointer>(pagesPerPage-1)+(pagesPerPage*pageNum)){
+            if(LobbyMenuPointer < lobbies.length-1){
+                LobbyMenuPointer+=1;
+            }if(LobbyMenuPointer>(pagesPerPage-1)+(pagesPerPage*pageNum)){
                 pageNum+=1;
             }       
             break;
         case 13:
-            join_lobby(lobies(pointer).id,socket);
+            endcreatelobby();
+            join_lobby(lobies(LobbyMenuPointer).id,socket);
             break;
         }
         console.log(pageNum);
+}
+function endcreatelobby(){
+    lobbyMenuKeyDown.removeEventListener("keydown",createlobbycontrols);
 }

@@ -3,16 +3,25 @@
  * User can change the number of players and set a password
  *  
 */
-var passwordOn=false;
-var password="";
-var maxPlayers=4;
-var numOfPlayers=0;
-var enterPassword=false;
-var rightpointer=0;
-var text=["Create Lobby","Number Of Players :","Password On :","Password :"]
-var pointer=0;
+var passwordOn;
+var password;;
+var maxPlayers;
+var numOfPlayers;
+var enterPassword;
+var CreateLobbyKeyDown;
+var rightCreateLobbyMenuPointer;
+var text;
+var CreateLobbyMenuPointer;
 function startcreatelobbymenu(){
-    window.addEventListener("keydown",Controls);
+    CreateLobbyKeyDown=window.addEventListener("keydown",createlobbycontrols);
+    CreateLobbyMenuPointer=0;
+    maxPlayers=4;
+    numOfPlayers=0;
+    passwordOn=false;
+    password="";
+    rightCreateLobbyMenuPointer=0;
+    enterPassword=false;
+    text=["Create Lobby","Number Of Players :","Password On :","Password :"]
 }
 function stringGen(i){
     /* 
@@ -34,7 +43,8 @@ function stringGen(i){
         }
     return str;
 }
-function createlobbyupdate(){
+function createlobbyCreateLobbyKeyDown=window.addEventListener("keydown",createlobbycontrols);
+}update(){
     /* 
     Creates an interval in which clear and draw are called
     */
@@ -54,7 +64,7 @@ function createlobbydraw(){
         canvasContext.fillText(stringGen(i),canvas.width/2,40*i+100);
     }
     canvasContext.fillStyle="#ffffff";
-    canvasContext.fillText(stringGen(pointer),canvas.width/2,40*pointer+100);
+    canvasContext.fillText(stringGen(CreateLobbyMenuPointer),canvas.width/2,40*CreateLobbyMenuPointer+100);
 }
 function createlobbyinfo(){
     var newlobbiesinfo={
@@ -66,7 +76,7 @@ function createlobbyinfo(){
 }
 function createlobbycontrols(e){
     /*
-    Sets the controls for the user and keeps track of pointers 
+    Sets the controls for the user and keeps track of CreateLobbyMenuPointers 
     */
     keycode=e.keyCode;
     if(enterPassword){
@@ -84,60 +94,63 @@ function createlobbycontrols(e){
     }else{
     switch(e.keyCode){
         case 87:
-            if(pointer>0){
-                pointer-=1;
+            if(CreateLobbyMenuPointer>0){
+                CreateLobbyMenuPointer-=1;
             }else{
-                pointer=0;
+                CreateLobbyMenuPointer=0;
             }
             break;
         case 83:
             if(passwordOn==true){
-                if(pointer<text.length-1){
-                pointer+=1;
+                if(CreateLobbyMenuPointer<text.length-1){
+                CreateLobbyMenuPointer+=1;
                 }else{
-                pointer=text.length-1;
+                CreateLobbyMenuPointer=text.length-1;
                 }
             }else if(passwordOn==false){
-                if(pointer<text.length-2){
-                    pointer+=1;
+                if(CreateLobbyMenuPointer<text.length-2){
+                    CreateLobbyMenuPointer+=1;
                     pwordOn = false,
         password = '';
                 }else{
-                    pointer=text.length-2;
+                    CreateLobbyMenuPointer=text.length-2;
                 }
             }
             break;
         case 68:
-            if(pointer==1){
-                rightpointer+=1;
+            if(CreateLobbyMenuPointer==1){
+                rightCreateLobbyMenuPointer+=1;
                 if(numOfPlayers<maxPlayers){
                     numOfPlayers+=1;
                 }
             }
-            if(pointer==2){
+            if(CreateLobbyMenuPointer==2){
                 passwordOn= !passwordOn;
             }
             break;
         case 65:
-            if(pointer==1){
-                rightpointer-=1;
+            if(CreateLobbyMenuPointer==1){
+                rightCreateLobbyMenuPointer-=1;
                 if(numOfPlayers>0){
                     numOfPlayers-=1;
                 }                
             }
-            if(pointer==2){
+            if(CreateLobbyMenuPointer==2){
                 passwordOn= !passwordOn;
             }
             break;
         case 13:
-            if(pointer==0){
+            if(CreateLobbyMenuPointer==0){
                 create_lobby(socket,createlobbyinfo());
-                console.log("Come on team");
+                endCreateLobbyMenu();
             }
-            if(pointer==3){
+            if(CreateLobbyMenuPointer==3){
                 enterPassword=true;
             }
             break;
         }
     }
+}
+function endCreateLobbyMenu(){
+    CreateLobbyKeyDown.removeEventListener("keydown",createlobbycontrols);
 }
