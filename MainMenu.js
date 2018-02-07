@@ -5,8 +5,9 @@
 var words = ["Create Lobby","Join Lobby","Settings","How to play","Credits"];
 var pointer=0;
 function startmainmenu(){
-window.addEventListener("keydown",Controls);
+    window.addEventListener("keydown",mainLobbyControls);
 }
+
 function updategamemenu(){
     /* 
     Creates an interval in which clear and draw are called
@@ -14,7 +15,8 @@ function updategamemenu(){
     mainmenudraw();
 
 }
-function mainmenudraw(){
+
+function mainMenuDraw(){
     /* 
     Draws the text to the screen
     */
@@ -26,7 +28,8 @@ function mainmenudraw(){
     canvasContext.fillStyle="#ffffff";
     canvasContext.fillText(words[pointer],canvas.width/2,300+60*pointer);
 }
-function mainlobbycontrols(e){
+
+function mainLobbyControls(e){
     /*
     Sets the controls for the user and keeps track of pointers 
     */
@@ -55,4 +58,4 @@ function mainlobbycontrols(e){
         }else if(pointer>=words.length){
             pointer=words.length-1;
         }
-    }
+}
