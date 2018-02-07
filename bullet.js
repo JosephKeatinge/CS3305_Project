@@ -32,8 +32,8 @@ Bullet.prototype={
      },
 
      //Draws the bullet and
-     //checks if it has gone outside thecanvas
-     draw:function(canvasContext,width,height){
+     //checks if it has hit a wall
+     draw:function(){
        for(var i=0; i<this.list.length;i+=1){
            canvasContext.fillStyle = 'black';
            canvasContext.fillRect(this.list[i].x, this.list[i].y, this.list[i].w, this.list[i].h);
@@ -59,6 +59,13 @@ Bullet.prototype={
      this.list.forEach( function(bullet, j) {
      bullet.x += bullet.xtarget * bullet.speed;
      bullet.y += bullet.ytarget * bullet.speed;
+     //Collisions with wall
+     var bulletXCoord = Math.round(bullet.x / (TILE_W));
+     var bulletYCoord = Math.round(bullet.y / (TILE_H));
+
+     if (isWallAtColRow(bulletXCoord, bulletYCoord)) {
+           this.listen.splice(j,1);
+         }
      });
    }
 
