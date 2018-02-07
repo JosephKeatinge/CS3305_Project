@@ -11,6 +11,7 @@ function Player(x,y,w,h,size,img){
        this.moveLeft=false;
        this.moveUp=false;
        this.moveDown=false;
+       this.hasMoved=false;
        this.speed=5;
        this.img=img;
        this.playerLoaded=false;
@@ -18,7 +19,7 @@ function Player(x,y,w,h,size,img){
 }
 
 Player.prototype={
-       movePlayer: function(){
+       move: function(){
          //Translating the player x and y canvas coordinates to x and y coordinates in the map array
          var playerXCoord = Math.round(player.x / (TILE_W));
          var playerYCoord = Math.round(player.y / (TILE_H));
@@ -48,7 +49,7 @@ Player.prototype={
      },
 
      //If the image has loaded draw the player
-     drawPlayer:function(canvasContext){
+     draw:function(canvasContext){
        if(this.playerLoaded){
            canvasContext.drawImage(this.playerPic, this.x, this.y);
        }
@@ -56,7 +57,7 @@ Player.prototype={
      },
 
      //Check if the player image has loaded
-     playerImgLoad:function(){
+     imgLoad:function(){
 
           this.playerPic.onload=function(){
             this.playerLoaded=true;
@@ -88,5 +89,13 @@ Player.prototype={
           this.moveDown = false;
        }
 
+     },
+     //Has the player Moved
+     hasMoved:function(){
+         if(moveRight||moveLeft||moveUp||moveDown){
+           this.hasMoved=true;
+         }else{
+           this.hasMoved=false;
+         }
      }
 }
