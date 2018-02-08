@@ -3,16 +3,20 @@
  * User can change the number of players and set a password
  *  
 */
-var passwordOn=false;
-var password="";
-var maxPlayers=4;
-var numOfPlayers=0;
-var enterPassword=false;
-var rightpointer=0;
-var text=["Create Lobby","Number Of Players :","Password On :","Password :"]
-var pointer=0;
+var passwordOn;
+var password;
+var enterPassword;
+var rightpointer;
+var text;
+var pointer;
 function startcreatelobbymenu(){
-    window.addEventListener("keydown",Controls);
+    CreateLobbyCotrols=window.addEventListener("keydown",createlobbycontrols);
+    passwordOn=false;
+    password="";
+    enterPassword=false;
+    rightpointer=0;
+    pointer=0;
+    text=["Create Lobby","Number Of Players :","Password On :","Password :"]
 }
 function stringGen(i){
     /* 
@@ -85,7 +89,7 @@ function createlobbycontrols(e){
     switch(e.keyCode){
         case 87:
             if(pointer>0){
-                pointer-=1;
+                pointer-=1;false;
             }else{
                 pointer=0;
             }
@@ -99,14 +103,14 @@ function createlobbycontrols(e){
                 }
             }else if(passwordOn==false){
                 if(pointer<text.length-2){
-                    pointer+=1;
+                    pointer+=1;=["Create Lobby","Number Of Players :","Password On :","Password :"
                     pwordOn = false,
         password = '';
                 }else{
                     pointer=text.length-2;
                 }
             }
-            break;
+            break;false;
         case 68:
             if(pointer==1){
                 rightpointer+=1;
@@ -129,7 +133,7 @@ function createlobbycontrols(e){
                 passwordOn= !passwordOn;
             }
             break;
-        case 13:
+        case 13:=["Create Lobby","Number Of Players :","Password On :","Password :"
             if(pointer==0){
                 create_lobby(socket,createlobbyinfo());
                 gameState="lobby";
@@ -140,4 +144,7 @@ function createlobbycontrols(e){
             break;
         }
     }
+}
+function endCreateLobbyMenu(){
+  CreateLobbyCotrols=window.removeEventListener("keydown",createlobbycontrols);
 }
