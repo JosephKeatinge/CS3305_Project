@@ -44,13 +44,13 @@ function mainmenucontrols(e){
     case 13:
       if(MainMenuPointer==0){
             console.log("Create Lobby");
-            gameState=create_lobby_menu;
+            gameState="create_lobby_menu";
         }else if(MainMenuPointer==1){
             console.log("Join Lobby");
-            gameState=lobby_list_menu;
+            gameState="lobby_list_menu";
         }else if(MainMenuPointer==2){
             console.log("Settings");
-            gameState=create_lobby_menu;
+            gameState="create_lobby_menu";
         }else if(MainMenuPointer==3){
             console.log("How to play");
         }else{
