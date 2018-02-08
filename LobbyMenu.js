@@ -9,37 +9,39 @@ var pagesPerPage;
 var lobbyMenuKeyDown;
 canvasContext.font = "20px Silkscreen";
 canvasContext.textAlign = "center";
-window.addEventListener("keydown",Controls);
 var lobbies;
 var LobbyMenuLobbyMenuPointer;
-function startlobbymenu(){
+
+function startLobbyMenu() {
     lobbies=request_lobbies();
-    lobbyMenuKeyDown=window.addEventListener("keydown",lobbymenucontrols);
+    lobbyMenuKeyDown=window.addEventListener("keydown",lobbyMenuControls);
     pageNum=0;
     pagesPerPage=15;
     LobbyMenuLobbyMenuPointer=0
 }
-function updatelobbymenu(){
+
+function updateLobbyMenu() {
     /* 
     Creates an interval to call clear and draw
     */
-    lobbymenudraw();
-    
+    lobbyMenuDraw();    
 }
-function lobbymenuparseArray(i){
+
+function lobbyMenuParseArray(i) {
     /* 
     Generates the text for the draw function
     */
 
     var str=""
-    if(lobbies[i].password!=false){
+    if(lobbies[i].password!=false) {
         str=lobbies[i].host+" - "+lobbies[i].max_players+" - "+"Yes";
-    }else{
+    }else {
         str=lobbies[i].host+" - "+lobbies[i].max_players+" - "+"No";
     }
     return str;
 }
-function lobbymenudraw(){
+
+function lobbyMenuDraw() {
      /* 
     Draws the text to the screen
     */
@@ -49,14 +51,14 @@ function lobbymenudraw(){
     canvasContext.fillText(("Select Lobby"),canvas.width/2,20);
     canvasContext.fillText(("      Host - Max Players - Password"),canvas.width/2,40);
     canvasContext.fillStyle="#888888";
-    for(i=0;i<Math.min(lobbies.length-(pagesPerPage*pageNum),pagesPerPage);i++){
-        canvasContext.fillText(parseArray(i+pagesPerPage*pageNum),canvas.width/2,60+40*i);
+    for(i=0;i<Math.min(lobbies.length-(pagesPerPage*pageNum),pagesPerPage);i++) {
+        canvasContext.fillText(lobbyMenuParseArray(i+pagesPerPage*pageNum),canvas.width/2,60+40*i);
     }
-
     canvasContext.fillStyle="#ffffff";
-    canvasContext.fillText(parseArray(LobbyMenuPointer),canvas.width/2,60+40*(LobbyMenuPointer-(pagesPerPage*pageNum)));
+    canvasContext.fillText(lobbyMenuParseArray(LobbyMenuPointer),canvas.width/2,60+40*(LobbyMenuPointer-(pagesPerPage*pageNum)));
 }
-function lobbymenucontrols(e){
+
+function lobbyMenuControls(e) {
     /*
     Sets the controls for the user and keeps track of LobbyMenuPointers 
     */
@@ -84,7 +86,9 @@ function lobbymenucontrols(e){
         }
         console.log(pageNum);
 }
-function endcreatelobby(){
-    lobbyMenuKeyDown.removeEventListener("keydown",createlobbycontrols);
+
+function endLobbyMenu() {
+    lobbyMenuKeyDown.removeEventListener("keydown", lobbyMenuControls);
+    lobbyMenu = false;
     gameState="lobby";
 }

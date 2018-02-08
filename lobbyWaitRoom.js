@@ -5,7 +5,7 @@ function startLobbyWaitRoom() {
   canvasContext.font = "20px Silkscreen";
   canvasContext.textAlign = "center";
   lobbyWaitRoomDown=window.addEventListener("keydown",lobbyWaitRoomControls);
-  lobby=currentLobby;
+  lobby = currentLobby;
 }
 
 function updateLobbyWaitRoom() {
@@ -39,6 +39,7 @@ function lobbyWaitRoomControls(e) {
 
 function endLobbyWaitRoom() {
     lobbyWaitRoomDown.removeEventListener("keydown",lobbyWaitRoomControls);
+    lobbyWaitRoom = false;
     gameState="game";
 }
 

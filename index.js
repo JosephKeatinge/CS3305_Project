@@ -11,6 +11,8 @@ var gameState = "main_menu";
 var mainMenuEventListeners = false;
 var gameStarted = false;
 var lobbyWaitRoom = false;
+var createLobbyMenu = false;
+var lobbyMenu = false;
 var canvas, canvasContext;
 const TILE_W = 20;
 const TILE_H = 20;
@@ -38,8 +40,18 @@ function updateAll() {
       updategamemenu();
       break;
     case "lobby_list_menu":
+      if (!lobbyMenu) {
+        startLobbyMenu();
+        lobbyMenu = true;
+      }
+      updateLobbyMenu();
       break;
     case "create_lobby_menu":
+      if (!createLobbyMenu) {
+        startCreateLobbyMenu();
+        createLobbyMenu = true;
+      }
+      createLobbyUpdate();
       break;
     case "game":
       if (!gameStarted) {
@@ -51,6 +63,7 @@ function updateAll() {
     case "lobby":
       if (!lobbyWaitRoom) {
         startLobbyWaitRoom();
+        lobbyWaitRoom = true;
       }
       updateLobbyWaitRoom();
       break;

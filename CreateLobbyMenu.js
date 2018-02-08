@@ -9,8 +9,8 @@ var enterPassword;
 var rightpointer;
 var text;
 var pointer;
-function startcreatelobbymenu(){
-    CreateLobbyCotrols=window.addEventListener("keydown",createlobbycontrols);
+function startCreateLobbyMenu(){
+    CreateLobbyCotrols=window.addEventListener("keydown",createLobbyControls);
     passwordOn=false;
     password="";
     enterPassword=false;
@@ -38,13 +38,13 @@ function stringGen(i){
         }
     return str;
 }
-function createlobbyupdate(){
+function createLobbyUpdate(){
     /* 
     Creates an interval in which clear and draw are called
     */
-    createlobbydraw();
+    createLobbyDraw();
 }
-function createlobbydraw(){
+function createLobbyDraw(){
     canvasContext.fillStyle="#000000";
     canvasContext.fillRect(0,0,canvas.width,canvas.height);
     /* 
@@ -60,7 +60,7 @@ function createlobbydraw(){
     canvasContext.fillStyle="#ffffff";
     canvasContext.fillText(stringGen(pointer),canvas.width/2,40*pointer+100);
 }
-function createlobbyinfo(){
+function createLobbyInfo(){
     var newlobbiesinfo={
         "max_players" :numOfPlayers,
         "pwordOn":passwordOn,
@@ -68,7 +68,7 @@ function createlobbyinfo(){
     };
     return newlobbiesinfo;
 }
-function createlobbycontrols(e){
+function createLobbyControls(e){
     /*
     Sets the controls for the user and keeps track of pointers 
     */
@@ -103,9 +103,9 @@ function createlobbycontrols(e){
                 }
             }else if(passwordOn==false){
                 if(pointer<text.length-2){
-                    pointer+=1
+                    pointer+=1;
                     pwordOn = false,
-        password = '';
+                    password = '';
                 }else{
                     pointer=text.length-2;
                 }
@@ -146,5 +146,7 @@ function createlobbycontrols(e){
     }
 }
 function endCreateLobbyMenu(){
-  CreateLobbyCotrols=window.removeEventListener("keydown",createlobbycontrols);
+  CreateLobbyCotrols = window.removeEventListener("keydown",createlobbycontrols);
+  createLobbyMenu = false;
+  gameState = "lobby";
 }

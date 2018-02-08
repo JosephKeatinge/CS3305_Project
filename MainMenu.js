@@ -66,4 +66,5 @@ function mainmenucontrols(e){
     }
 function endMainMenu(){
     mainMenuKeydown.removeEventListener("keydown",mainmenucontrols);
+    mainMenuEventListeners = false;
 }
