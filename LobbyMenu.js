@@ -4,31 +4,29 @@
  * The lobby menu displays the host,number of players and if there is a password
  *  
 */
-
-/*
-
-startlobbymenu() []
-updatelobbymenu() []
-drawlobbymenu() []
-endlobbymenu() []
-*/
-var pageNum=0;
-var pagesPerPage=15;
+var pageNum;
+var pagesPerPage;
+var lobbyMenuKeyDown;
 canvasContext.font = "20px Silkscreen";
 canvasContext.textAlign = "center";
-window.addEventListener("keydown",lobbyMenuControls);
+window.addEventListener("keydown",Controls);
 var lobbies;
-var pointer=0;
-function startLobbyMenu(){
+var LobbyMenuLobbyMenuPointer;
+function startlobbymenu(){
     lobbies=request_lobbies();
+    lobbyMenuKeyDown=window.addEventListener("keydown",lobbymenucontrols);
+    pageNum=0;
+    pagesPerPage=15;
+    LobbyMenuLobbyMenuPointer=0
 }
-function updateLobbyMenu(){
+function updatelobbymenu(){
     /* 
     Creates an interval to call clear and draw
     */
-    lobbyMenuDraw();
+    lobbymenudraw();
+    
 }
-function lobbyMenuParseArray(i){
+function lobbymenuparseArray(i){
     /* 
     Generates the text for the draw function
     */
@@ -41,7 +39,7 @@ function lobbyMenuParseArray(i){
     }
     return str;
 }
-function lobbyMenuDraw(){
+function lobbymenudraw(){
      /* 
     Draws the text to the screen
     */
@@ -52,35 +50,40 @@ function lobbyMenuDraw(){
     canvasContext.fillText(("      Host - Max Players - Password"),canvas.width/2,40);
     canvasContext.fillStyle="#888888";
     for(i=0;i<Math.min(lobbies.length-(pagesPerPage*pageNum),pagesPerPage);i++){
-        canvasContext.fillText(lobbyMenuParseArray(i+pagesPerPage*pageNum),canvas.width/2,60+40*i);
+        canvasContext.fillText(parseArray(i+pagesPerPage*pageNum),canvas.width/2,60+40*i);
     }
 
     canvasContext.fillStyle="#ffffff";
-    canvasContext.fillText(lobbyMenuParseArray(pointer),canvas.width/2,60+40*(pointer-(pagesPerPage*pageNum)));
+    canvasContext.fillText(parseArray(LobbyMenuPointer),canvas.width/2,60+40*(LobbyMenuPointer-(pagesPerPage*pageNum)));
 }
-function lobbyMenuControls(e){
+function lobbymenucontrols(e){
     /*
-    Sets the controls for the user and keeps track of pointers 
+    Sets the controls for the user and keeps track of LobbyMenuPointers 
     */
     switch(e.keyCode){
         case 87:
-            if(pointer > 0 + (pagesPerPage*pageNum)){
-                pointer-=1;
+            if(LobbyMenuPointer > 0 + (pagesPerPage*pageNum)){
+                LobbyMenuPointer-=1;
             }else if(pageNum>0){
-                pointer-=1;
+                LobbyMenuPointer-=1;
                 pageNum-=1;
             }                      
             break;
         case 83:
-            if(pointer < lobbies.length-1){
-                pointer+=1;
-            }if(pointer>(pagesPerPage-1)+(pagesPerPage*pageNum)){
+            if(LobbyMenuPointer < lobbies.length-1){
+                LobbyMenuPointer+=1;
+            }if(LobbyMenuPointer>(pagesPerPage-1)+(pagesPerPage*pageNum)){
                 pageNum+=1;
             }       
             break;
         case 13:
-            join_lobby(lobies(pointer).id,socket);
+            endcreatelobby();
+            join_lobby(lobbies(LobbyMenuPointer).id,socket);
+	    currentLobby=lobbies(LobbyMenuPointer);
             break;
         }
         console.log(pageNum);
+}
+function endcreatelobby(){
+    lobbyMenuKeyDown.removeEventListener("keydown",createlobbycontrols);
 }
