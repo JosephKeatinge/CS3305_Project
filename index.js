@@ -10,6 +10,7 @@
 var gameState = "main_menu";
 var mainMenuEventListeners = false;
 var gameStarted = false;
+var lobbyWaitRoom = false;
 var canvas, canvasContext;
 const TILE_W = 20;
 const TILE_H = 20;
@@ -27,6 +28,7 @@ window.onload() = function() {
   }
 
 function updateAll() {
+// Called every interval. Depending on the gameState it will run a separate file
   switch(gameState) {
     case "main_menu":
       if (!mainMenuEventListeners) {
@@ -47,6 +49,10 @@ function updateAll() {
       updateGame();
       break;
     case "lobby":
+      if (!lobbyWaitRoom) {
+        startLobbyWaitRoom();
+      }
+      updateLobbyWaitRoom();
       break;
     case "pause_menu":
       break;

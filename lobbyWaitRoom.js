@@ -1,25 +1,27 @@
 var lobbyWaitRoomDown;
 var lobby;
-function startlobbyWaitRoom(){
+
+function startLobbyWaitRoom() {
   canvasContext.font = "20px Silkscreen";
   canvasContext.textAlign = "center";
   lobbyWaitRoomDown=window.addEventListener("keydown",lobbyWaitRoomControls);
   lobby=currentLobby;
 }
-function updateLobbyWaitRoom(){
+
+function updateLobbyWaitRoom() {
     /* 
     Creates an interval to call clear and draw
     */
-    lobbyWaitDraw();
-    
+    lobbyWaitDraw();    
 }
-function WaitRoomnumberOfPlayers(){
+
+function WaitRoomnumberOfPlayers() {
   var str="";
   str="Number of players : ",LobbyWaitRoomNumberOfPlayers," / ",lobby.max_players;
-  return str;
-  
+  return str;  
 }
-function lobbyWaitRoomDraw(){
+
+function lobbyWaitRoomDraw() {
     canvasContext.fillStyle="#000000";
     canvasContext.fillRect(0,0,canvas.width,canvas.height);
     canvasContext.fillStyle="#ffffff";
@@ -27,14 +29,15 @@ function lobbyWaitRoomDraw(){
     canvasContext.fillStyle="#888888";
     canvasContext.fillText(("Press Enter To Start Game"),canvas.width/2,80);
 }
-function lobbyWaitRoomControls(e){
-  if(e==13{
+
+function lobbyWaitRoomControls(e) {
+  if(e==13) {
       socket.emit("start_game",lobby.id);
       endLobbyWaitRoom();
     }
-  
 }
-function endLobbyWaitRoom(){
+
+function endLobbyWaitRoom() {
     lobbyWaitRoomDown.removeEventListener("keydown",lobbyWaitRoomControls);
     gameState="game";
 }
