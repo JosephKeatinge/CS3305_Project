@@ -40,9 +40,6 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
      *@params password, the password for the lobby. Initially null.
 
     */
-    
-   
-
     this.players = [];
     this.id = init_id;
     this.host= lobbyhost;
@@ -51,7 +48,6 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
     this.password= init_pword;
     this.gameOn = false;
 
-   
     /* Function for requesting basic lobby information
      * @return JSON object with Lobbynum, the lobby ID; Players, the amount of players in the lobby; maxPlayers, the max amount of players allowed
     */
@@ -82,12 +78,6 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
         var index = this.players.indexOf(data.user);
         //remove them from the players list
         this.players.splice(index, 1);
-        
-        
-        
-        
-
-
     }
     
 
@@ -95,7 +85,6 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
 }
 //Server Class
 function GameServer(lobby) {
-    this.bullets = [];
     this.players = {};
     this.count = 0;
     this.game_id = lobby;
@@ -111,6 +100,7 @@ function GameServer(lobby) {
                 this.players[id] = {
                     x: player.x,
                     y: player.y,
+                    bullets:[],
                     count: this.count
                 }
             },
@@ -130,23 +120,41 @@ function GameServer(lobby) {
             sendPlayerData: function () {
                 io.to(this.game_id).emit('heartbeat', this.players);
             },
-            //stores all the bullets in play
-            playerBullets: function (bulletList) {
-                this.bullets = bulletList;
+            //stores bullet of individual player
+            playerBullets: function (bullet,pid) {
+              var player=this.players[pid];
+              var playerbull=player.bullets;
+              playerbull.push(bullet);
+              this.sendBullets(playerbull,pid);
+                
             },
 
             //Sends the Lists of bullets to the client
-            sendBullets: function () {
-                io.to(this.game_id).emit('bullets', this.bullets);
+            sendBullets: function (playerbullets,pid) {
+                for(var id in this.players){
+                  if(id!=pid){
+                      //send to only these sockets
+                      socket.broadcast.to(this.game_id).emit('bullets', playerbullets);
+
+                  }
+                }
+
             },
             //Delete player from dictionary when they leave
             playerDisconnect: function (socket) {
                 delete this.players[socket.id];
 
             },
+             //Delete bullet when it hits a wall
+            bulletDelete:function(bullet,pid){
+              var player=this.players[pid];
+              var index=player.bullets.indexOf(bullet);
+              player.bullets.splice(index,1);
+            }
+
            
 
-    }
+      }
 
 
 
@@ -172,10 +180,14 @@ io.on('connection', function (socket) {
   });
   //A player has shot send  receive his bullets then send him who else has shot
   socket.on('shoot', function (bulletList) {
-      servers[bulletList.gameid].playerBullets(bulletList);
-      servers[bulletList.gameid].sendBullets();
+      servers[bulletList.gameid].playerBullets(bulletList,socket.id);
 
   });
+  socket.on('outside',function(bullet){
+        servers[bullet.gameid].bulletDelete(bullet,socket.id);
+
+  });
+
     //Lobby information requested by the client
     //Returns an array of JSON objects @see Lobby.requestInfo()
   socket.on('requestLobbies', function () {
