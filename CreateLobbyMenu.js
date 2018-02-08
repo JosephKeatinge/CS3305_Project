@@ -132,7 +132,7 @@ function createlobbycontrols(e){
         case 13:
             if(pointer==0){
                 create_lobby(socket,createlobbyinfo());
-                console.log("Come on team");
+                gameState="lobby";
             }
             if(pointer==3){
                 enterPassword=true;

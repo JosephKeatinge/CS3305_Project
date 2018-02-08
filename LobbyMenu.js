@@ -77,13 +77,14 @@ function lobbymenucontrols(e){
             }       
             break;
         case 13:
-            endcreatelobby();
             join_lobby(lobbies(LobbyMenuPointer).id,socket);
-	    currentLobby=lobbies(LobbyMenuPointer);
+	        currentLobby=lobbies(LobbyMenuPointer);
+            endcreatelobby();
             break;
         }
         console.log(pageNum);
 }
 function endcreatelobby(){
     lobbyMenuKeyDown.removeEventListener("keydown",createlobbycontrols);
+    gameState="lobby";
 }
