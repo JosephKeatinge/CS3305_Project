@@ -32,28 +32,11 @@ Proxy.prototype = {
 
     },
 
-    sendData : function(player){
-        //send data to server
-        //var Data={} //data to be sent to server
-
-       /* var playData={
-            id :1,
-            x : 0,
-            y: 0
-        };
-        //Data.Player = playData;*/
-        //  console.log(player);
-        
+    sendData : function(data,e){
         var gameid = this.game_id;
         
-        this.socket.emit('newplayer', { 'user': player, 'gameid': gameid });
+        this.socket.emit(e, { 'user': data, 'gameid': gameid });
     },
-    sendPos: function (player) {
-        var gameid = this.game_id;
-        
-        this.socket.emit('position', { 'user': player, 'gameid': gameid });
-
-    }
     ,
 
     receiveData:function(players){
@@ -65,7 +48,7 @@ Proxy.prototype = {
 
 
 
-    receiveData : function(Data){
+    receiveData2 : function(Data){
         //get and process data from server
         var game = this;
         Data.players.forEach(function(ServerPlayer){
