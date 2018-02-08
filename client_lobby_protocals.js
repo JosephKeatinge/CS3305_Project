@@ -62,4 +62,6 @@ socket.on("requestLobbies",function(data)){
   lobbies_info = JSON.parse(data)
 }
 
-
+socket.on("playerJoined",function(data)){
+  lobbyWaitRoomNumberOfPlayers = data;
+}
