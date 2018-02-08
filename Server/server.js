@@ -52,7 +52,7 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
      * @return JSON object with Lobbynum, the lobby ID; Players, the amount of players in the lobby; maxPlayers, the max amount of players allowed
     */
     this.requestInfo = function () {
-        return { "Lobbynum": this.id, 'Players': this.players.length, "maxPlayers": this.max_players };
+        return { "id": this.id, "host": this.host, 'password': this.pwordOn, "max_players": this.max_players };
 
     }
 
@@ -157,7 +157,20 @@ function GameServer(lobby) {
       }
 
 
+function requestLobbies() {
+    var lobbies_info = [];
+    var key;
+    //Goes through a for loop of the lobbies object to return all lobby information
+    if (Object.keys(lobbies).length > 0) {
+        for (i = 0; i < Object.keys(lobbies).length; i++) {
+            key = Object.keys(lobbies)[i];
+            //adds the information to the lobbies info object
+            lobbies_info.push(lobbies[key].requestInfo());
+        }
+    }
+    io.emit('lobbyList', lobbies_info);
 
+}
 
 
 
@@ -191,26 +204,7 @@ io.on('connection', function (socket) {
     //Lobby information requested by the client
     //Returns an array of JSON objects @see Lobby.requestInfo()
   socket.on('requestLobbies', function () {
-      
-      var lobbies_info = [];
-      var key;
-      //Goes through a for loop of the lobbies object to return all lobby information
-      if (Object.keys(lobbies).length > 0) {
-
-          for (i = 0; i < Object.keys(lobbies).length; i++) {
-
-              key = Object.keys(lobbies)[i];
-              console.log(lobbies[key]);
-              //adds the information to the lobbies info object
-              lobbies_info.push(lobbies[key].requestInfo());
-          }
-
-
-
-      }
-      
-      socket.emit('lobbyList', lobbies_info);
-
+      requestLobbies();
   });
 
   //Starts the main game
@@ -221,12 +215,13 @@ io.on('connection', function (socket) {
       //creates a new game server and adds it to the servers dictionary
       var game_server = new GameServer(data.lobby);
       servers[data.lobby] = game_server;
-      
+      delete lobbies[data.lobby];
+
       setInterval(function () {
           
           servers[data.lobby].sendPlayerData();
       }, 1000 / 30);
-      
+      requestLobbies();
      
       
   });
@@ -240,16 +235,17 @@ io.on('connection', function (socket) {
       lobbies[lobbyno].playerJoin(lobbyinfo.host);
       clients[socket.id] = lobbyno;
       socket.join(lobbyno);
-     
+      socket.to(lobbyno).emit('lobbyCreated', lobbies[lobbyno].requestInfo());
+      requestLobbies();
 
-      
   });
  //To answer a client emit requesting to join a lobby
   socket.on('join_lobby', function (data) {
       lobbies[data.lobby].playerJoin(data.user);
       clients[socket.id] = data.lobby;
       socket.join(data.lobby);
-    
+      socket.to(data.lobby).emit('playerJoined', lobbies[data.lobby].players.length);
+      requestLobbies();
   });
 
     //To answer a client emit requesting to leave a lobby
@@ -259,16 +255,40 @@ io.on('connection', function (socket) {
       socket.leave(data.lobby);
       if (lobbies[data.lobby].players.length == 0) {
           delete lobbies[data.lobby];
-          delete clients[socket.id];
+          
       }
-      
+      delete clients[socket.id];
+      requestLobbies();
+
   });
  
   
-    socket.on('disconnect', function () {
-        var index = clients[socket.id];
-        servers[index].playerDisconnect(socket.id);
-        delete clients[socket.id];
-    
+  /*
+  * Function for when the client disconnects
+  * The clients dictionary is checked to see if they are a part of any lobbies or servers. If they are, the appropriate function is called.
+  * If the lobby or server is empty after the client disconnects, the lobby or server is removed from its respective dictionary.
+ */
+  socket.on('disconnect', function () {
+      var index = clients[socket.id];
+      if (index != undefined) {
+          if (lobbies[index]) {
+              lobbies[index].playerLeave({ user: socket.id });
+              if (lobbies[index].players.length == 0) {
+                  delete lobbies[index];
+              }
+              requestLobbies();
+          }
+          else if (servers[index]) {
+              servers[index].playerDisconnect({ id: socket.id });
+              if (servers[index].players.length == 0) {
+                  delete servers[index];
+              }
+          }
+          delete clients[socket.id];
+      }
+
+
+
+
   });
 });
