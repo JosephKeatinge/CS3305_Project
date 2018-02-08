@@ -14,22 +14,21 @@ endlobbymenu() []
 */
 var pageNum=0;
 var pagesPerPage=15;
-var canavsCo = canvas.getContext("2d");
 canvasContext.font = "20px Silkscreen";
 canvasContext.textAlign = "center";
-window.addEventListener("keydown",Controls);
+window.addEventListener("keydown",lobbyMenuControls);
 var lobbies;
 var pointer=0;
-function startlobbymenu(){
+function startLobbyMenu(){
     lobbies=request_lobbies();
 }
-function updatelobbymenu(){
+function updateLobbyMenu(){
     /* 
     Creates an interval to call clear and draw
     */
-    lobbymenudraw();
+    lobbyMenuDraw();
 }
-function lobbymenuparseArray(i){
+function lobbyMenuParseArray(i){
     /* 
     Generates the text for the draw function
     */
@@ -42,7 +41,7 @@ function lobbymenuparseArray(i){
     }
     return str;
 }
-function lobbymenudraw(){
+function lobbyMenuDraw(){
      /* 
     Draws the text to the screen
     */
@@ -53,13 +52,13 @@ function lobbymenudraw(){
     canvasContext.fillText(("      Host - Max Players - Password"),canvas.width/2,40);
     canvasContext.fillStyle="#888888";
     for(i=0;i<Math.min(lobbies.length-(pagesPerPage*pageNum),pagesPerPage);i++){
-        canvasContext.fillText(parseArray(i+pagesPerPage*pageNum),canvas.width/2,60+40*i);
+        canvasContext.fillText(lobbyMenuParseArray(i+pagesPerPage*pageNum),canvas.width/2,60+40*i);
     }
 
     canvasContext.fillStyle="#ffffff";
-    canvasContext.fillText(parseArray(pointer),canvas.width/2,60+40*(pointer-(pagesPerPage*pageNum)));
+    canvasContext.fillText(lobbyMenuParseArray(pointer),canvas.width/2,60+40*(pointer-(pagesPerPage*pageNum)));
 }
-function lobbymenucontrols(e){
+function lobbyMenuControls(e){
     /*
     Sets the controls for the user and keeps track of pointers 
     */
