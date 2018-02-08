@@ -9,6 +9,7 @@
 
 var gameState = "main_menu";
 var mainMenuEventListeners = false;
+var gameStarted = false;
 var canvas, canvasContext;
 const TILE_W = 20;
 const TILE_H = 20;
@@ -39,7 +40,12 @@ function updateAll() {
     case "create_lobby_menu":
       break;
     case "game":
+      if (!gameStarted) {
+        startGame();
+        gameStarted = true;
+      }
       updateGame();
+      break;
     case "lobby":
       break;
     case "pause_menu":
