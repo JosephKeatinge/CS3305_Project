@@ -1,8 +1,9 @@
 var INTERVAL = 50;
 
-function Proxy(socket){
+function Proxy(socket, game_id){
     this.players={};//list of players other than local player
-    this.socket=socket;
+    this.socket = socket;
+    this.game_id = game_id
     this.player={x:0,y:0};
 
     /*var g=this;
@@ -41,11 +42,16 @@ Proxy.prototype = {
             y: 0
         };
         //Data.Player = playData;*/
-      //  console.log(player);
-        this.socket.emit('newplayer',player);
+        //  console.log(player);
+        
+        var gameid = this.game_id;
+        
+        this.socket.emit('newplayer', { 'user': player, 'gameid': gameid });
     },
-    sendPos:function(player){
-          this.socket.emit('position',player);
+    sendPos: function (player) {
+        var gameid = this.game_id;
+        
+        this.socket.emit('position', { 'user': player, 'gameid': gameid });
 
     }
     ,

@@ -18,7 +18,6 @@ const TILE_ROWS = 25;
 var socket=io();
 
 window.onload() = function() {
-  proxy=new Proxy(socket);
   canvas = document.getElementById("canvas");
   canvasContext = canvas.getContext('2d');
   mapInit();
