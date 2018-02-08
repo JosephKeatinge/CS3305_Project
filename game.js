@@ -1,3 +1,5 @@
+//Game Logic
+
 //updateGame function
 //drawGame function
 //startGame function
@@ -5,13 +7,10 @@
 //instantiate player objects
 //Server stuff is commented out for now
 
-
-
-function startGame(){
+function startGame() {
   bullets=new Bullet(3,3,10);
   player=new Player(250,350,32,32,32,"/static/hero.png");
   proxy=new Proxy(socket);
-
 
   //A map function
   loadImages();
@@ -30,8 +29,7 @@ function startGame(){
   });
 }
 
-
-function updateGame(){
+function updateGame() {
     player.move();
     drawGame();
     bullets.move();
