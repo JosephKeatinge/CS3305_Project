@@ -4,18 +4,28 @@
  * The lobby menu displays the host,number of players and if there is a password
  *  
 */
+var socket = io();
 var pageNum;
 var pagesPerPage;
 var lobbyMenuKeyDown;
 var lobbies;
-var LobbyMenuLobbyMenuPointer;
+var LobbyMenuPointer;
 
+startLobbyMenu();
+socket.on('lobbyList', function (data) {
+    lobbies = data;
+});
 function startLobbyMenu() {
-    lobbies=request_lobbies();
-    lobbyMenuKeyDown=window.addEventListener("keydown",lobbyMenuControls);
+    lobbies = []
+    window.addEventListener("keydown",lobbyMenuControls);
     pageNum=0;
     pagesPerPage=15;
-    LobbyMenuLobbyMenuPointer=0
+    LobbyMenuPointer = 0
+    socket.emit('requestLobbies');
+    setInterval(function () {
+        updateLobbyMenu()
+    }, 1000 / 30);
+
 }
 
 function updateLobbyMenu() {
@@ -30,11 +40,13 @@ function lobbyMenuParseArray(i) {
     Generates the text for the draw function
     */
 
-    var str=""
-    if(lobbies[i].password!=false) {
-        str=lobbies[i].host+" - "+lobbies[i].max_players+" - "+"Yes";
-    }else {
-        str=lobbies[i].host+" - "+lobbies[i].max_players+" - "+"No";
+    var str = ""
+    if (lobbies.length > 0) {
+        if (lobbies[i].password != false) {
+            str = lobbies[i].host + " - " + lobbies[i].max_players + " - " + "Yes";
+        } else {
+            str = lobbies[i].host + " - " + lobbies[i].max_players + " - " + "No";
+        }
     }
     return str;
 }
@@ -48,7 +60,8 @@ function lobbyMenuDraw() {
     canvasContext.fillStyle="#ffffff";
     canvasContext.fillText(("Select Lobby"),canvas.width/2,20);
     canvasContext.fillText(("      Host - Max Players - Password"),canvas.width/2,40);
-    canvasContext.fillStyle="#888888";
+    canvasContext.fillStyle = "#888888";
+    
     for(i=0;i<Math.min(lobbies.length-(pagesPerPage*pageNum),pagesPerPage);i++) {
         canvasContext.fillText(lobbyMenuParseArray(i+pagesPerPage*pageNum),canvas.width/2,60+40*i);
     }
@@ -77,16 +90,21 @@ function lobbyMenuControls(e) {
             }       
             break;
         case 13:
-            join_lobby(lobbies(LobbyMenuPointer).id,socket);
-	        currentLobby=lobbies(LobbyMenuPointer);
-            endcreatelobby();
+            socket.emit('join_lobby', { "lobby": lobbies[LobbyMenuPointer].id });
+	        
+            endLobbyMenu();
             break;
+            //test case 
+        /*(case 71:
+            console.log('here');
+            socket.emit('create_lobby', { "host": socket.id, "max_players": 4, 'pwordOn': false, 'password': '' });
+            break;*/
         }
-        console.log(pageNum);
+       
 }
 
 function endLobbyMenu() {
-    lobbyMenuKeyDown.removeEventListener("keydown", lobbyMenuControls);
+    window.removeEventListener("keydown", lobbyMenuControls);
     lobbyMenu = false;
     gameState="lobby";
 }
