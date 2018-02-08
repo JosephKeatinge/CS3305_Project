@@ -18,7 +18,7 @@ Bullet.prototype={
        this.rotation = Math.atan2(deltaY, deltaX);
        this.xtarget = Math.cos(this.rotation);
        this.ytarget = Math.sin(this.rotation);
-       this.list.push({
+       var bullet={
            x: shooterX,
            y: shooterY,
            this.speed:10,
@@ -28,41 +28,34 @@ Bullet.prototype={
            h: 3,
            color: 'black',
            angle: this.rotation
-       });
+       }
+       return bullet;
      },
 
      //Draws the bullet and
-     //checks if it has gone outside thecanvas
-     draw:function(canvasContext,width,height){
-       for(var i=0; i<this.list.length;i+=1){
+     //checks if it has hit a wall
+     draw:function(list){
+       for(var i=0; i<list.length;i+=1){
            canvasContext.fillStyle = 'black';
-           canvasContext.fillRect(this.list[i].x, this.list[i].y, this.list[i].w, this.list[i].h);
-           if(this.list[i].y<0){
-               this.list.splice(i,1);
-
-             }
-           else if (this.list[i].x<0){
-              this.list.splice(i,1);
-            }
-           else if(this.list[i].y+this.list[i].w+this.list[i].h>=height){
-              this.list.splice(i,1);
-            }
-           else if(this.list[i].x+this.list[i].w+this.list[i].h>=width){
-              this.list.splice(i,1);
-            }
-
+           canvasContext.fillRect(list[i].x, list[i].y, list[i].w, list[i].h);
        }
 
    },
    //moves the bullets
-   move:function(){
-     this.list.forEach( function(bullet, j) {
+   //Tell server if it has hit a wall
+   move:function(list){
+     list.forEach( function(bullet, j) {
      bullet.x += bullet.xtarget * bullet.speed;
      bullet.y += bullet.ytarget * bullet.speed;
+     //Collisions with wall
+     var bulletXCoord = Math.round(bullet.x / (TILE_W));
+     var bulletYCoord = Math.round(bullet.y / (TILE_H));
+
+     if (isWallAtColRow(bulletXCoord, bulletYCoord)) {
+            socket.emit('outside',bullet);
+            var index=list.indexOf(bullet);
+            list.splice(index,1);
+         }
      });
    }
-
-
-
-
 }
