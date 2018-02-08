@@ -15,6 +15,7 @@ const TILE_W = 20;
 const TILE_H = 20;
 const TILE_COLS = 25;
 const TILE_ROWS = 25;
+var currentLobby;
 var socket=io();
 
 window.onload() = function() {
