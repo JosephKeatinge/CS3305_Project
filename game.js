@@ -53,3 +53,14 @@ function drawGame(){
     //drawOtherPlayer();
     //drawOtherBulelts();
 }
+
+function endGame() {
+  window.removeEventListener("keydown", player.activate, false);
+  window.removeEventListener("keyup", player.deactivate, false);
+  canvas.removeEventListener('mousemove', mouseMove, true);
+  canvas.removeEventListener("click", function() {
+    bullets.create(mouseX, mouseY, player.x, player.y);
+  });
+  gameState = "main_menu";
+  gameStarted = false;
+}
