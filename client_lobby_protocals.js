@@ -1,5 +1,5 @@
 var in_lobby = false
-
+var lobbies_info;
 /*unction to join the selected lobby
  *
  *@param lobby_id the unique id of the desired lobby 
@@ -22,7 +22,7 @@ function leave_lobby(lobby_id,socket){
  *
  *@param socket the current open socket to the server
  */
-function create_lobby(socket){
+function create_lobby(socket,new_lobby_info){
 	socket.emit("create_lobby")
 }
 
