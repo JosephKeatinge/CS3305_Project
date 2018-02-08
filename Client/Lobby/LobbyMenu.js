@@ -7,8 +7,6 @@
 var pageNum;
 var pagesPerPage;
 var lobbyMenuKeyDown;
-canvasContext.font = "20px Silkscreen";
-canvasContext.textAlign = "center";
 var lobbies;
 var LobbyMenuLobbyMenuPointer;
 
