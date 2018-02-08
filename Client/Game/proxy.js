@@ -6,12 +6,7 @@ function Proxy(socket, game_id){
     this.game_id = game_id
     this.player={x:0,y:0};
 
-    /*var g=this;
-    setInterval(function(){
-        //set an interval for teh mainloop
-        g.mainLoop();
-    },INTERVAL);*/
-}
+   }
 
 Proxy.prototype = {
     addPlayer : function(id,x,y,Local){
