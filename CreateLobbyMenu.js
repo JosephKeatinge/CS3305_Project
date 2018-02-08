@@ -103,14 +103,14 @@ function createlobbycontrols(e){
                 }
             }else if(passwordOn==false){
                 if(pointer<text.length-2){
-                    pointer+=1;=["Create Lobby","Number Of Players :","Password On :","Password :"
+                    pointer+=1
                     pwordOn = false,
         password = '';
                 }else{
                     pointer=text.length-2;
                 }
             }
-            break;false;
+            break;
         case 68:
             if(pointer==1){
                 rightpointer+=1;
@@ -133,7 +133,7 @@ function createlobbycontrols(e){
                 passwordOn= !passwordOn;
             }
             break;
-        case 13:=["Create Lobby","Number Of Players :","Password On :","Password :"
+        case 13:
             if(pointer==0){
                 create_lobby(socket,createlobbyinfo());
                 gameState="lobby";
