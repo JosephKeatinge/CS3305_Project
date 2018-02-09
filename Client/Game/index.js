@@ -15,6 +15,7 @@ var createLobbyMenu = false;
 var lobbyMenu = false;
 var maxPlayers = 4;
 var canvas, canvasContext;
+var height,width;
 const TILE_W = 20;
 const TILE_H = 20;
 const TILE_COLS = 25;
@@ -25,6 +26,8 @@ var socket=io.connect();
 window.onload = function() {
   canvas = document.getElementById("canvas");
   canvasContext = canvas.getContext('2d');
+  height=canvas.width;
+  width=canvas.height;
   var framesPerSecond = 30;
   setInterval(updateAll, 1000/framesPerSecond);
   }
