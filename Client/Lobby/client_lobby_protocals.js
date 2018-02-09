@@ -67,8 +67,9 @@ socket.on("playerJoined",function (data) {
   lobbyWaitRoomNumberOfPlayers = data;
 })
 
-socket.on("lobbyCreated",function (data){
-  console.log('reeceived');
-  currentLobby = data  
+socket.on("lobbyCreated", function (data) {
+
+    lobbyWaitRoomNumberOfPlayers = 1;
+    currentLobby = data;
   
 })

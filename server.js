@@ -54,7 +54,7 @@ function Lobby(init_id,lobbyhost, init_max_players, init_pwordon, init_pword) {
      * @return JSON object with Lobbynum, the lobby ID; Players, the amount of players in the lobby; maxPlayers, the max amount of players allowed
     */
     this.requestInfo = function () {
-        return { id: this.id, password: this.pwordOn, max_players: this.max_players };
+        return { id: this.id, host: this.host, password: this.pwordOn, max_players: this.max_players };
 
     }
 
@@ -234,12 +234,12 @@ io.on('connection', function (socket) {
       newlobby = new Lobby(lobbyno,lobbyinfo.host, lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password);
       console.log(newlobby);
       lobbies[lobbyno] = newlobby;
-     
       lobbies[lobbyno].playerJoin(newlobby.host);
-      clients[socket.id] = lobbyno;
-      console.log(lobbies[lobbyno].requestInfo())
+      clients[socket.id] = newlobby.id;
       socket.join(newlobby.id);
-      socket.emit('lobbyCreated', lobbies[lobbyno].requestInfo());
+      socket.emit('lobbyCreated', lobbies[newlobby.id].requestInfo());
+      
+      requestLobbies();
 
   });
  //To answer a client emit requesting to join a lobby
@@ -247,7 +247,7 @@ io.on('connection', function (socket) {
       lobbies[data.lobby].playerJoin(data.user);
       clients[socket.id] = data.lobby;
       socket.join(data.lobby);
-      socket.to(data.lobby).emit('playerJoined', lobbies[data.lobby].players.length);
+      io.to(data.lobby).emit('playerJoined', lobbies[data.lobby].players.length);
       requestLobbies();
   });
 
