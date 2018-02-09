@@ -4,16 +4,14 @@
  * The lobby menu displays the host,number of players and if there is a password
  *  
 */
-var socket = io();
 var pageNum;
 var pagesPerPage;
 var lobbyMenuKeyDown;
 var lobbies;
 var LobbyMenuPointer;
 
-startLobbyMenu();
 socket.on('lobbyList', function (data) {
-    lobbies = data;
+   lobbies = data;
 });
 function startLobbyMenu() {
     lobbies = []
@@ -22,10 +20,6 @@ function startLobbyMenu() {
     pagesPerPage=15;
     LobbyMenuPointer = 0
     socket.emit('requestLobbies');
-    setInterval(function () {
-        updateLobbyMenu()
-    }, 1000 / 30);
-
 }
 
 function updateLobbyMenu() {
@@ -91,7 +85,7 @@ function lobbyMenuControls(e) {
             break;
         case 13:
             socket.emit('join_lobby', { "lobby": lobbies[LobbyMenuPointer].id });
-	        
+	    currentLobby = lobbies[LobbyMenuPointer]    
             endLobbyMenu();
             break;
             //test case 
@@ -104,7 +98,7 @@ function lobbyMenuControls(e) {
 }
 
 function endLobbyMenu() {
-    window.removeEventListener("keydown", lobbyMenuControls);
+     window.removeEventListener("keydown", lobbyMenuControls);
     lobbyMenu = false;
     gameState="lobby";
 }

@@ -1,7 +1,3 @@
-const TILE_W = 20;
-const TILE_H = 20;
-const TILE_COLS = 25;
-const TILE_ROWS = 25;
 var floorPic = document.createElement("img");
 var wallPic = document.createElement("img");
 var tileGrid =
@@ -41,22 +37,10 @@ const PLAYERSTART = 2;
 
 
 function loadImages() {
-	floorPic.src = "/static/tile2.png";
-	wallPic.src = "/static/tile.jpg";
+	floorPic.src = "/Client/Assets/floor.png";
+	wallPic.src = "/Client/Assets/wall.png";
 }
 
-
-//Gets X,Y coordinates of mouse
-function mouseMove(e) {
-  if(e.offsetX) {
-    mouseX = e.offsetX;
-    mouseY = e.offsetY;
-    }
-  else if (e.layerX) {
-    mouseX = e.layerX;
-    mouseY = e.layerY;
-    }
-}
 
 function isWallAtColRow(col, row) {
 	//Takes x and y array values and checks if there is a wall at that point.

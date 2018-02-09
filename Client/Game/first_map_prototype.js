@@ -8,10 +8,6 @@ var floorPic = document.createElement("img");
 var wallPic = document.createElement("img");
 var proxy;
 var socket=io();
-const TILE_W = 20;
-const TILE_H = 20;
-const TILE_COLS = 25;
-const TILE_ROWS = 25;
 //The array is one dimensioned but it is layed out like this in code so that we can visualize it as
 //a two dimensional array.
 var tileGrid = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -48,55 +44,14 @@ const PLAYERSTART = 2;
 function mapInit() {
 	//setupInput();
 	loadImages();
-	playerImageLoad();
-	playerReset();
-	window.addEventListener("keydown", activate, false);
-	window.addEventListener("keyup", deactivate, false);
-	canvas.addEventListener('mousemove', mouseMove, true);
-	canvas.addEventListener("click", function() {
-		createBullet(mouseX, mouseY, player.x, player.y);
-		//socket.emit('shoot',theBullets);
-		//initial position  of player sent to server
-	});
-	proxy.sendData(player);
 }
 
-function updateAll() {
-	movePlayer();
-	drawAll();
-	bulletsMove();
-	//Receive other players data every  frame
-	socket.on('heartbeat', function(data) {
-					otherPlayers=data;
-	});
-	//if the player moves send its position
-	if(moveRight||moveLeft||moveUp||moveDown){  proxy.sendPos(player);}
-}
-
-function drawAll() {
-	drawMap();
-	drawPlayer();
-	drawOtherPlayers()
-	bulletsDraw(theBullets);
-}
 
 function loadImages() {
 	floorPic.src = "/static/floor.png";
 	wallPic.src = "/static/wall.png";
 }
 
-
-//Gets X,Y coordinates of mouse
-function mouseMove(e) {
-  if(e.offsetX) {
-    mouseX = e.offsetX;
-    mouseY = e.offsetY;
-    }
-  else if (e.layerX) {
-    mouseX = e.layerX;
-    mouseY = e.layerY;
-    }
-}
 
 function isWallAtColRow(col, row) {
 	//Takes x and y array values and checks if there is a wall at that point.

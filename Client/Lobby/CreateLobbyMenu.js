@@ -9,12 +9,14 @@ var enterPassword;
 var rightpointer;
 var text;
 var pointer;
+var numOfPlayers;
 function startCreateLobbyMenu(){
-    CreateLobbyCotrols=window.addEventListener("keydown",createLobbyControls);
-    passwordOn=false;
+    window.addEventListener("keydown",createLobbyControls);
+    passwordOn=0;
     password="";
     enterPassword=false;
     rightpointer=0;
+    numOfPlayers=2;
     pointer=0;
     text=["Create Lobby","Number Of Players :","Password On :","Password :"]
 }
@@ -31,7 +33,7 @@ function stringGen(i){
     }else if(i==2){
         var str="Password On:"+passwordOn;
     }
-    if(passwordOn==true){
+    if(passwordOn==1){
         if(i==3){
         var str="Password : "+password;
             }
@@ -62,9 +64,10 @@ function createLobbyDraw(){
 }
 function createLobbyInfo(){
     var newlobbiesinfo={
-        "max_players" :numOfPlayers,
-        "pwordOn":passwordOn,
-        "password":password
+        max_players :numOfPlayers,
+        host: socket.id,
+        pwordOn:passwordOn,
+        password:password
     };
     return newlobbiesinfo;
 }
@@ -89,22 +92,22 @@ function createLobbyControls(e){
     switch(e.keyCode){
         case 87:
             if(pointer>0){
-                pointer-=1;false;
+                pointer-=1;
             }else{
                 pointer=0;
             }
             break;
         case 83:
-            if(passwordOn==true){
+            if(passwordOn==1){
                 if(pointer<text.length-1){
                 pointer+=1;
                 }else{
                 pointer=text.length-1;
                 }
-            }else if(passwordOn==false){
+            }else if(passwordOn==0){
                 if(pointer<text.length-2){
                     pointer+=1;
-                    pwordOn = false,
+                    pwordOn = 0,
                     password = '';
                 }else{
                     pointer=text.length-2;
@@ -119,7 +122,12 @@ function createLobbyControls(e){
                 }
             }
             if(pointer==2){
-                passwordOn= !passwordOn;
+                if(passwordOn == 0){
+                   passwordOn = 1;
+                }
+                else{
+                   passwordOn = 0;
+                }
             }
             break;
         case 65:
@@ -135,8 +143,10 @@ function createLobbyControls(e){
             break;
         case 13:
             if(pointer==0){
-                create_lobby(socket,createlobbyinfo());
+                newLobby = createLobbyInfo();
+                create_lobby(socket,newLobby);
                 gameState="lobby";
+                endCreateLobbyMenu();
             }
             if(pointer==3){
                 enterPassword=true;
@@ -146,7 +156,7 @@ function createLobbyControls(e){
     }
 }
 function endCreateLobbyMenu(){
-  CreateLobbyCotrols = window.removeEventListener("keydown",createlobbycontrols);
+  window.removeEventListener("keydown",createLobbyControls);
   createLobbyMenu = false;
   gameState = "lobby";
 }

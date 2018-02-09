@@ -4,12 +4,12 @@
 */
 var words;
 var MainMenuPointer;
-var mainMenuKeydown;
 function startmainmenu(){
-
-mainMenuKeydown=window.addEventListener("keydown",mainmenucontrols);
+console.log("a");
+window.addEventListener("keydown",mainmenucontrols);
 words = ["Create Lobby","Join Lobby","Settings","How to play","Credits"];
 MainMenuPointer=0;
+canvasContext.font = "30px Silkscreen"
 }
 function updategamemenu(){
     /* 
@@ -22,6 +22,8 @@ function mainmenudraw(){
     /* 
     Draws the text to the screen
     */
+    canvasContext.fillStyle="#000000"
+    canvasContext.fillRect(0,0,canvas.width,canvas.height);
     canvasContext.textAlign = "center";
     canvasContext.fillStyle="#888888";
     for(i=0;i<words.length;i++){
@@ -57,14 +59,16 @@ function mainmenucontrols(e){
             console.log("Credits");
             }
         endMainMenu();
+        break;
         }
         if(MainMenuPointer<0){
             MainMenuPointer=0;
         }else if(MainMenuPointer>=words.length){
             MainMenuPointer=words.length-1;
         }
+
     }
 function endMainMenu(){
-    mainMenuKeydown.removeEventListener("keydown",mainmenucontrols);
+    window.removeEventListener("keydown",mainmenucontrols);
     mainMenuEventListeners = false;
 }

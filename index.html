@@ -2,17 +2,21 @@
   <head>
     <title>A Multiplayer Game</title>
     <style>
-      canvas {
-        width: 1080px;
-        height: 720px;
-        border: 5px solid black;
-      }
     </style>
     <script src="/socket.io/socket.io.js"></script>
   </head>
   <body>
-    <canvas id="canvas"></canvas>
+    <canvas width="500" height="500" id="canvas"></canvas>
   </body>
-  <script src="/static/game.js"></script>
-  <script src="/static/proxy.js"></script>
+  <script src="/Client/Game/game.js"></script>
+  <script src="/Client/Game/proxy.js"></script>
+  <script src="/Client/Game/index.js"></script>
+  <script src="/Client/Game/MainMenu.js"></script>
+  <script src="/Client/Game/map.js"></script>
+  <script src="/Client/Game/bullet.js"></script>
+  <script src="/Client/Game/player.js"></script>
+  <script src="/Client/Lobby/client_lobby_protocals.js"></script>
+  <script src="/Client/Lobby/CreateLobbyMenu.js"></script>
+  <script src="/Client/Lobby/LobbyMenu.js"></script>
+  <script src="/Client/Lobby/lobbyWaitRoom.js"></script>
 </html>

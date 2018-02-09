@@ -17,7 +17,9 @@ var lobbyno = 0;
 
 
 app.set('port', 5000);
-app.use('/static', express.static(__dirname + '/static'));
+app.use('/Client/Game', express.static(__dirname + '/Client/Game'));
+app.use('/Client/Lobby', express.static(__dirname + '/Client/Lobby'));
+app.use('/Client/Assets', express.static(__dirname + '/Client/Assets'));
 
 // Routing
 app.get('/', function(request, response) {
@@ -29,7 +31,7 @@ server.listen(5000, function() {
 });
 
 //Lobby Server Class
-function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
+function Lobby(init_id,lobbyhost, init_max_players, init_pwordon, init_pword) {
     /*
      *@constructor for the Lobby API
      *@params players, the list of players in the lobby
@@ -41,8 +43,8 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
 
     */
     this.players = [];
+    this.host = lobbyhost;
     this.id = init_id;
-    this.host= lobbyhost;
     this.max_players= init_max_players;
     this.pwordOn= init_pwordon;
     this.password= init_pword;
@@ -52,7 +54,7 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
      * @return JSON object with Lobbynum, the lobby ID; Players, the amount of players in the lobby; maxPlayers, the max amount of players allowed
     */
     this.requestInfo = function () {
-        return { "id": this.id, "host": this.host, 'password': this.pwordOn, "max_players": this.max_players };
+        return { id: this.id, password: this.pwordOn, max_players: this.max_players };
 
     }
 
@@ -209,17 +211,18 @@ io.on('connection', function (socket) {
 
   //Starts the main game
     //Currently works with old game.js wrapped in a socket.on('begingame'), with var socket taken out
-  socket.on('start_game', function (data) {
+  socket.on('start_game', function (lobbyid) {
+      console.log("start_game")
       //Sends an emit to the lobby room
-      io.to(data.lobby).emit('begingame', data.lobby);
+      io.to(lobbyid).emit('begingame', lobbyid);
       //creates a new game server and adds it to the servers dictionary
-      var game_server = new GameServer(data.lobby);
-      servers[data.lobby] = game_server;
-      delete lobbies[data.lobby];
+      var game_server = new GameServer(lobbyid);
+      servers[lobbyid] = game_server;
+      delete lobbies[lobbyid];
 
       setInterval(function () {
           
-          servers[data.lobby].sendPlayerData();
+          servers[lobbyid].sendPlayerData();
       }, 1000 / 30);
       requestLobbies();
      
@@ -228,15 +231,15 @@ io.on('connection', function (socket) {
     //To answer a client emit requesting to create a lobby
   socket.on('create_lobby', function (lobbyinfo) {
       lobbyno += 1
-      
-      newlobby = new Lobby(lobbyno, lobbyinfo.host, lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password);
+      newlobby = new Lobby(lobbyno,lobbyinfo.host, lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password);
+      console.log(newlobby);
       lobbies[lobbyno] = newlobby;
      
-      lobbies[lobbyno].playerJoin(lobbyinfo.host);
+      lobbies[lobbyno].playerJoin(newlobby.host);
       clients[socket.id] = lobbyno;
-      socket.join(lobbyno);
-      socket.to(lobbyno).emit('lobbyCreated', lobbies[lobbyno].requestInfo());
-      requestLobbies();
+      console.log(lobbies[lobbyno].requestInfo())
+      socket.join(newlobby.id);
+      socket.emit('lobbyCreated', lobbies[lobbyno].requestInfo());
 
   });
  //To answer a client emit requesting to join a lobby

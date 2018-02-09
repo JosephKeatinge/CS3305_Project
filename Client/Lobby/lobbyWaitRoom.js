@@ -1,23 +1,21 @@
-var lobbyWaitRoomDown;
-var lobby;
+var lobbyWaitRoomNumberOfPlayers = 0;
 
 function startLobbyWaitRoom() {
   canvasContext.font = "20px Silkscreen";
   canvasContext.textAlign = "center";
-  lobbyWaitRoomDown=window.addEventListener("keydown",lobbyWaitRoomControls);
-  lobby = currentLobby;
+  window.addEventListener("keydown",lobbyWaitRoomControls);
 }
 
 function updateLobbyWaitRoom() {
     /* 
     Creates an interval to call clear and draw
     */
-    lobbyWaitDraw();    
+    lobbyWaitRoomDraw();    
 }
 
 function WaitRoomnumberOfPlayers() {
   var str="";
-  str="Number of players : ",LobbyWaitRoomNumberOfPlayers," / ",lobby.max_players;
+  str="Number of players : ",lobbyWaitRoomNumberOfPlayers," / "//,currentLobby.max_players;
   return str;  
 }
 
@@ -31,16 +29,15 @@ function lobbyWaitRoomDraw() {
 }
 
 function lobbyWaitRoomControls(e) {
-  if(e==13) {
-      socket.emit("start_game",lobby.id);
+  if(e.keyCode==13) {
+      socket.emit("start_game",currentLobby.id);
       endLobbyWaitRoom();
     }
 }
 
 function endLobbyWaitRoom() {
-    lobbyWaitRoomDown.removeEventListener("keydown",lobbyWaitRoomControls);
+    window.removeEventListener("keydown",lobbyWaitRoomControls);
     lobbyWaitRoom = false;
-    gameState="game";
 }
 
 

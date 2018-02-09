@@ -23,15 +23,15 @@ function leave_lobby(lobby_id,socket){
  *@param socket the current open socket to the server
  */
 function create_lobby(socket,new_lobby_info){
-	socket.emit("create_lobby")
+	socket.emit("create_lobby",new_lobby_info);
 }
 
 /*function to start the game in the current lobby
  *
  *@param socket the current open socket to the server
  */
-function start_game(socket){
-  socket.emit("startGame")
+function start_game(socket,lobbyId){
+  socket.emit("startGame",lobbyId)
 }
 
 /*function to get the list of current lobbies on the server
@@ -39,29 +39,36 @@ function start_game(socket){
  *@param socket the current open socket to the server
  */
 function request_lobbies(socket){
-  socket.emit("requestLobbys")
+  socket.emit("requestLobbys");
 }
 
 /*processes the info recieved from the player about a specific lobby
  *
  *@param lobby_info a lobby json object that holds all the required info
  */
-socket.on("requestInfo",function(data)){
+/*socket.on("requestInfo",function(data)){
   //pass
-}
+}*/
 
 /*notification for all players that the game is beginning
  */
-socket.on("startGame"){
-  //pass
-}
+socket.on("begingame", function(){
+    gameState = "game"
+    console.log("begingame")
+})
 
 /*procceses the info recieved for all open lobbies on the server
  */
-socket.on("requestLobbies",function(data)){
-  lobbies_info = JSON.parse(data)
-}
+socket.on("lobbies_info",function (data) {
+  lobbies_info = data
+})
 
-socket.on("playerJoined",function(data)){
+socket.on("playerJoined",function (data) {
   lobbyWaitRoomNumberOfPlayers = data;
-}
+})
+
+socket.on("lobbyCreated",function (data){
+  console.log('reeceived');
+  currentLobby = data  
+  
+})

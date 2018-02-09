@@ -13,18 +13,18 @@ var gameStarted = false;
 var lobbyWaitRoom = false;
 var createLobbyMenu = false;
 var lobbyMenu = false;
+var maxPlayers = 4;
 var canvas, canvasContext;
 const TILE_W = 20;
 const TILE_H = 20;
 const TILE_COLS = 25;
 const TILE_ROWS = 25;
 var currentLobby;
-var socket=io();
+var socket=io.connect();
 
-window.onload() = function() {
+window.onload = function() {
   canvas = document.getElementById("canvas");
   canvasContext = canvas.getContext('2d');
-  mapInit();
   var framesPerSecond = 30;
   setInterval(updateAll, 1000/framesPerSecond);
   }
@@ -70,4 +70,5 @@ function updateAll() {
     case "pause_menu":
       break;
   }
+console.log(gameState);
 }

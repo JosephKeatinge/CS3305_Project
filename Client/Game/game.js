@@ -4,19 +4,19 @@
 //endState function -Remove Event Listeners
 //instantiate player objects
 var playerPic=document.createElement("img");
+var otherPlayers;
 
 function startGame(){
   bullets=new Bullet(3,3,10);
-  player=new Player(250,350,32,32,32,"/static/hero.png");
-  proxy=new Proxy(socket);
+  player=new Player(250,350,32,32,32,"/Client/Assets/hero.png");
+  proxy=new Proxy(socket,currentLobby.id);
 
 
 
   loadImages();
   playerReset(player);
 
-  loadPlayerImage();
-  player.imageLoad(playerPic);
+  player.imgLoad(playerPic);
 
   var keyDown =window.addEventListener("keydown", player.activate, false);
   var keyUp=window.addEventListener("keyup", player.deactivate, false);
@@ -46,7 +46,7 @@ function updateGame(){
     socket.on('bullets',function(bullets){
              allBullets=bullets;
     });
-    //Send player position if they have moved
+   //Send player position if they have moved
     if(player.hasMoved()){proxy.sendData(player,'position');}
 }
 

@@ -21,7 +21,7 @@ Bullet.prototype={
        var bullet={
            x: shooterX,
            y: shooterY,
-           this.speed:10,
+           speed:10,
            xtarget: this.xtarget,
            ytarget: this.ytarget,
            w: 3,
