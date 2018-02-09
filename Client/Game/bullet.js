@@ -34,27 +34,6 @@ function bulletsDraw(list) {
   for(var i=0; i<list.length;i+=1){
       canvasContext.fillStyle = 'black';
       canvasContext.fillRect(list[i].x, list[i].y, list[i].w, list[i].h);
-      if(list[i].y<0){
-          socket.emit('outside',list[i]);
-          var index=list.indexOf(list[i]);
-          list.splice(index,1);
-        }
-      else if (list[i].x<0){
-        socket.emit('outside',list[i]);
-        var index=list.indexOf(list[i]);
-        list.splice(index,1);
-       }
-      else if(list[i].y+list[i].w+list[i].h>=height){
-        socket.emit('outside',list[i]);
-        var index=list.indexOf(list[i]);
-        list.splice(index,1);
-       }
-      else if(list[i].x+list[i].w+list[i].h>=width){
-        socket.emit('outside',list[i]);
-        var index=list.indexOf(list[i]);
-        list.splice(index,1);
-       }
-
   }
 }
 
@@ -72,7 +51,7 @@ function bulletsMove(listBull) {
 
   if (isWallAtColRow(bulletXCoord, bulletYCoord)) {
           //Tell Server that bullet has hit a wall
-          socket.emit('outside',bullet);
+          proxy.sendData(bullet,'outside');
           var index=listBull.indexOf(bullet);
           listBull.splice(index,1);
         }
