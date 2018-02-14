@@ -7,12 +7,13 @@
     >lobby
     >pause_menu*/
 
-var gameState = "main_menu";
+var gameState = "UserNameMenu";
 var mainMenuEventListeners = false;
 var gameStarted = false;
 var lobbyWaitRoom = false;
 var createLobbyMenu = false;
 var lobbyMenu = false;
+var UserNameMenu=false;
 var maxPlayers = 4;
 var canvas, canvasContext;
 var height,width;
@@ -35,6 +36,12 @@ window.onload = function() {
 function updateAll() {
 // Called every interval. Depending on the gameState it will run a separate file
   switch(gameState) {
+    case "UserNameMenu":
+    if (!UserNameMenu) {
+        startmainmenu();
+        UserNameMenu = true;
+      }
+      updategamemenu();
     case "main_menu":
       if (!mainMenuEventListeners) {
         startmainmenu();
