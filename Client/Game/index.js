@@ -1,5 +1,6 @@
 /*The window.onload function and most global variables
   The gamestates are as follows:
+    >UserNameMenu
     >main_menu
     >lobby_list_menu
     >create_lobby_menu
@@ -38,7 +39,7 @@ function updateAll() {
   switch(gameState) {
     case "UserNameMenu":
     if (!UserNameMenu) {
-        startmainmenu();
+        startUserNameMenu();
         UserNameMenu = true;
       }
       updategamemenu();
