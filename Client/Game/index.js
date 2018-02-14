@@ -43,6 +43,7 @@ function updateAll() {
         UserNameMenu = true;
       }
       updategamemenu();
+      break;
     case "main_menu":
       if (!mainMenuEventListeners) {
         startmainmenu();
