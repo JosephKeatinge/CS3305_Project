@@ -31,7 +31,7 @@ function UserNameMenuDraw(){
     canvasContext.fillStyle="#ffffff";
     canvasContext.fillText(stringGen(UserNameMenupointer),canvas.width/2,40*UserNameMenupointer+100);
 }
-function UserNameMenuControls(){
+function UserNameMenuControls(e){
         keycode=e.keyCode;
         if(enterName){
         switch(e.keyCode){
