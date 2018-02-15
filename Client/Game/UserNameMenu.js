@@ -7,6 +7,13 @@ function startUserNameMenu(){
     text=["Enter Name:","Enter Game"]
     var UserNameMenupointer=0;
 }
+function updateUserNameMenu(){
+    /* 
+    Creates an interval in which clear and draw are called
+    */
+    UserNameMenuDraw();
+
+}
 function stringGen(i){
     var str=""
     if(i==0){
@@ -40,7 +47,7 @@ function UserNameMenuControls(e){
                 enterPassword=false;
                 break;
             case 8:
-                password=password.slice(0,password.length-1);
+                usernme=username.slice(0,password.length-1);
                 break;
             default:
                 letter = String.fromCharCode(e.keyCode)
