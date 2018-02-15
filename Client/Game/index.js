@@ -9,8 +9,10 @@
     >pause_menu*/
 
 var gameState = "UserNameMenu";
+var UserNameMenu = false;
 var mainMenuEventListeners = false;
 var gameStarted = false;
+var username;
 var lobbyWaitRoom = false;
 var createLobbyMenu = false;
 var lobbyMenu = false;
