@@ -16,7 +16,6 @@ var username;
 var lobbyWaitRoom = false;
 var createLobbyMenu = false;
 var lobbyMenu = false;
-var UserNameMenu=false;
 var maxPlayers = 4;
 var canvas, canvasContext;
 var height,width;
@@ -39,7 +38,7 @@ window.onload = function() {
 function updateAll() {
 // Called every interval. Depending on the gameState it will run a separate file
   switch(gameState) {
-    case "UserNameMenu":
+    console.log(gameState);
     if (!UserNameMenu) {
         startUserNameMenu();
         UserNameMenu = true;
