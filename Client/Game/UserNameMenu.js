@@ -1,6 +1,7 @@
 var username;
 var UserNameUserNameMenupointer;
 var text;
+var enterName;
 function startUserNameMenu(){
     window.addEventListener("keydown",UserNameMenuControls);
     text=["Enter Name:","Enter Game"]
