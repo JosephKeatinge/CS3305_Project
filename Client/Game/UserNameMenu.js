@@ -14,7 +14,7 @@ function updateUserNameMenu(){
     UserNameMenuDraw();
 
 }
-function stringGen(i){
+function UserNamestringGen(i){
     var str=""
     if(i==0){
         var str="Enter Name";
@@ -34,10 +34,10 @@ function UserNameMenuDraw(){
     canvasContext.fillStyle="#888888";
     canvasContext.font = "20px Silkscreen";
     for(i=0;i<text.length;i++){
-        canvasContext.fillText(stringGen(i),canvas.width/2,40*i+100);
+        canvasContext.fillText(UserNamestringGen(i),canvas.width/2,40*i+100);
     }
     canvasContext.fillStyle="#ffffff";
-    canvasContext.fillText(stringGen(UserNameMenupointer),canvas.width/2,40*UserNameMenupointer+100);
+    canvasContext.fillText(UserNamestringGen(UserNameMenupointer),canvas.width/2,40*UserNameMenupointer+100);
 }
 function UserNameMenuControls(e){
         keycode=e.keyCode;
@@ -47,7 +47,7 @@ function UserNameMenuControls(e){
                 enterPassword=false;
                 break;
             case 8:
-                usernme=username.slice(0,password.length-1);
+                username=username.slice(0,password.length-1);
                 break;
             default:
                 letter = String.fromCharCode(e.keyCode)
@@ -63,17 +63,17 @@ function UserNameMenuControls(e){
             }
             break;
         case 83:
-            if(UserNameMenuUserNameMenupointer<text.length-1){
+            if(UserNameMenupointer<text.length-1){
                 UserNameMenupointer+=1;
             }else{
                 UserNameMenupointer=text.length-1;
             }
             break;
         case 13:
-            if(pointer==0){
+            if(UserNameMenupointer==0){
                 enterName=true;
             }
-            if(pointer==1){
+            if(UserNameMenupointer==1){
                 console.log("Welcome to game")
                 endUserNameMenu()
             }
