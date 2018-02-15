@@ -1,5 +1,5 @@
 var username;
-var UserNameUserNameMenupointer;
+var UserNameMenupointer;
 var text;
 var enterName;
 function startUserNameMenu(){
