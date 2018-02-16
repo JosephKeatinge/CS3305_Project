@@ -115,6 +115,7 @@ function GameServer(lobby) {
                         player.y = newpos.y;
                     }
                     console.log(this.players);
+                    this.sendPlayerData();
                 }
 
             },
@@ -123,16 +124,16 @@ function GameServer(lobby) {
                 io.to(this.game_id).emit('heartbeat', this.players);
             },
             //stores bullet of individual player
-            playerBullets: function (bullet,pid) {
+            playerBullets: function (socket,bullet,pid) {
               var player=this.players[pid];
               var playerbull=player.bullets;
               playerbull.push(bullet);
-              this.sendBullets(playerbull,pid);
+              this.sendBullets(socket,playerbull,pid);
                 
             },
 
             //Sends the Lists of bullets to the client
-            sendBullets: function (playerbullets,pid) {
+            sendBullets: function (socket,playerbullets,pid) {
                 for(var id in this.players){
                   if(id!=pid){
                       //send to only these sockets
@@ -195,7 +196,7 @@ io.on('connection', function (socket) {
   });
   //A player has shot send  receive his bullets then send him who else has shot
   socket.on('shoot', function (bulletList) {
-      servers[bulletList.gameid].playerBullets(bulletList,socket.id);
+      servers[bulletList.gameid].playerBullets(socket,bulletList,socket.id);
 
   });
   socket.on('outside',function(bullet){
@@ -220,10 +221,10 @@ io.on('connection', function (socket) {
       servers[lobbyid] = game_server;
       delete lobbies[lobbyid];
 
-      setInterval(function () {
+      /*setInterval(function () {
           
           servers[lobbyid].sendPlayerData();
-      }, 1000 / 30);
+      }, 60);*/
       requestLobbies();
      
       

@@ -12,7 +12,7 @@ var pointer;
 var numOfPlayers;
 function startCreateLobbyMenu(){
     window.addEventListener("keydown",createLobbyControls);
-    passwordOn=0;
+    passwordOn=false;
     password="";
     enterPassword=false;
     rightpointer=0;
@@ -122,12 +122,7 @@ function createLobbyControls(e){
                 }
             }
             if(pointer==2){
-                if(passwordOn == 0){
-                   passwordOn = 1;
-                }
-                else{
-                   passwordOn = 0;
-                }
+                   passwordOn = !passwordOn
             }
             break;
         case 65:

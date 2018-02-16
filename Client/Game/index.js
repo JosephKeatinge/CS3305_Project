@@ -12,10 +12,10 @@ var gameState = "UserNameMenu";
 var UserNameMenu = false;
 var mainMenuEventListeners = false;
 var gameStarted = false;
-var username;
 var lobbyWaitRoom = false;
 var createLobbyMenu = false;
 var lobbyMenu = false;
+var UserNameMenu=false;
 var maxPlayers = 4;
 var canvas, canvasContext;
 var height,width;
@@ -32,18 +32,19 @@ window.onload = function() {
   height=canvas.width;
   width=canvas.height;
   var framesPerSecond = 30;
-  setInterval(updateAll, 1000/framesPerSecond);
+  window.setInterval(updateAll, 1000/framesPerSecond);
   }
 
 function updateAll() {
 // Called every interval. Depending on the gameState it will run a separate file
+  console.log(gameState)
   switch(gameState) {
-    console.log(gameState);
+    case "UserNameMenu":
     if (!UserNameMenu) {
         startUserNameMenu();
         UserNameMenu = true;
       }
-      updategamemenu();
+      updateUserNameMenu();
       break;
     case "main_menu":
       if (!mainMenuEventListeners) {
