@@ -26,47 +26,53 @@ function startGame(){
       var b=createBullet(mouseX, mouseY, player.x, player.y);
       //Send this bullet to the server
       proxy.sendData(b,'shoot');
-      theBullets.push(b);
+      myBullets.push(b);
   });
   //Send the players init position
   proxy.sendData(player,'newplayer');
+
 }
 
 
 function updateGame(){
-    //player.move();
     movePlayer();
     drawGame();
     //Move my bullets
-    //bullets.move(bullet.list);
-    bulletsMove(theBullets);
-    //move Enemie bullets
-    //bullets.move(allBullets);
+    bulletsMove(myBullets);
     bulletsMove(allBullets);
+
 
     socket.on('heartbeat', function(data) {
             otherPlayers=data;
     });
     socket.on('bullets',function(bullets){
-             allBullets=bullets;
+             allBullets=bullets
     });
-   //Send player position if they have moved
-    //if(player.hasMoved()){proxy.sendData(player,'position');}
+   // myBullets=myBullets.concat(allBullets);
     if(moveRight||moveLeft||moveUp||moveDown){  proxy.sendData(player,'position');}
 
 }
 
 function drawGame(){
     drawMap();
-    //player.draw();
     drawPlayer();
     drawOtherPlayers();
     //its own bullets
-    //bullets.draw(bullets.list);
-    bulletsDraw(theBullets)
+    bulletsDraw(myBullets,'black');
+    bulletsDraw(allBullets,'red');
     //enemy bullets
-    bulletsDraw(allBullets);
-    //bullets.draw(allBullets);
+    /*
+     for(var id in otherPlayers){
+         if (id != socket.id){
+             var otherPlayer=otherPlayers[id];
+             console.log(otherPlayer.bullets.length);
+             if (otherPlayer.bullets.length>0){
+               theBullets=theBullets.concat(otherPlayer.bullets);
+             }
+
+         }
+       }*/
+  
 }
 
 //remove EventListeners change game state

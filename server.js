@@ -114,7 +114,6 @@ function GameServer(lobby) {
                         player.x = newpos.x;
                         player.y = newpos.y;
                     }
-                    console.log(this.players);
                     this.sendPlayerData();
                 }
 
@@ -124,22 +123,23 @@ function GameServer(lobby) {
                 io.to(this.game_id).emit('heartbeat', this.players);
             },
             //stores bullet of individual player
-            playerBullets: function (socket,bullet,pid) {
-              var player=this.players[pid];
+            playerBullets: function (bullet,socket) {
+              var player=this.players[socket.id];
               var playerbull=player.bullets;
               playerbull.push(bullet);
-              this.sendBullets(socket,playerbull,pid);
+              this.sendBullets(playerbull,socket);
                 
             },
 
             //Sends the Lists of bullets to the client
-            sendBullets: function (socket,playerbullets,pid) {
+            sendBullets: function (playerbullets,socket) {
+   
+                //send to only these sockets
                 for(var id in this.players){
-                  if(id!=pid){
-                      //send to only these sockets
-                      socket.broadcast.to(this.game_id).emit('bullets', playerbullets);
-
+                  if(id !=socket.id){ 
+                    socket.to(id).emit('bullets',playerbullets);
                   }
+                    
                 }
 
             },
@@ -184,8 +184,8 @@ io.on('connection', function (socket) {
   socket.on('newplayer', function(data) {
     //Server stores this in a dictionary with the socket id as the key and player object
     //as the value with the x and y value
-      console.log(data.gameid);
-      console.log(data.user);
+      //console.log(data.gameid);
+      //console.log(data.user);
     servers[data.gameid].addPlayer(data.user,socket.id);
   });
   socket.on('position', function (newpos) {
@@ -195,14 +195,22 @@ io.on('connection', function (socket) {
      servers[newpos.gameid].updatePlayers(newpos.user,socket.id);
   });
   //A player has shot send  receive his bullets then send him who else has shot
-  socket.on('shoot', function (bulletList) {
-      servers[bulletList.gameid].playerBullets(socket,bulletList,socket.id);
+  socket.on('shoot', function (bullet) {
+      servers[bullet.gameid].playerBullets(bullet.user,socket);
 
   });
   socket.on('outside',function(bullet){
         servers[bullet.gameid].bulletDelete(bullet,socket.id);
 
   });
+
+
+
+
+
+
+
+
 
     //Lobby information requested by the client
     //Returns an array of JSON objects @see Lobby.requestInfo()
@@ -213,7 +221,7 @@ io.on('connection', function (socket) {
   //Starts the main game
     //Currently works with old game.js wrapped in a socket.on('begingame'), with var socket taken out
   socket.on('start_game', function (lobbyid) {
-      console.log("start_game")
+     //console.log("start_game")
       //Sends an emit to the lobby room
       io.to(lobbyid).emit('begingame', lobbyid);
       //creates a new game server and adds it to the servers dictionary
@@ -233,7 +241,7 @@ io.on('connection', function (socket) {
   socket.on('create_lobby', function (lobbyinfo) {
       lobbyno += 1
       newlobby = new Lobby(lobbyno,lobbyinfo.host, lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password);
-      console.log(newlobby);
+      //console.log(newlobby);
       lobbies[lobbyno] = newlobby;
       lobbies[lobbyno].playerJoin(newlobby.host);
       clients[socket.id] = newlobby.id;

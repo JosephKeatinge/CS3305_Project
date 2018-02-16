@@ -56,7 +56,6 @@ function drawPlayer(){
 
 //Draws other players in the game
 function drawOtherPlayers(){
-  console.log(otherPlayers);
   for(var id in otherPlayers){
     if (id != socket.id){
       var player=otherPlayers[id];

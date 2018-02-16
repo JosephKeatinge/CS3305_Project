@@ -4,7 +4,7 @@ var deltaY = 0;
 var rotation = 0;
 var xtarget = 0;
 var ytarget = 0;
-var theBullets = [];
+var myBullets = [];
 var allBullets=[];
 var mouseX;
 var mouseY;
@@ -23,16 +23,15 @@ function createBullet(targetX, targetY, shooterX, shooterY) {
     ytarget: ytarget,
     w: 3,
     h: 3,
-    color: 'black',
     angle: rotation
     }
     return bullet;
 
 }
 //draws the bullet
-function bulletsDraw(list) {
+function bulletsDraw(list,color) {
   for(var i=0; i<list.length;i+=1){
-      canvasContext.fillStyle = 'black';
+      canvasContext.fillStyle = color;
       canvasContext.fillRect(list[i].x, list[i].y, list[i].w, list[i].h);
   }
 }
@@ -49,12 +48,13 @@ function bulletsMove(listBull) {
     var bulletXCoord = Math.round(bullet.x / (TILE_W));
     var bulletYCoord = Math.round(bullet.y / (TILE_H));
 
-  if (isWallAtColRow(bulletXCoord, bulletYCoord)) {
+    if (isWallAtColRow(bulletXCoord, bulletYCoord)) {
           //Tell Server that bullet has hit a wall
           proxy.sendData(bullet,'outside');
           var index=listBull.indexOf(bullet);
           listBull.splice(index,1);
         }
+        
     });
 }
 //Gets X,Y coordinates of mouse
