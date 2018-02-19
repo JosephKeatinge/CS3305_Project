@@ -6,11 +6,14 @@
     >create_lobby_menu
     >game
     >lobby
-    >pause_menu*/
+    >pause_menu
+    >settingsMenu
+    */
 
 var gameState = "UserNameMenu";
 var UserNameMenu = false;
 var mainMenuEventListeners = false;
+var settingsMenu=false;
 var gameStarted = false;
 var lobbyWaitRoom = false;
 var createLobbyMenu = false;
@@ -59,6 +62,13 @@ function updateAll() {
         lobbyMenu = true;
       }
       updateLobbyMenu();
+      break;
+    case "settingsMenu":
+      if(!settingsMenu){
+        startSettingsMenu();
+        settingsMenu=true;
+      }
+      updateSettingsMenu();
       break;
     case "create_lobby_menu":
       if (!createLobbyMenu) {

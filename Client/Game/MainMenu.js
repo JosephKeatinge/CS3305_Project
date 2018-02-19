@@ -52,7 +52,7 @@ function mainmenucontrols(e){
             gameState="lobby_list_menu";
         }else if(MainMenuPointer==2){
             console.log("Settings");
-            gameState="create_lobby_menu";
+            gameState="settingsMenu";
         }else if(MainMenuPointer==3){
             console.log("How to play");
         }else{
