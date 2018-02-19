@@ -85,11 +85,16 @@ function UserNameMenuControls(e){
             }
             break;
         }
+        if(UserNameMenupointer<0){
+            UserNameMenupointer=0;
+        }else if(UserNameMenupointer>text.length-1){
+            UserNameMenupointer=text.length-1;
+        }
 
     }
 }
 function endUserNameMenu(){
   window.removeEventListener("keydown",UserNameMenuControls);
-  createLobbyMenu = false;
+  UserNameMenu = false;
   gameState = "main_menu";
 }
