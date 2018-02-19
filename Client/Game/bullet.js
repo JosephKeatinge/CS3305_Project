@@ -4,11 +4,10 @@ var deltaY = 0;
 var rotation = 0;
 var xtarget = 0;
 var ytarget = 0;
-var myBullets = [];
 var allBullets=[];
 var mouseX;
 var mouseY;
-function createBullet(targetX, targetY, shooterX, shooterY) {
+function createBullet(targetX, targetY, shooterX, shooterY,clientID) {
 
     deltaX = targetX - shooterX;
     deltaY = targetY - shooterY;
@@ -23,7 +22,8 @@ function createBullet(targetX, targetY, shooterX, shooterY) {
     ytarget: ytarget,
     w: 3,
     h: 3,
-    angle: rotation
+    angle: rotation,
+    id:clientID
     }
     return bullet;
 
@@ -33,7 +33,27 @@ function bulletsDraw(list,color) {
   for(var i=0; i<list.length;i+=1){
       canvasContext.fillStyle = color;
       canvasContext.fillRect(list[i].x, list[i].y, list[i].w, list[i].h);
+      bulletsMove(list);
+
+
   }
+}
+
+
+
+function hitbyBullet(bulletlist,player){
+       bulletlist.forEach(function (bullet,j){
+          if(socket.id!=bullet.id){
+             if(collidesB(bullet,player)){
+                 player.health-=10;
+                 //tell server i got hit 
+                 hit=true
+                 bulletlist.splice(j,1);
+             }
+          }   
+      });
+   
+   
 }
 
 function collidesB(a, b) {
@@ -50,9 +70,8 @@ function bulletsMove(listBull) {
 
     if (isWallAtColRow(bulletXCoord, bulletYCoord)) {
           //Tell Server that bullet has hit a wall
-          proxy.sendData(bullet,'outside');
-          var index=listBull.indexOf(bullet);
-          listBull.splice(index,1);
+          //proxy.sendData(bullet,'outside');
+          listBull.splice(j,1);
         }
         
     });

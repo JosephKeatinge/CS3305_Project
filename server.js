@@ -106,61 +106,39 @@ function GameServer(lobby) {
                 this.players[id] = {
                     x: player.x,
                     y: player.y,
-                    bullets:[],
+                    health:player.health,
                     count: this.count
                 }
             },
-            //Update position of each player
+            //Update position of each player and health
             updatePlayers: function (newpos, pid) {
                 for (var id in this.players) {
                     if (id == pid) {
                         var player = this.players[id];
                         player.x = newpos.x;
                         player.y = newpos.y;
+                        player.health=newpos.health;
                     }
+                    console.log(this.players);
                     this.sendPlayerData();
                 }
 
             },
             //Send dictionary to player
             sendPlayerData: function () {
+           
                 io.to(this.game_id).emit('heartbeat', this.players);
             },
-            //stores bullet of individual player
+            //send bullet to each player
             playerBullets: function (bullet,socket) {
-              var player=this.players[socket.id];
-              var playerbull=player.bullets;
-              playerbull.push(bullet);
-              this.sendBullets(playerbull,socket);
-                
-            },
-
-            //Sends the Lists of bullets to the client
-            sendBullets: function (playerbullets,socket) {
-   
-                //send to only these sockets
-                for(var id in this.players){
-                  if(id !=socket.id){ 
-                    socket.to(id).emit('bullets',playerbullets);
-                  }
-                    
-                }
-
+              io.to(this.game_id).emit('bullets',bullet);
             },
             //Delete player from dictionary when they leave
             playerDisconnect: function (socket) {
                 delete this.players[socket.id];
 
-            },
-             //Delete bullet when it hits a wall
-            bulletDelete:function(bullet,pid){
-              var player=this.players[pid];
-              var index=player.bullets.indexOf(bullet);
-              player.bullets.splice(index,1);
             }
-
            
-
       }
 
 
@@ -200,11 +178,12 @@ io.on('connection', function (socket) {
   });
   //A player has shot send  receive his bullets then send him who else has shot
   socket.on('shoot', function (bullet) {
+    //send to everyone this  bullet
       servers[bullet.gameid].playerBullets(bullet.user,socket);
 
   });
   socket.on('outside',function(bullet){
-        servers[bullet.gameid].bulletDelete(bullet,socket.id);
+        servers[bullet.gameid].bulletDelete(bullet.user,socket.id);
 
   });
 

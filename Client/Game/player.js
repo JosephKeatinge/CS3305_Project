@@ -4,7 +4,9 @@ var player = {
     y: 350,
     w: 32,
     h: 32,
-    size: 32};
+    size: 32,
+    health:100};
+var hit=false;
 var moveRight = false;
 var moveLeft = false;
 var moveUp = false;
