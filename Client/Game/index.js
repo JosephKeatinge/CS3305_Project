@@ -40,7 +40,8 @@ window.onload = function() {
 
 function updateAll() {
 // Called every interval. Depending on the gameState it will run a separate file
- // console.log(gameState)
+ // console.log(gameState) 
+  console.log(gameState);
   switch(gameState) {
     case "UserNameMenu":
     if (!UserNameMenu) {
