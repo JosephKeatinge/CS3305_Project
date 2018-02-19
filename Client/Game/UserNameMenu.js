@@ -1,5 +1,5 @@
 var username=""
-var UserNameMenupointer;
+var UserNameMenupointer=0;
 var text;
 var enterName;
 function startUserNameMenu(){
@@ -43,7 +43,7 @@ function UserNameMenuDraw(){
         canvasContext.fillText(UserNamestringGen(i),canvas.width/2,40*i+100);
     }
     canvasContext.fillStyle="#ffffff";
-    canvasContext.fillText(UserNamestringGen(0+UserNameMenupointer),canvas.width/2,40*UserNameMenupointer+100);
+    canvasContext.fillText(UserNamestringGen(UserNameMenupointer),canvas.width/2,40*UserNameMenupointer+100);
 }
 function UserNameMenuControls(e){
         keycode=e.keyCode;
@@ -87,10 +87,17 @@ function UserNameMenuControls(e){
         }
         if(UserNameMenupointer<0){
             UserNameMenupointer=0;
-        }else if(UserNameMenupointer>text.length-1){
-            UserNameMenupointer=text.length-1;
         }
-
+	if(username.length>0){
+	    if(UserNameMenupointer>text.length-1){
+              UserNameMenupointer=text.length-1
+	    }
+	}else if(username.length==0){
+	    if(UserNameMenupointer>0){
+		UserNameMenupointer=0	
+	     }
+	}
+	console.log(UserNameMenupointer);
     }
 }
 function endUserNameMenu(){
