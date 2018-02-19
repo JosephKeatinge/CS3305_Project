@@ -48,7 +48,7 @@ function updateGame(){
     socket.on('bullets',function(bullets){
              allBullets=bullets
     });
-   // myBullets=myBullets.concat(allBullets);
+    myBullets=myBullets.concat(allBullets);
     if(moveRight||moveLeft||moveUp||moveDown){  proxy.sendData(player,'position');}
 
 }
