@@ -54,8 +54,7 @@ function settingsMenuControls(e){
             }
             break
         case 65:
-            if(canvasContext.fillText(words[settingsMenuPointer]=="Volume : ")){
-
+            if(words[settingsMenuPointer]=="Volume : "){
                 volume-=1;
             }
             break;
