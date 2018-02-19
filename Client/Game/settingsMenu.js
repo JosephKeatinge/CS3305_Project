@@ -1,5 +1,6 @@
 var volume;
-var settingsMenuPointer;
+var settingsMenuPointer=0;
+console.log("a");
 function startSettingsMenu(){
     window.addEventListener("keydown",settingsMenuControls);
     words=["Volume : ","Change UserName","Main Menu"];
@@ -9,6 +10,7 @@ function startSettingsMenu(){
 } 
 function updateSettingsMenu(){
     settingsMenuDraw();
+    console.log(settingsMenuPointer);
 }
 function settingsMenuDraw(){
     canvasContext.fillStyle="#000000";              
@@ -41,11 +43,11 @@ function settingsMenuControls(e){
             break;
         case 13:
             if(words[settingsMenuPointer]=="Change UserName"){
+		endSettingsMenu();
                 gameState="UserNameMenu";
-                endSettingsMenu(); 
             }else if(words[settingsMenuPointer]=="Main Menu"){
+		endSettingsMenu();
                 gameState="main_menu";
-                endSettingsMenu();
             }
             break;
         case 68:
@@ -71,5 +73,6 @@ function settingsMenuControls(e){
 }
 function endSettingsMenu(){
     window.removeEventListener("keydown",settingsMenuControls);
-    settingsMenu="false";
+    settingsMenu=false;
+    settingsMenuPointer=0;
 }
