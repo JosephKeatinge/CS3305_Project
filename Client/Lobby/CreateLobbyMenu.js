@@ -66,6 +66,7 @@ function createLobbyInfo(){
     var newlobbiesinfo={
         max_players :numOfPlayers,
         host: socket.id,
+        hostname: username,
         pwordOn:passwordOn,
         password:password
     };

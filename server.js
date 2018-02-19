@@ -31,7 +31,7 @@ server.listen(5000, function() {
 });
 
 //Lobby Server Class
-function Lobby(init_id,lobbyhost, init_max_players, init_pwordon, init_pword) {
+function Lobby(init_id,lobbyhost, hostname, init_max_players, init_pwordon, init_pword) {
     /*
      *@constructor for the Lobby API
      *@params players, the list of players in the lobby
@@ -43,8 +43,10 @@ function Lobby(init_id,lobbyhost, init_max_players, init_pwordon, init_pword) {
 
     */
     this.players = [];
+    this.playernames = [];
     this.host = lobbyhost;
     this.id = init_id;
+    this.hostname = hostname;
     this.max_players= init_max_players;
     this.pwordOn= init_pwordon;
     this.password= init_pword;
@@ -54,7 +56,7 @@ function Lobby(init_id,lobbyhost, init_max_players, init_pwordon, init_pword) {
      * @return JSON object with Lobbynum, the lobby ID; Players, the amount of players in the lobby; maxPlayers, the max amount of players allowed
     */
     this.requestInfo = function () {
-        return { id: this.id, host: this.host, password: this.pwordOn, max_players: this.max_players };
+        return { id: this.id, host: this.hostname, password: this.pwordOn, max_players: this.max_players };
 
     }
 
@@ -68,7 +70,8 @@ function Lobby(init_id,lobbyhost, init_max_players, init_pwordon, init_pword) {
         } else {
             
             //Add player to the list of users in lobby
-            this.players.push(player);
+            this.players.push(player.id);
+            this.playernames.push(player.username);
         }
 
     }
@@ -80,6 +83,7 @@ function Lobby(init_id,lobbyhost, init_max_players, init_pwordon, init_pword) {
         var index = this.players.indexOf(data.user);
         //remove them from the players list
         this.players.splice(index, 1);
+        this.playernames.splice(index, 1);
     }
     
 
@@ -240,7 +244,7 @@ io.on('connection', function (socket) {
     //To answer a client emit requesting to create a lobby
   socket.on('create_lobby', function (lobbyinfo) {
       lobbyno += 1
-      newlobby = new Lobby(lobbyno,lobbyinfo.host, lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password);
+      newlobby = new Lobby(lobbyno,lobbyinfo.host, lobbyinfo.hostname, lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password);
       //console.log(newlobby);
       lobbies[lobbyno] = newlobby;
       lobbies[lobbyno].playerJoin(newlobby.host);
@@ -253,7 +257,7 @@ io.on('connection', function (socket) {
   });
  //To answer a client emit requesting to join a lobby
   socket.on('join_lobby', function (data) {
-      lobbies[data.lobby].playerJoin(data.user);
+      lobbies[data.lobby].playerJoin({ "id": socket.id, "username": data.username });
       clients[socket.id] = data.lobby;
       socket.join(data.lobby);
       io.to(data.lobby).emit('playerJoined', lobbies[data.lobby].players.length);
@@ -263,7 +267,7 @@ io.on('connection', function (socket) {
     //To answer a client emit requesting to leave a lobby
   socket.on('leave_lobby', function (data) {
      
-      lobbies[data.lobby].playerLeave(data.user);
+      lobbies[data.lobby].playerLeave({"id": socket.id, "username": data.username});
       socket.leave(data.lobby);
       if (lobbies[data.lobby].players.length == 0) {
           delete lobbies[data.lobby];
