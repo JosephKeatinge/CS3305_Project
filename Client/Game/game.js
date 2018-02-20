@@ -56,7 +56,7 @@ function drawGame(){
     drawOtherPlayers();
     //Draq all the bullets 
     bulletsDraw(allBullets,'red');
-  
+    drawGUI();
   
   
 }

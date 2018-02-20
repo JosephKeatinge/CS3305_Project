@@ -75,3 +75,20 @@ socket.on("lobbyCreated", function (data) {
     currentLobby = data;
   
 })
+
+socket.on("updateScores",function(data){
+    console.log(data);
+    scoreBoard = []
+    scoreBoard.push(data[0])
+    for(var i = 1; i<data.length; i++){
+      for(var j = 0; j < scoreBoard.length; j++){
+      	if(data[i].score < scoreboard[j].score){
+      		scoreBoard.splice(j,0,data[i]);
+      		break
+      	}
+      }
+      if(j == scoreBoard.length){
+      	  scoreBoard.push(data[i])
+      }
+    }
+})

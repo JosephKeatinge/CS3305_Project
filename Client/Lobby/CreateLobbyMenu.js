@@ -85,6 +85,7 @@ function createLobbyControls(e){
     /*
     Sets the controls for the user and keeps track of pointers 
     */
+    console.log("test")
     if(enterPassword){
         switch(e.keyCode){
             case 13:

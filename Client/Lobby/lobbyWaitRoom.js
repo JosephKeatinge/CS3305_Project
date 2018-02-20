@@ -34,11 +34,11 @@ function lobbyWaitRoomControls(e) {
   switch(e.keyCode) {
       case 13:
       socket.emit("start_game",currentLobby.id);
-      endLobbyWaitRoom();
+      break
     case 27:
 	leave_lobby(currentLobby.id,socket);
-	endLobbyWaitRoom();
 	gameState="main_menu";
+	break;
     }
 }
 

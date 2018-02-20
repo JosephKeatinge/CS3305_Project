@@ -50,6 +50,7 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
     this.pwordOn= init_pwordon;
     this.password= init_pword;
     this.gameOn = false;
+    this.scores = {};
 
     /* Function for requesting basic lobby information
      * @return JSON object with Lobbynum, the lobby ID; Players, the amount of players in the lobby; maxPlayers, the max amount of players allowed
@@ -71,6 +72,7 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
             //Add player to the list of users in lobby
             this.players.push(player.id);
             this.playernames.push(player.username);
+            this.scores[player.id] = 0;
         }
 	console.log(this.playernames);
     }
@@ -83,9 +85,12 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
         //remove them from the players list
         this.players.splice(index, 1);
         this.playernames.splice(index, 1);
+        this.scores.splice(data.user);
     }
-    
 
+    this.updateScores = function(playerID){
+      this.scores[playerID] += 1
+    }
     
 }
 //Server Class
@@ -206,6 +211,7 @@ io.on('connection', function (socket) {
      //console.log("start_game")
       //Sends an emit to the lobby room
       io.to(lobbyid).emit('begingame', lobbyid);
+      io.to(lobbyid).emit("updateScores",lobbies[lobbyid].scores);
       //creates a new game server and adds it to the servers dictionary
       var game_server = new GameServer(lobbyid);
       servers[lobbyid] = game_server;
@@ -248,15 +254,19 @@ io.on('connection', function (socket) {
      
       lobbies[data.lobby].playerLeave({"id": socket.id, "username": data.username});
       socket.leave(data.lobby);
+      io.to(data.lobby).emit('playerJoined', lobbies[data.lobby].requestInfo());
       if (lobbies[data.lobby].players.length == 0) {
           delete lobbies[data.lobby];
-          
       }
       delete clients[socket.id];
       requestLobbies();
 
   });
- 
+ socket.on("newScore",function(data){
+    lobbies[data.lobby].updateScore(data.playerid)
+    socket.emit("updateScores",lobbies[data.lobby].scores);
+})
+
   
   /*
   * Function for when the client disconnects

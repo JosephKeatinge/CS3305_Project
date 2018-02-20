@@ -4,8 +4,7 @@
     <style>
       @font-face{
         font-family: "silkscreen";
-	src: local("slkscr", url("/Client/Assets/slkscr.ttf");
-        format("truetype");
+	src: url(http://43sam.netsoc.co/slkscr.ttf) format("truetype");
       }
       @font-face{
         font-family: "silkscreenbold";
@@ -16,7 +15,7 @@
     <script src="/socket.io/socket.io.js"></script>
   </head>
   <body>
-    <canvas width="500" height="500" id="canvas"></canvas>
+    <canvas width="700" height="500" id="canvas"></canvas>
   </body>
   <script src="/Client/Game/UserNameMenu.js"></script>
   <script src="/Client/Game/game.js"></script>
@@ -31,4 +30,5 @@
   <script src="/Client/Lobby/CreateLobbyMenu.js"></script>
   <script src="/Client/Lobby/LobbyMenu.js"></script>
   <script src="/Client/Lobby/lobbyWaitRoom.js"></script>
+  <script src="/Client/Game/drawGUI.js"></script>
 </html>

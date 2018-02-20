@@ -12,7 +12,6 @@
 
 var gameState = "username_menu";
 var clientUsername = "";
-
 //Booleans to represent if the current gameState has been initialised yet
 var usernameMenu = false;
 var mainMenuEventListeners = false;
@@ -31,7 +30,8 @@ const TILE_COLS = 25;
 const TILE_ROWS = 25;
 var currentLobby;
 var socket=io.connect();
-
+var logo = new Image();
+logo.src="Client/Assets/victus.png";
 window.onload = function() {
   canvas = document.getElementById("canvas");
   canvasContext = canvas.getContext('2d');
@@ -43,7 +43,6 @@ window.onload = function() {
 
 function updateAll() {
 // Called every interval. Depending on the gameState it will run a separate file
- // console.log(gameState) 
   switch(gameState) {
     case "username_menu":
       if (!usernameMenu) {
