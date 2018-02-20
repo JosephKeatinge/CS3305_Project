@@ -5,7 +5,6 @@
 var words;
 var MainMenuPointer;
 function startmainmenu(){
-console.log("a");
 window.addEventListener("keydown",mainmenucontrols);
 words = ["Create Lobby","Join Lobby","Settings","How to play","Credits"];
 MainMenuPointer=0;
@@ -45,17 +44,14 @@ function mainmenucontrols(e){
         break;
     case 13:
       if(MainMenuPointer==0){
-            console.log("Create Lobby");
-	    endMainMenu()
+	        endMainMenu()
             gameState="create_lobby_menu";
         }else if(MainMenuPointer==1){
-            console.log("Join Lobby");
-	    endMainMenu()
+	        endMainMenu()
             gameState="lobby_list_menu";
         }else if(MainMenuPointer==2){
-            console.log("Settings");
-	    endMainMenu()
-	    gameState="settingsMenu";
+	        endMainMenu()
+	        gameState="settingsMenu";
         }else if(MainMenuPointer==3){
             console.log("How to play");
         }else{
@@ -74,5 +70,4 @@ function mainmenucontrols(e){
 function endMainMenu(){
     window.removeEventListener("keydown",mainmenucontrols);
     mainMenuEventListeners = false;
-    MainMenuPointer=0;
 }

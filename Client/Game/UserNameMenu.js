@@ -86,18 +86,18 @@ function userNameMenuControls(e){
         if(usernameMenuPointer<0){
             usernameMenuPointer=0;
         }
-	if(username.length>0){
+	/*if(clientUsername.length>0){
 	    if(usernameMenuPointer>text.length-1){
               usernameMenuPointer=text.length-1
 	    }
-	}else if(username.length==0){
+	}else if(clientUsername.length==0){
 	    if(usernameMenuPointer>0){
 		usernameMenuPointer=0	
 	     }
 	}
 	console.log(usernameMenuPointer);
-    }
-}
+    }*/
+}}
 function endUserNameMenu(){
   window.removeEventListener("keydown",userNameMenuControls);
   usernameMenu = false;

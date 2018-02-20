@@ -46,7 +46,6 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
     this.playernames = [];
     this.host = lobbyhost;
     this.id = init_id;
-    this.hostname = hostname;
     this.max_players= init_max_players;
     this.pwordOn= init_pwordon;
     this.password= init_pword;
