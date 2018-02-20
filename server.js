@@ -31,11 +31,7 @@ server.listen(5000, function() {
 });
 
 //Lobby Server Class
-<<<<<<< HEAD
 function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
-=======
-function Lobby(init_id,lobbyhost, hostname, init_max_players, init_pwordon, init_pword) {
->>>>>>> 0a277ba4a27966c3f0130d7de2508509a4a23ddf
     /*
      *@constructor for the Lobby API
      *@params players, the list of players in the lobby
@@ -60,11 +56,7 @@ function Lobby(init_id,lobbyhost, hostname, init_max_players, init_pwordon, init
      * @return JSON object with Lobbynum, the lobby ID; Players, the amount of players in the lobby; maxPlayers, the max amount of players allowed
     */
     this.requestInfo = function () {
-<<<<<<< HEAD
         return { id: this.id, host: this.host, passwordOn: this.pwordOn, password: this.password, max_players: this.max_players };
-=======
-        return { id: this.id, host: this.hostname, password: this.pwordOn, max_players: this.max_players };
->>>>>>> 0a277ba4a27966c3f0130d7de2508509a4a23ddf
 
     }
 
