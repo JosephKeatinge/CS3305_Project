@@ -23,7 +23,8 @@ function userNamestringGen(i){
 	    } else{
 	        var str ="Enter Name:"
         }
-    } else if(i==1){
+    } else if(i==1)
+	if(clientUsername.length>0){
 	    var str="Enter Game";
     }
     return str;
@@ -86,7 +87,7 @@ function userNameMenuControls(e){
         if(usernameMenuPointer<0){
             usernameMenuPointer=0;
         }
-	/*if(clientUsername.length>0){
+	if(clientUsername.length>0){
 	    if(usernameMenuPointer>text.length-1){
               usernameMenuPointer=text.length-1
 	    }
@@ -96,8 +97,8 @@ function userNameMenuControls(e){
 	     }
 	}
 	console.log(usernameMenuPointer);
-    }*/
-}}
+    }
+}
 function endUserNameMenu(){
   window.removeEventListener("keydown",userNameMenuControls);
   usernameMenu = false;

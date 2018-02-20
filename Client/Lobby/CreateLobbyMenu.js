@@ -41,7 +41,9 @@ function stringGen(i){
             str="Password On: " + passwordOn;
             break;
         case 4:
-            str="Password : " + password;
+	    if(passwordOn==true){
+              str="Password : " + password;
+	    }
             break;
     }
     return str;
