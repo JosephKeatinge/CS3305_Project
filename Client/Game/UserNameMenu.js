@@ -83,19 +83,19 @@ function userNameMenuControls(e){
             }
             break;
         }
-        if(UserNameMenupointer<0){
-            UserNameMenupointer=0;
+        if(usernameMenuPointer<0){
+            usernameMenuPointer=0;
         }
 	if(username.length>0){
-	    if(UserNameMenupointer>text.length-1){
-              UserNameMenupointer=text.length-1
+	    if(usernameMenuPointer>text.length-1){
+              usernameMenuPointer=text.length-1
 	    }
 	}else if(username.length==0){
-	    if(UserNameMenupointer>0){
-		UserNameMenupointer=0	
+	    if(usernameMenuPointer>0){
+		usernameMenuPointer=0	
 	     }
 	}
-	console.log(UserNameMenupointer);
+	console.log(usernameMenuPointer);
     }
 }
 function endUserNameMenu(){
