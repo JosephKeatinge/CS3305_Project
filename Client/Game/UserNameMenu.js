@@ -6,7 +6,7 @@ function startUserNameMenu(){
     window.addEventListener("keydown",userNameMenuControls);
     text=["Enter Name:","Enter Game"]
     usernameMenuPointer=0;
-    enterName = false;
+    enterName = true;
 }
 function updateUserNameMenu(){
     /* 

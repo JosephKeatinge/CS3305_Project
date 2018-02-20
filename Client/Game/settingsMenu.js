@@ -44,7 +44,7 @@ function settingsMenuControls(e){
         case 13:
             if(words[settingsMenuPointer]=="Change UserName"){
 		endSettingsMenu();
-                gameState="UserNameMenu";
+                gameState="username_menu";
             }else if(words[settingsMenuPointer]=="Main Menu"){
 		endSettingsMenu();
                 gameState="main_menu";
@@ -74,5 +74,4 @@ function settingsMenuControls(e){
 function endSettingsMenu(){
     window.removeEventListener("keydown",settingsMenuControls);
     settingsMenu=false;
-    settingsMenuPointer=0;
 }
