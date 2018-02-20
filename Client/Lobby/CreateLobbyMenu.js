@@ -3,43 +3,50 @@
  * User can change the number of players and set a password
  *  
 */
+var lobbyName;
+var enteringName;
 var passwordOn;
 var password;
 var enterPassword;
-var rightpointer;
 var text;
 var pointer;
 var numOfPlayers;
 function startCreateLobbyMenu(){
     window.addEventListener("keydown",createLobbyControls);
+    lobbyName = "";
+    enteringName = false;
     passwordOn=false;
     password="";
     enterPassword=false;
-    rightpointer=0;
     numOfPlayers=2;
     pointer=0;
-    text=["Create Lobby","Number Of Players :","Password On :","Password :"]
+    text=["Create Lobby", "Lobby Name: ", "Number Of Players :","Password On :","Password :"]
 }
 function stringGen(i){
     /* 
     Generates the needed lines of text based on i from the draw loop
     */
     var str=""
-    if(i==0){
-        var str="Create Lobby";
+    switch(i) {
+        case 0:
+            str="Create Lobby";
+            break;
+        case 1:
+            str = "Lobby Name: " + lobbyName;
+            break;
+        case 2:
+            str="Number Of Players: "+ numOfPlayers;
+            break;
+        case 3:
+            str="Password On: " + passwordOn;
+            break;
+        case 4:
+            str="Password : " + password;
+            break;
     }
-    if(i==1){
-        var str="Number Of Players :"+numOfPlayers;
-    }else if(i==2){
-        var str="Password On:"+passwordOn;
-    }
-    if(passwordOn==1){
-        if(i==3){
-        var str="Password : "+password;
-            }
-        }
     return str;
 }
+
 function createLobbyUpdate(){
     /* 
     Creates an interval in which clear and draw are called
@@ -63,11 +70,12 @@ function createLobbyDraw(){
     canvasContext.fillText(stringGen(pointer),canvas.width/2,40*pointer+100);
 }
 function createLobbyInfo(){
-    var newlobbiesinfo={
-        max_players :numOfPlayers,
-        host: socket.id,
-        pwordOn:passwordOn,
-        password:password
+    var newlobbiesinfo = 
+    {   lobby_id : lobbyName,
+        host : clientUsername,
+        max_players : numOfPlayers,
+        pwordOn : passwordOn,
+        password : password
     };
     return newlobbiesinfo;
 }
@@ -75,7 +83,6 @@ function createLobbyControls(e){
     /*
     Sets the controls for the user and keeps track of pointers 
     */
-    keycode=e.keyCode;
     if(enterPassword){
         switch(e.keyCode){
             case 13:
@@ -87,71 +94,95 @@ function createLobbyControls(e){
             default:
                 letter = String.fromCharCode(e.keyCode)
                 password+=letter;
+                break;
         }
-    }else{
-    switch(e.keyCode){
-        case 87:
-            if(pointer>0){
-                pointer-=1;
-            }else{
-                pointer=0;
-            }
-            break;
-        case 83:
-            if(passwordOn==1){
-                if(pointer<text.length-1){
-                pointer+=1;
-                }else{
-                pointer=text.length-1;
-                }
-            }else if(passwordOn==0){
-                if(pointer<text.length-2){
-                    pointer+=1;
-                    pwordOn = 0,
-                    password = '';
-                }else{
-                    pointer=text.length-2;
-                }
-            }
-            break;
-        case 68:
-            if(pointer==1){
-                rightpointer+=1;
-                if(numOfPlayers<maxPlayers){
-                    numOfPlayers+=1;
-                }
-            }
-            if(pointer==2){
-                   passwordOn = !passwordOn
-            }
-            break;
-        case 65:
-            if(pointer==1){
-                rightpointer-=1;
-                if(numOfPlayers>0){
-                    numOfPlayers-=1;
-                }                
-            }
-            if(pointer==2){
-                passwordOn= !passwordOn;
-            }
-            break;
-        case 13:
-            if(pointer==0){
-                newLobby = createLobbyInfo();
-                create_lobby(socket,newLobby);
-                gameState="lobby";
-                endCreateLobbyMenu();
-            }
-            if(pointer==3){
-                enterPassword=true;
-            }
-            break;
+    } else if (enteringName) {
+        switch(e.keyCode){
+            case 13:
+                enteringName=false;
+                break;
+            case 8:
+                lobbyName=lobbyName.slice(0,lobbyName.length-1);
+                break;
+            default:
+                letter = String.fromCharCode(e.keyCode)
+                lobbyName+=letter;
+                break;
         }
+    } else {
+        switch(e.keyCode){
+            case 87: // W key pressed
+                if(pointer>0){
+                    //Move up unless at first item in list
+                    pointer-=1;
+                }else{
+                    //Stay at first item if already there
+                    pointer=0;
+                }
+                break;
+            case 83: // S key pressed
+                if (passwordOn) {
+                    if (pointer<text.length-1) {
+                        pointer+=1;
+                    } else {
+                        pointer=text.length-1;
+                    }
+                } else {
+                    if (pointer<text.length-2) {
+                        pointer+=1;
+                        password = "";
+                    } else {
+                        pointer=text.length-2;
+                    }
+                }
+                break;
+            case 68: // D key pressed
+                switch(pointer) {
+                    case 2:
+                        if (numOfPlayers < maxPlayers) { numOfPlayers += 1; }
+                        break;
+                    case 3:
+                        passwordOn = !passwordOn;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 65: // A key pressed
+                switch(pointer) {
+                    case 2:
+                        if (numOfPlayers > 0) { numOfPlayers -= 1; }
+                        break;
+                    case 3:
+                        passwordOn = !passwordOn;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 13: // Enter key pressed
+                switch(pointer) {
+                    case 0:
+                        newLobby = createLobbyInfo();
+                        create_lobby(socket,newLobby);
+                        console.log(newLobby);
+                        gameState="lobby";
+                        endCreateLobbyMenu();
+                        break;
+                    case 1:
+                        enteringName = true;
+                        break;
+                    case 4:
+                        enterPassword = true;
+                    default:
+                        break;
+                }
+                break;
+            }
     }
 }
+
 function endCreateLobbyMenu(){
   window.removeEventListener("keydown",createLobbyControls);
   createLobbyMenu = false;
-  gameState = "lobby";
 }

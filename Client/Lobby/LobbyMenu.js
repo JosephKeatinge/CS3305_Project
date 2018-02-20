@@ -8,17 +8,21 @@ var pageNum;
 var pagesPerPage;
 var lobbyMenuKeyDown;
 var lobbies;
-var LobbyMenuPointer;
+var lobbyMenuPointer;
+var enteringLobbyPassword;
+var passwordAttempt = "";
 
 socket.on('lobbyList', function (data) {
    lobbies = data;
 });
+
 function startLobbyMenu() {
     lobbies = []
     window.addEventListener("keydown",lobbyMenuControls);
     pageNum=0;
     pagesPerPage=15;
-    LobbyMenuPointer = 0
+    lobbyMenuPointer = 0;
+    enteringLobbyPassword = false;
     socket.emit('requestLobbies');
 }
 
@@ -36,10 +40,10 @@ function lobbyMenuParseArray(i) {
 
     var str = ""
     if (lobbies.length > 0) {
-        if (lobbies[i].password != false) {
-            str = lobbies[i].host + " - " + lobbies[i].max_players + " - " + "Yes";
+        if (lobbies[i].pwordOn != false) {
+            str = lobbies[i].id + " - " + lobbies[i].max_players + " - " + "Yes";
         } else {
-            str = lobbies[i].host + " - " + lobbies[i].max_players + " - " + "No";
+            str = lobbies[i].id + " - " + lobbies[i].max_players + " - " + "No";
         }
     }
     return str;
@@ -60,33 +64,66 @@ function lobbyMenuDraw() {
         canvasContext.fillText(lobbyMenuParseArray(i+pagesPerPage*pageNum),canvas.width/2,60+40*i);
     }
     canvasContext.fillStyle="#ffffff";
-    canvasContext.fillText(lobbyMenuParseArray(LobbyMenuPointer),canvas.width/2,60+40*(LobbyMenuPointer-(pagesPerPage*pageNum)));
+    canvasContext.fillText(lobbyMenuParseArray(lobbyMenuPointer),canvas.width/2,60+40*(lobbyMenuPointer-(pagesPerPage*pageNum)));
 }
 
 function lobbyMenuControls(e) {
     /*
-    Sets the controls for the user and keeps track of LobbyMenuPointers 
+    Sets the controls for the user and keeps track of lobbyMenuPointers 
     */
+    if(enteringLobbyPassword){
+        //User trying to enter lobby password
+        switch(e.keyCode){
+            case 13:
+                enteringLobbyPassword=false;
+                console.log("Entered: " + passwordAttempt);
+                break;
+            case 8:
+                passwordAttempt = passwordAttempt.slice(0,passwordAttempt.length-1);
+                break;
+            default:
+                var letter = String.fromCharCode(e.keyCode)
+                passwordAttempt += letter;
+                break;
+        }
+    }
     switch(e.keyCode){
         case 87:
-            if(LobbyMenuPointer > 0 + (pagesPerPage*pageNum)){
-                LobbyMenuPointer-=1;
+            if(lobbyMenuPointer > 0 + (pagesPerPage*pageNum)){
+                lobbyMenuPointer-=1;
             }else if(pageNum>0){
-                LobbyMenuPointer-=1;
+                lobbyMenuPointer-=1;
                 pageNum-=1;
             }                      
             break;
         case 83:
-            if(LobbyMenuPointer < lobbies.length-1){
-                LobbyMenuPointer+=1;
-            }if(LobbyMenuPointer>(pagesPerPage-1)+(pagesPerPage*pageNum)){
+            if(lobbyMenuPointer < lobbies.length-1){
+                lobbyMenuPointer+=1;
+            }if(lobbyMenuPointer>(pagesPerPage-1)+(pagesPerPage*pageNum)){
                 pageNum+=1;
             }       
             break;
-        case 13:
-            socket.emit('join_lobby', { "lobby": lobbies[LobbyMenuPointer].id });
-	    currentLobby = lobbies[LobbyMenuPointer]    
-            endLobbyMenu();
+        case 13: //Enter key pressed
+            selectedLobby = lobbies[lobbyMenuPointer];
+            //If the selected lobby has a password
+            if (selectedLobby.passwordOn) {
+                //Check if the current password if any is correct
+                if (passwordAttempt == selectedLobby.password) {
+                    //If so connect
+                    socket.emit('join_lobby', { "lobby": selectedLobby.id });
+                    currentLobby = selectedLobby;
+                    gameState = "lobby";  
+                    endLobbyMenu();
+                //If the current attempt is not correct or no attempt has been made, allow the user to enter the password
+            } else {
+                passwordAttempt = "";
+                enteringLobbyPassword = true;}
+            } else {
+                socket.emit('join_lobby', { "lobby": selectedLobby.id });
+                currentLobby = selectedLobby;
+                gameState = "lobby";  
+                endLobbyMenu();
+            }
             break;
             //test case 
         /*(case 71:
@@ -94,11 +131,9 @@ function lobbyMenuControls(e) {
             socket.emit('create_lobby', { "host": socket.id, "max_players": 4, 'pwordOn': false, 'password': '' });
             break;*/
         }
-       
 }
 
 function endLobbyMenu() {
-     window.removeEventListener("keydown", lobbyMenuControls);
+    window.removeEventListener("keydown", lobbyMenuControls);
     lobbyMenu = false;
-    gameState="lobby";
 }

@@ -31,7 +31,7 @@ server.listen(5000, function() {
 });
 
 //Lobby Server Class
-function Lobby(init_id,lobbyhost, init_max_players, init_pwordon, init_pword) {
+function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
     /*
      *@constructor for the Lobby API
      *@params players, the list of players in the lobby
@@ -54,7 +54,7 @@ function Lobby(init_id,lobbyhost, init_max_players, init_pwordon, init_pword) {
      * @return JSON object with Lobbynum, the lobby ID; Players, the amount of players in the lobby; maxPlayers, the max amount of players allowed
     */
     this.requestInfo = function () {
-        return { id: this.id, host: this.host, password: this.pwordOn, max_players: this.max_players };
+        return { id: this.id, host: this.host, passwordOn: this.pwordOn, password: this.password, max_players: this.max_players };
 
     }
 
@@ -240,10 +240,10 @@ io.on('connection', function (socket) {
     //To answer a client emit requesting to create a lobby
   socket.on('create_lobby', function (lobbyinfo) {
       lobbyno += 1
-      newlobby = new Lobby(lobbyno,lobbyinfo.host, lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password);
+      newlobby = new Lobby(lobbyinfo.lobby_id, lobbyinfo.host, lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password);
       //console.log(newlobby);
-      lobbies[lobbyno] = newlobby;
-      lobbies[lobbyno].playerJoin(newlobby.host);
+      lobbies[newlobby.id] = newlobby;
+      lobbies[newlobby.id].playerJoin(newlobby.host);
       clients[socket.id] = newlobby.id;
       socket.join(newlobby.id);
       socket.emit('lobbyCreated', lobbies[newlobby.id].requestInfo());

@@ -1,35 +1,34 @@
-var username=""
-var UserNameMenupointer;
+var usernameMenuPointer;
 var text;
 var enterName;
+
 function startUserNameMenu(){
-    window.addEventListener("keydown",UserNameMenuControls);
+    window.addEventListener("keydown",userNameMenuControls);
     text=["Enter Name:","Enter Game"]
-    var UserNameMenupointer=0;
+    usernameMenuPointer=0;
+    enterName = false;
 }
 function updateUserNameMenu(){
     /* 
     Creates an interval in which clear and draw are called
     */
-    UserNameMenuDraw();
+    userNameMenuDraw();
 
 }
-function UserNamestringGen(i){
+function userNamestringGen(i){
     var str=""
     if(i==0){
-	if(username.length>0){
-        var str="Enter Name: "+username;
-	}else{
-	var str ="Enter Name:"
-	}
-    }else if(i==1){
-        if(username.length>0){
-	  var str="Enter Game"
-	}
+	    if(clientUsername.length>0){
+            var str="Enter Name: "+clientUsername;
+	    } else{
+	        var str ="Enter Name:"
+        }
+    } else if(i==1){
+	    var str="Enter Game";
     }
     return str;
 }
-function UserNameMenuDraw(){
+function userNameMenuDraw(){
     canvasContext.fillStyle="#000000";
     canvasContext.fillRect(0,0,canvas.width,canvas.height);
     /* 
@@ -40,46 +39,45 @@ function UserNameMenuDraw(){
     canvasContext.fillStyle="#888888";
     canvasContext.font = "20px Silkscreen";
     for(i=0;i<text.length;i++){
-        canvasContext.fillText(UserNamestringGen(i),canvas.width/2,40*i+100);
+        canvasContext.fillText(userNamestringGen(i),canvas.width/2,40*i+100);
     }
     canvasContext.fillStyle="#ffffff";
-    canvasContext.fillText(UserNamestringGen(0+UserNameMenupointer),canvas.width/2,40*UserNameMenupointer+100);
+    canvasContext.fillText(userNamestringGen(0+usernameMenuPointer),canvas.width/2,40*usernameMenuPointer+100);
 }
-function UserNameMenuControls(e){
-        keycode=e.keyCode;
-        if(enterName){
+function userNameMenuControls(e){
+    if (enterName) {
         switch(e.keyCode){
             case 13:
                 enterName=false;
                 break;
             case 8:
-                username=username.slice(0,username.length-1);
+                clientUsername=clientUsername.slice(0,clientUsername.length-1);
                 break;
             default:
                 letter = String.fromCharCode(e.keyCode)
-                username+=letter;
+                clientUsername+=letter;
         }
     }else{
         switch(e.keyCode){
         case 87:
-            if(UserNameMenupointer>0){
-                UserNameMenupointer-=1;
+            if(usernameMenuPointer>0){
+                usernameMenuPointer-=1;
             }else{
-                UserNameMenupointer=0;
+                usernameMenuPointer=0;
             }
             break;
         case 83:
-            if(UserNameMenupointer<text.length-1){
-                UserNameMenupointer+=1;
+            if(usernameMenuPointer<text.length-1){
+                usernameMenuPointer+=1;
             }else{
-                UserNameMenupointer=text.length-1;
+                usernameMenuPointer=text.length-1;
             }
             break;
         case 13:
-            if(UserNameMenupointer==0){
+            if(usernameMenuPointer==0){
                 enterName=true;
             }
-            if(UserNameMenupointer==1){
+            if(usernameMenuPointer==1){
                 console.log("Welcome to game")
                 endUserNameMenu()
             }
@@ -89,7 +87,7 @@ function UserNameMenuControls(e){
     }
 }
 function endUserNameMenu(){
-  window.removeEventListener("keydown",UserNameMenuControls);
-  createLobbyMenu = false;
+  window.removeEventListener("keydown",userNameMenuControls);
+  usernameMenu = false;
   gameState = "main_menu";
 }

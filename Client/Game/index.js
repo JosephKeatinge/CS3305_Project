@@ -1,6 +1,6 @@
 /*The window.onload function and most global variables
   The gamestates are as follows:
-    >UserNameMenu
+    >username_menu
     >main_menu
     >lobby_list_menu
     >create_lobby_menu
@@ -8,17 +8,20 @@
     >lobby
     >pause_menu*/
 
-var gameState = "UserNameMenu";
-var UserNameMenu = false;
+var gameState = "username_menu";
+var clientUsername = "";
+
+//Booleans to represent if the current gameState has been initialised yet
+var usernameMenu = false;
 var mainMenuEventListeners = false;
 var gameStarted = false;
 var lobbyWaitRoom = false;
 var createLobbyMenu = false;
 var lobbyMenu = false;
-var UserNameMenu=false;
+
 var maxPlayers = 4;
 var canvas, canvasContext;
-var height,width;
+var height, width;
 const TILE_W = 20;
 const TILE_H = 20;
 const TILE_COLS = 25;
@@ -29,8 +32,8 @@ var socket=io.connect();
 window.onload = function() {
   canvas = document.getElementById("canvas");
   canvasContext = canvas.getContext('2d');
-  height=canvas.width;
-  width=canvas.height;
+  height = canvas.width;
+  width = canvas.height;
   var framesPerSecond = 30;
   window.setInterval(updateAll, 1000/framesPerSecond);
   }
@@ -39,10 +42,10 @@ function updateAll() {
 // Called every interval. Depending on the gameState it will run a separate file
  // console.log(gameState)
   switch(gameState) {
-    case "UserNameMenu":
-    if (!UserNameMenu) {
+    case "username_menu":
+      if (!usernameMenu) {
         startUserNameMenu();
-        UserNameMenu = true;
+        usernameMenu = true;
       }
       updateUserNameMenu();
       break;

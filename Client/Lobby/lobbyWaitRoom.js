@@ -15,7 +15,7 @@ function updateLobbyWaitRoom() {
 
 function WaitRoomnumberOfPlayers() {
   var str="";
-  str="Number of players : "+ lobbyWaitRoomNumberOfPlayers +" / " +currentLobby.max_players;
+  str="Number of players : "+ lobbyWaitRoomNumberOfPlayers +" / " + currentLobby.max_players;
   return str;  
 }
 
