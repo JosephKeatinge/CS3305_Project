@@ -4,12 +4,10 @@
 */
 var words;
 var MainMenuPointer;
-var logo=new Image();
 function startmainmenu(){
 window.addEventListener("keydown",mainmenucontrols);
 words = ["Create Lobby","Join Lobby","Settings","How to play","Credits"];
 MainMenuPointer=0;
-logo.src="Client/Assets/victus.png"
 canvasContext.font = "30px Silkscreen";
 }
 function updategamemenu(){
@@ -25,7 +23,7 @@ function mainmenudraw(){
     */
     canvasContext.fillStyle="#000000"
     canvasContext.fillRect(0,0,canvas.width,canvas.height);
-    canvasContext.drawImage(logo,20,10);
+    canvasContext.drawImage(logo,40,10);
     canvasContext.textAlign = "center";
     canvasContext.fillStyle="#888888";
     for(i=0;i<words.length;i++){

@@ -40,10 +40,11 @@ function userNameMenuDraw(){
     canvasContext.fillStyle="#888888";
     canvasContext.font = "20px Silkscreen";
     for(i=0;i<text.length;i++){
-        canvasContext.fillText(userNamestringGen(i),canvas.width/2,40*i+100);
+        canvasContext.fillText(userNamestringGen(i),canvas.width/2,40*i+200);
     }
     canvasContext.fillStyle="#ffffff";
-    canvasContext.fillText(userNamestringGen(0+usernameMenuPointer),canvas.width/2,40*usernameMenuPointer+100);
+    canvasContext.fillText(userNamestringGen(0+usernameMenuPointer),canvas.width/2,40*usernameMenuPointer+200);
+    canvasContext.drawImage(logo,40,-70);
 }
 function userNameMenuControls(e){
     if (enterName) {
