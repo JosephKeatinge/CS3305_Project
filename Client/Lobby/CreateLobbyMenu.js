@@ -165,11 +165,13 @@ function createLobbyControls(e){
             case 13: // Enter key pressed
                 switch(pointer) {
                     case 0:
-                        newLobby = createLobbyInfo();
-                        create_lobby(socket,newLobby);
+                        if(lobbyName.length>0){
+			newLobby = createLobbyInfo();
+                        create_lobby(socket,newLobby,clientUsername);
                         console.log(newLobby);
                         gameState="lobby";
                         endCreateLobbyMenu();
+			}
                         break;
                     case 1:
                         enteringName = true;
