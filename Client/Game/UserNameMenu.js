@@ -48,15 +48,24 @@ function userNameMenuControls(e){
     if (enterName) {
         switch(e.keyCode){
 	    case 13:
-		enterName=false;
-	        endUserNameMenu();
+		if(clientUsername.length>0){
+		  enterName=false;
+	          endUserNameMenu();
+		}
 		break;
             case 8:
                 clientUsername=clientUsername.slice(0,clientUsername.length-1);
                 break;
             default:
-                letter = String.fromCharCode(e.keyCode)
-                clientUsername+=letter;
+		if(e.keyCode>=65 && e.keyCode<=90 ){
+                	letter = String.fromCharCode(e.keyCode)
+                	clientUsername+=letter;
+		}
+		if(e.keyCode>=48 && e.keyCode<=57){
+			letter = String.fromCharCode(e.keyCode)
+                        clientUsername+=letter;
+		}
+ 	     break;
         }
     }else{
         switch(e.keyCode){
