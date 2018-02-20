@@ -55,16 +55,17 @@ function lobbyMenuDraw() {
     */
     canvasContext.fillStyle="#000000";
     canvasContext.fillRect(0,0,canvas.width,canvas.height);
+    canvasContext.font = "30px Silkscreen"
     canvasContext.fillStyle="#ffffff";
-    canvasContext.fillText(("Select Lobby"),canvas.width/2,20);
-    canvasContext.fillText(("      Host - Max Players - Password"),canvas.width/2,40);
+    canvasContext.fillText("Press escape to go to the main menu",canvas.width/2,450,400);
+    canvasContext.fillText(("Select Lobby"),canvas.width/2,40);
+    canvasContext.fillText(("Host - Max Players - Password"),canvas.width/2,70,400);
     canvasContext.fillStyle = "#888888";
-    
     for(i=0;i<Math.min(lobbies.length-(pagesPerPage*pageNum),pagesPerPage);i++) {
-        canvasContext.fillText(lobbyMenuParseArray(i+pagesPerPage*pageNum),canvas.width/2,60+40*i);
+        canvasContext.fillText(lobbyMenuParseArray(i+pagesPerPage*pageNum),canvas.width/2,60+40*i,400);
     }
     canvasContext.fillStyle="#ffffff";
-    canvasContext.fillText(lobbyMenuParseArray(lobbyMenuPointer),canvas.width/2,60+40*(lobbyMenuPointer-(pagesPerPage*pageNum)));
+    canvasContext.fillText(lobbyMenuParseArray(lobbyMenuPointer),canvas.width/2,60+40*(lobbyMenuPointer-(pagesPerPage*pageNum)),400);
 }
 
 function lobbyMenuControls(e) {
@@ -125,6 +126,10 @@ function lobbyMenuControls(e) {
                 endLobbyMenu();
             }
             break;
+	case 27:
+		endLobbyMenu();
+		gameState="main_menu";
+		break;
             //test case 
         /*(case 71:
             console.log('here');
