@@ -83,7 +83,19 @@ function userNameMenuControls(e){
             }
             break;
         }
-
+        if(UserNameMenupointer<0){
+            UserNameMenupointer=0;
+        }
+	if(username.length>0){
+	    if(UserNameMenupointer>text.length-1){
+              UserNameMenupointer=text.length-1
+	    }
+	}else if(username.length==0){
+	    if(UserNameMenupointer>0){
+		UserNameMenupointer=0	
+	     }
+	}
+	console.log(UserNameMenupointer);
     }
 }
 function endUserNameMenu(){

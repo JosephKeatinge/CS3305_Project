@@ -6,7 +6,9 @@
     >create_lobby_menu
     >game
     >lobby
-    >pause_menu*/
+    >pause_menu
+    >settingsMenu
+    */
 
 var gameState = "username_menu";
 var clientUsername = "";
@@ -14,6 +16,7 @@ var clientUsername = "";
 //Booleans to represent if the current gameState has been initialised yet
 var usernameMenu = false;
 var mainMenuEventListeners = false;
+var settingsMenu=false;
 var gameStarted = false;
 var lobbyWaitRoom = false;
 var createLobbyMenu = false;
@@ -40,7 +43,8 @@ window.onload = function() {
 
 function updateAll() {
 // Called every interval. Depending on the gameState it will run a separate file
- // console.log(gameState)
+ // console.log(gameState) 
+  console.log(gameState);
   switch(gameState) {
     case "username_menu":
       if (!usernameMenu) {
@@ -62,6 +66,13 @@ function updateAll() {
         lobbyMenu = true;
       }
       updateLobbyMenu();
+      break;
+    case "settingsMenu":
+      if(!settingsMenu){
+        startSettingsMenu();
+        settingsMenu=true;
+      }
+      updateSettingsMenu();
       break;
     case "create_lobby_menu":
       if (!createLobbyMenu) {

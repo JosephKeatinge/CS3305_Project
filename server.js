@@ -31,7 +31,11 @@ server.listen(5000, function() {
 });
 
 //Lobby Server Class
+<<<<<<< HEAD
 function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
+=======
+function Lobby(init_id,lobbyhost, hostname, init_max_players, init_pwordon, init_pword) {
+>>>>>>> 0a277ba4a27966c3f0130d7de2508509a4a23ddf
     /*
      *@constructor for the Lobby API
      *@params players, the list of players in the lobby
@@ -43,8 +47,10 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
 
     */
     this.players = [];
+    this.playernames = [];
     this.host = lobbyhost;
     this.id = init_id;
+    this.hostname = hostname;
     this.max_players= init_max_players;
     this.pwordOn= init_pwordon;
     this.password= init_pword;
@@ -54,7 +60,11 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
      * @return JSON object with Lobbynum, the lobby ID; Players, the amount of players in the lobby; maxPlayers, the max amount of players allowed
     */
     this.requestInfo = function () {
+<<<<<<< HEAD
         return { id: this.id, host: this.host, passwordOn: this.pwordOn, password: this.password, max_players: this.max_players };
+=======
+        return { id: this.id, host: this.hostname, password: this.pwordOn, max_players: this.max_players };
+>>>>>>> 0a277ba4a27966c3f0130d7de2508509a4a23ddf
 
     }
 
@@ -68,7 +78,8 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
         } else {
             
             //Add player to the list of users in lobby
-            this.players.push(player);
+            this.players.push(player.id);
+            this.playernames.push(player.username);
         }
 
     }
@@ -80,6 +91,7 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
         var index = this.players.indexOf(data.user);
         //remove them from the players list
         this.players.splice(index, 1);
+        this.playernames.splice(index, 1);
     }
     
 
@@ -102,61 +114,39 @@ function GameServer(lobby) {
                 this.players[id] = {
                     x: player.x,
                     y: player.y,
-                    bullets:[],
+                    health:player.health,
                     count: this.count
                 }
             },
-            //Update position of each player
+            //Update position of each player and health
             updatePlayers: function (newpos, pid) {
                 for (var id in this.players) {
                     if (id == pid) {
                         var player = this.players[id];
                         player.x = newpos.x;
                         player.y = newpos.y;
+                        player.health=newpos.health;
                     }
+                    console.log(this.players);
                     this.sendPlayerData();
                 }
 
             },
             //Send dictionary to player
             sendPlayerData: function () {
+           
                 io.to(this.game_id).emit('heartbeat', this.players);
             },
-            //stores bullet of individual player
+            //send bullet to each player
             playerBullets: function (bullet,socket) {
-              var player=this.players[socket.id];
-              var playerbull=player.bullets;
-              playerbull.push(bullet);
-              this.sendBullets(playerbull,socket);
-                
-            },
-
-            //Sends the Lists of bullets to the client
-            sendBullets: function (playerbullets,socket) {
-   
-                //send to only these sockets
-                for(var id in this.players){
-                  if(id !=socket.id){ 
-                    socket.to(id).emit('bullets',playerbullets);
-                  }
-                    
-                }
-
+              io.to(this.game_id).emit('bullets',bullet);
             },
             //Delete player from dictionary when they leave
             playerDisconnect: function (socket) {
                 delete this.players[socket.id];
 
-            },
-             //Delete bullet when it hits a wall
-            bulletDelete:function(bullet,pid){
-              var player=this.players[pid];
-              var index=player.bullets.indexOf(bullet);
-              player.bullets.splice(index,1);
             }
-
            
-
       }
 
 
@@ -196,11 +186,12 @@ io.on('connection', function (socket) {
   });
   //A player has shot send  receive his bullets then send him who else has shot
   socket.on('shoot', function (bullet) {
+    //send to everyone this  bullet
       servers[bullet.gameid].playerBullets(bullet.user,socket);
 
   });
   socket.on('outside',function(bullet){
-        servers[bullet.gameid].bulletDelete(bullet,socket.id);
+        servers[bullet.gameid].bulletDelete(bullet.user,socket.id);
 
   });
 
@@ -253,7 +244,7 @@ io.on('connection', function (socket) {
   });
  //To answer a client emit requesting to join a lobby
   socket.on('join_lobby', function (data) {
-      lobbies[data.lobby].playerJoin(data.user);
+      lobbies[data.lobby].playerJoin({ "id": socket.id, "username": data.username });
       clients[socket.id] = data.lobby;
       socket.join(data.lobby);
       io.to(data.lobby).emit('playerJoined', lobbies[data.lobby].players.length);
@@ -263,7 +254,7 @@ io.on('connection', function (socket) {
     //To answer a client emit requesting to leave a lobby
   socket.on('leave_lobby', function (data) {
      
-      lobbies[data.lobby].playerLeave(data.user);
+      lobbies[data.lobby].playerLeave({"id": socket.id, "username": data.username});
       socket.leave(data.lobby);
       if (lobbies[data.lobby].players.length == 0) {
           delete lobbies[data.lobby];

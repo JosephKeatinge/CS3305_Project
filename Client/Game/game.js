@@ -7,29 +7,28 @@ var playerPic=document.createElement("img");
 var otherPlayers;
 
 function startGame(){
-  //bullets=new Bullet(3,3,10);
-  //player=new Player(250,350,32,32,32,"/Client/Assets/hero.png");
+
   proxy=new Proxy(socket,currentLobby.id);
-
-
-
   loadImages();
   playerReset(player);
-
-  //player.imgLoad(playerPic);
   playerImageLoad();
 
   keyDown =window.addEventListener("keydown", activate, false);
   keyUp=window.addEventListener("keyup", deactivate, false);
   mouseMove=canvas.addEventListener('mousemove', mouseMove, true);
   click=canvas.addEventListener("click", function() {
-      var b=createBullet(mouseX, mouseY, player.x, player.y);
+      var b=createBullet(mouseX, mouseY, player.x, player.y,socket.id);
       //Send this bullet to the server
       proxy.sendData(b,'shoot');
-      myBullets.push(b);
   });
   //Send the players init position
   proxy.sendData(player,'newplayer');
+
+  //Add bullets received from server to list 
+  socket.on('bullets',function(bullets){
+            allBullets.push(bullets);   
+    });
+
 
 }
 
@@ -37,19 +36,17 @@ function startGame(){
 function updateGame(){
     movePlayer();
     drawGame();
-    //Move my bullets
-    bulletsMove(myBullets);
-    bulletsMove(allBullets);
 
-
+    //Check if i have been hit 
+    hitbyBullet(allBullets,player);
     socket.on('heartbeat', function(data) {
             otherPlayers=data;
     });
-    socket.on('bullets',function(bullets){
-             allBullets=bullets
-    });
-   // myBullets=myBullets.concat(allBullets);
-    if(moveRight||moveLeft||moveUp||moveDown){  proxy.sendData(player,'position');}
+    //sends server information if they been hit or have moved
+    if(moveRight||moveLeft||moveUp||moveDown||hit){  
+      proxy.sendData(player,'position');
+      hit=false;
+     }
 
 }
 
@@ -57,21 +54,10 @@ function drawGame(){
     drawMap();
     drawPlayer();
     drawOtherPlayers();
-    //its own bullets
-    bulletsDraw(myBullets,'black');
+    //Draq all the bullets 
     bulletsDraw(allBullets,'red');
-    //enemy bullets
-    /*
-     for(var id in otherPlayers){
-         if (id != socket.id){
-             var otherPlayer=otherPlayers[id];
-             console.log(otherPlayer.bullets.length);
-             if (otherPlayer.bullets.length>0){
-               theBullets=theBullets.concat(otherPlayer.bullets);
-             }
-
-         }
-       }*/
+  
+  
   
 }
 

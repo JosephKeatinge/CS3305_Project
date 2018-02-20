@@ -6,7 +6,7 @@ var lobbies_info;
  *@param socket the current open socket to the server
  */
 function join_lobby(lobby_id, socket){
-	socket.emit("join_lobby",lobby_id)
+    socket.emit("join_lobby", { "lobby": lobby_id, "username": username })
 }
 
 /*function to go back to the list of lobbies
@@ -15,7 +15,7 @@ function join_lobby(lobby_id, socket){
  *@param socket the current open socket to the server
  */
 function leave_lobby(lobby_id,socket){
-  socket.emit("join_lobby",lobby_id)
+  socket.emit("leave_lobby",{"lobby": lobby_id, "username": username})
 }
 
 /*function to create a new lobby

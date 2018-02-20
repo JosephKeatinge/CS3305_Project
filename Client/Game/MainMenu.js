@@ -1,4 +1,4 @@
-/**
+/*
  * Creates a menu in which a user can enter the game,change settings,learn how to play or see the Credits
  *  
 */
@@ -46,13 +46,16 @@ function mainmenucontrols(e){
     case 13:
       if(MainMenuPointer==0){
             console.log("Create Lobby");
+	    endMainMenu()
             gameState="create_lobby_menu";
         }else if(MainMenuPointer==1){
             console.log("Join Lobby");
+	    endMainMenu()
             gameState="lobby_list_menu";
         }else if(MainMenuPointer==2){
             console.log("Settings");
-            gameState="create_lobby_menu";
+	    endMainMenu()
+	    gameState="settingsMenu";
         }else if(MainMenuPointer==3){
             console.log("How to play");
         }else{
@@ -71,4 +74,5 @@ function mainmenucontrols(e){
 function endMainMenu(){
     window.removeEventListener("keydown",mainmenucontrols);
     mainMenuEventListeners = false;
+    MainMenuPointer=0;
 }

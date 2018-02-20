@@ -2,6 +2,16 @@
   <head>
     <title>A Multiplayer Game</title>
     <style>
+      @font-face{
+        font-family: "silkscreen";
+	src: local("slkscr", url("/Client/Assets/slkscr.ttf");
+        format("truetype");
+      }
+      @font-face{
+        font-family: "silkscreenbold";
+	src: local("slkscrb"), url("Client/Assets/slkscrb.ttf");
+        format("truetype");
+      }
     </style>
     <script src="/socket.io/socket.io.js"></script>
   </head>
@@ -10,6 +20,7 @@
   </body>
   <script src="/Client/Game/UserNameMenu.js"></script>
   <script src="/Client/Game/game.js"></script>
+  <script src="/Client/Game/settingsMenu.js"></script>
   <script src="/Client/Game/proxy.js"></script>
   <script src="/Client/Game/index.js"></script>
   <script src="/Client/Game/MainMenu.js"></script>
