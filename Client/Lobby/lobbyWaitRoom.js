@@ -13,7 +13,7 @@ function updateLobbyWaitRoom() {
 
 function WaitRoomnumberOfPlayers() {
   var str="";
-  str="Number of players : "+ lobbyWaitRoomNumberOfPlayers +" / " +currentLobby.max_players;
+  str="Number of players : "+ currentLobby.playernames.length +" / " +currentLobby.max_players;
   return str;
 }
 
@@ -22,25 +22,29 @@ function lobbyWaitRoomDraw() {
     canvasContext.fillRect(0,0,canvas.width,canvas.height);
     canvasContext.fillStyle="#ffffff";
     canvasContext.fillText(WaitRoomnumberOfPlayers(),canvas.width/2,40);
-    canvasContext.fillText("Current Players",canvas.width/2,60);
-    canvasContext.fillText(currentLobby.host,canvas.width/2,80);
-    for(i in currentLobby.playernames){
-      canvasContext.fillText(currentLobby.playernames[i],canvas.width/2,50*i+1);
+    canvasContext.fillText("Current Players",canvas.width/2,80);
+    for(var i = 0;i < currentLobby.playernames.length; i++){
+      canvasContext.fillText(currentLobby.playernames[i],canvas.width/2,100+40*(i+1));
     }
-    canvasContext.fillText(("Press Enter To Start Game"),canvas.width/2,50*6);
-    console.log(currentLobby);
+    canvasContext.fillText("Press escape to enter the main menu",canvas.width/2,400);
+    canvasContext.fillText(("Press Enter To Start Game"),canvas.width/2,450);
 }
 
 function lobbyWaitRoomControls(e) {
-  if(e.keyCode==13) {
+  switch(e.keyCode) {
+      case 13:
       socket.emit("start_game",currentLobby.id);
       endLobbyWaitRoom();
+    case 27:
+	leave_lobby(currentLobby.id,socket);
+	endLobbyWaitRoom();
+	gameState="main_menu";
     }
 }
 
 function endLobbyWaitRoom() {
     window.removeEventListener("keydown",lobbyWaitRoomControls);
-    lobbyWaitRoom = false;
+    lobbyWaitRoom= false;
 }
 
 

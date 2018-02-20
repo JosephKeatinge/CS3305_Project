@@ -6,7 +6,8 @@ var lobbies_info;
  *@param socket the current open socket to the server
  */
 function join_lobby(lobby_id, socket){
-    socket.emit("join_lobby", { "lobby": lobby_id, "username": username })
+    console.log(clientUsername);
+    socket.emit("join_lobby", { "lobby": lobby_id, "username":clientUsername })
 }
 
 /*function to go back to the list of lobbies
@@ -15,15 +16,15 @@ function join_lobby(lobby_id, socket){
  *@param socket the current open socket to the server
  */
 function leave_lobby(lobby_id,socket){
-  socket.emit("leave_lobby",{"lobby": lobby_id, "username": username})
+  socket.emit("leave_lobby",{"lobby": lobby_id, "username": clientUsername })
 }
 
 /*function to create a new lobby
  *
  *@param socket the current open socket to the server
  */
-function create_lobby(socket,new_lobby_info){
-	socket.emit("create_lobby",new_lobby_info);
+function create_lobby(socket,new_lobby_info,username){
+	socket.emit("create_lobby",new_lobby_info,username);
 }
 
 /*function to start the game in the current lobby
@@ -64,7 +65,7 @@ socket.on("lobbies_info",function (data) {
 })
 
 socket.on("playerJoined",function (data) {
-  lobbyWaitRoomNumberOfPlayers = data;
+  currentLobby = data;
 })
 
 socket.on("lobbyCreated", function (data) {

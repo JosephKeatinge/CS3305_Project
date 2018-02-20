@@ -55,7 +55,7 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
      * @return JSON object with Lobbynum, the lobby ID; Players, the amount of players in the lobby; maxPlayers, the max amount of players allowed
     */
     this.requestInfo = function () {
-        return { id: this.id, host: this.host, passwordOn: this.pwordOn, password: this.password, max_players: this.max_players };
+        return { id: this.id, host: this.host,playernames:this.playernames,passwordOn: this.pwordOn, password: this.password, max_players: this.max_players };
 
     }
 
@@ -72,7 +72,7 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
             this.players.push(player.id);
             this.playernames.push(player.username);
         }
-
+	console.log(this.playernames);
     }
     /*The function for a player leaving the server
      *@params data: contains data.user, the user to leave
@@ -225,7 +225,7 @@ io.on('connection', function (socket) {
       newlobby = new Lobby(lobbyinfo.lobby_id, lobbyinfo.host, lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password);
       //console.log(newlobby);
       lobbies[newlobby.id] = newlobby;
-      lobbies[newlobby.id].playerJoin(newlobby.host);
+      lobbies[newlobby.id].playerJoin({"id":socket.id, "username":newlobby.host});
       clients[socket.id] = newlobby.id;
       socket.join(newlobby.id);
       socket.emit('lobbyCreated', lobbies[newlobby.id].requestInfo());
@@ -238,8 +238,9 @@ io.on('connection', function (socket) {
       lobbies[data.lobby].playerJoin({ "id": socket.id, "username": data.username });
       clients[socket.id] = data.lobby;
       socket.join(data.lobby);
-      io.to(data.lobby).emit('playerJoined', lobbies[data.lobby].players.length);
+      io.to(data.lobby).emit('playerJoined', lobbies[data.lobby].requestInfo());
       requestLobbies();
+      console.log(data.username);
   });
 
     //To answer a client emit requesting to leave a lobby

@@ -62,10 +62,10 @@ function lobbyMenuDraw() {
     canvasContext.fillText(("Host - Max Players - Password"),canvas.width/2,70,400);
     canvasContext.fillStyle = "#888888";
     for(i=0;i<Math.min(lobbies.length-(pagesPerPage*pageNum),pagesPerPage);i++) {
-        canvasContext.fillText(lobbyMenuParseArray(i+pagesPerPage*pageNum),canvas.width/2,60+40*i,400);
+        canvasContext.fillText(lobbyMenuParseArray(i+pagesPerPage*pageNum),canvas.width/2,100+40*i,400);
     }
     canvasContext.fillStyle="#ffffff";
-    canvasContext.fillText(lobbyMenuParseArray(lobbyMenuPointer),canvas.width/2,60+40*(lobbyMenuPointer-(pagesPerPage*pageNum)),400);
+    canvasContext.fillText(lobbyMenuParseArray(lobbyMenuPointer),canvas.width/2,100+40*(lobbyMenuPointer-(pagesPerPage*pageNum)),400);
 }
 
 function lobbyMenuControls(e) {
@@ -111,7 +111,7 @@ function lobbyMenuControls(e) {
                 //Check if the current password if any is correct
                 if (passwordAttempt == selectedLobby.password) {
                     //If so connect
-                    socket.emit('join_lobby', { "lobby": selectedLobby.id });
+                    socket.emit('join_lobby', { "lobby": selectedLobby.id,"username":clientUsername });
                     currentLobby = selectedLobby;
                     gameState = "lobby";  
                     endLobbyMenu();
@@ -120,7 +120,7 @@ function lobbyMenuControls(e) {
                 passwordAttempt = "";
                 enteringLobbyPassword = true;}
             } else {
-                socket.emit('join_lobby', { "lobby": selectedLobby.id });
+                socket.emit('join_lobby', { "lobby": selectedLobby.id,"username":clientUsername});
                 currentLobby = selectedLobby;
                 gameState = "lobby";  
                 endLobbyMenu();
