@@ -4,7 +4,7 @@ var enterName;
 
 function startUserNameMenu(){
     window.addEventListener("keydown",userNameMenuControls);
-    text=["Enter Name:","Enter Game"]
+    text=["Enter Name:"]
     usernameMenuPointer=0;
     enterName = true;
 }
@@ -22,10 +22,7 @@ function userNamestringGen(i){
             var str="Enter Name: "+clientUsername;
 	    } else{
 	        var str ="Enter Name:"
-        }
-    } else if(i==1)
-	if(clientUsername.length>0){
-	    var str="Enter Game";
+       	     }
     }
     return str;
 }
@@ -45,13 +42,15 @@ function userNameMenuDraw(){
     canvasContext.fillStyle="#ffffff";
     canvasContext.fillText(userNamestringGen(0+usernameMenuPointer),canvas.width/2,40*usernameMenuPointer+200);
     canvasContext.drawImage(logo,40,-70);
+    canvasContext.fillText("Press enter to input user name",canvas.width/2,300);
 }
 function userNameMenuControls(e){
     if (enterName) {
         switch(e.keyCode){
-            case 13:
-                enterName=false;
-                break;
+	    case 13:
+		enterName=false;
+	        endUserNameMenu();
+		break;
             case 8:
                 clientUsername=clientUsername.slice(0,clientUsername.length-1);
                 break;
@@ -76,12 +75,9 @@ function userNameMenuControls(e){
             }
             break;
         case 13:
-            if(usernameMenuPointer==0){
+            if(clientUsername.length>0){
                 enterName=true;
-            }
-            if(usernameMenuPointer==1){
-                console.log("Welcome to game")
-                endUserNameMenu()
+		endUserNameMenu();
             }
             break;
         }
