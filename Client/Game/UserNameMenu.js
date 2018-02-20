@@ -1,12 +1,14 @@
 var usernameMenuPointer;
 var text;
 var enterName;
+var logo = document.createElement("img");
 
 function startUserNameMenu(){
     window.addEventListener("keydown",userNameMenuControls);
     text=["Enter Name:"]
     usernameMenuPointer=0;
     enterName = true;
+    logo.src = "/Client/Assets/victus.png";
 }
 function updateUserNameMenu(){
     /* 
