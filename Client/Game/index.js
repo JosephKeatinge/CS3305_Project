@@ -10,9 +10,6 @@
     >settingsMenu
     */
 
-var gameState = "username_menu";
-var clientUsername = "";
-
 //Booleans to represent if the current gameState has been initialised yet
 var usernameMenu = false;
 var mainMenuEventListeners = false;
@@ -22,17 +19,25 @@ var lobbyWaitRoom = false;
 var createLobbyMenu = false;
 var lobbyMenu = false;
 
-var maxPlayers = 4;
+//Canvas and map settings
 var canvas, canvasContext;
 var height, width;
 const TILE_W = 20;
 const TILE_H = 20;
 const TILE_COLS = 25;
 const TILE_ROWS = 25;
+
+//Game and lobby settings
+var gameState = "username_menu";
+var clientUsername = "";
+var maxPlayers = 4;
 var currentLobby;
+
 var socket=io.connect();
 
 window.onload = function() {
+  //Ran when game is first loaded up
+  //Sets canvas variables and interval for updateAll function
   canvas = document.getElementById("canvas");
   canvasContext = canvas.getContext('2d');
   height = canvas.width;
@@ -45,6 +50,8 @@ function updateAll() {
 // Called every interval. Depending on the gameState it will run a separate file
  // console.log(gameState) 
   switch(gameState) {
+    //For each gameState its starting function will be called once if it hasn't been already
+    //and its update function will be called every interval until the gameState is changed
     case "username_menu":
       if (!usernameMenu) {
         startUserNameMenu();
