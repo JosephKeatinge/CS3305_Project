@@ -10,9 +10,6 @@
     >settingsMenu
     */
 
-
-var gameState = "username_menu";
-var clientUsername = "";
 //Booleans to represent if the current gameState has been initialised yet
 var usernameMenu = false;
 var mainMenuEventListeners = false;
@@ -23,6 +20,8 @@ var createLobbyMenu = false;
 var lobbyMenu = false;
 var creditsMenu=false
 var howToPlay=false;
+
+
 //Canvas and map settings
 var canvas, canvasContext;
 var height, width;
@@ -31,6 +30,8 @@ const BRICK_H = 60;
 const BRICK_GAP = 1;
 const BRICK_COLS = 20;
 const BRICK_ROWS = 15;
+
+
 //Game and lobby settings
 var gameState = "username_menu";
 var clientUsername = "";
@@ -40,6 +41,7 @@ var currentLobby;
 var socket=io.connect();
 var logo = new Image();
 logo.src="Client/Assets/victus.png";
+
 window.onload = function() {
   //Ran when game is first loaded up
   //Sets canvas variables and interval for updateAll function
@@ -64,12 +66,12 @@ function updateAll() {
       updateUserNameMenu();
       break;
     case "howToPlay":
-	if(!howToPlay){
-	 startHowToPlay()
-	 howToPlay=true;
-	}
-	updateHowToPlay();
-	break;
+      if(!howToPlay){
+        startHowToPlay()
+        howToPlay=true;
+      }
+      updateHowToPlay();
+      break;
     case "main_menu":
       if (!mainMenuEventListeners) {
         startmainmenu();
@@ -78,12 +80,12 @@ function updateAll() {
       updategamemenu();
       break;
     case "creditsMenu":
-	if(!creditsMenu){
-	  startCredits();
-	  creditsMenu=true
-	}
-	updateCreditsMenu()
-	break;
+      if(!creditsMenu){
+        startCredits();
+        creditsMenu=true
+      }
+      updateCreditsMenu()
+      break;
     case "lobby_list_menu":
       if (!lobbyMenu) {
         startLobbyMenu();
