@@ -65,8 +65,8 @@ function bulletsMove(listBull) {
     listBull.forEach( function(bullet, j) {
     bullet.x += bullet.xtarget * bullet.speed;
     bullet.y += bullet.ytarget * bullet.speed;
-    var bulletXCoord = Math.round(bullet.x / (BRICK_W)-camPanX);
-    var bulletYCoord = Math.round(bullet.y / (BRICK_H)-camPanY);
+    var bulletXCoord = Math.round(bullet.x / (BRICK_W));
+    var bulletYCoord = Math.round(bullet.y / (BRICK_H));
 
     if (isWallAtColRow(bulletXCoord, bulletYCoord)) {
           //Tell Server that bullet has hit a wall
