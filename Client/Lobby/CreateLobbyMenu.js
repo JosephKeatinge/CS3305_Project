@@ -63,13 +63,15 @@ function createLobbyDraw(){
     */
     canvasContext.textAlign = "center";
     canvasContext.fillStyle="#ffffff";
-    canvasContext.fillStyle="#888888";
     canvasContext.font = "20px Silkscreen";
+    canvasContext.fillText("Please enter a name to create a lobby",canvas.width/2,40);
+    canvasContext.fillStyle="#888888";
     for(i=0;i<text.length;i++){
         canvasContext.fillText(stringGen(i),canvas.width/2,40*i+100);
     }
     canvasContext.fillStyle="#ffffff";
     canvasContext.fillText(stringGen(pointer),canvas.width/2,40*pointer+100);
+    canvasContext.fillText("Press escape to enter the main menu",canvas.width/2,40*5+100)
 }
 function createLobbyInfo(){
     var newlobbiesinfo = 
@@ -95,8 +97,15 @@ function createLobbyControls(e){
                 password=password.slice(0,password.length-1);
                 break;
             default:
-                letter = String.fromCharCode(e.keyCode)
-                password+=letter;
+		if(e.keyCode>=65 && e.keyCode<=90 ){
+                        letter = String.fromCharCode(e.keyCode)
+                        password+=letter.toUpperCase();
+                }
+                if(e.keyCode>=48 && e.keyCode<=57){
+                        letter = String.fromCharCode(e.keyCode)
+                        password+=letter.toUpperCase();
+                }
+
                 break;
         }
     } else if (enteringName) {
@@ -108,9 +117,14 @@ function createLobbyControls(e){
                 lobbyName=lobbyName.slice(0,lobbyName.length-1);
                 break;
             default:
-                letter = String.fromCharCode(e.keyCode)
-                lobbyName+=letter;
-                break;
+		if(e.keyCode>=65 && e.keyCode<=90 ){
+                        letter = String.fromCharCode(e.keyCode)
+                        lobbyName+=letter.toUpperCase();
+                }
+                if(e.keyCode>=48 && e.keyCode<=57){
+                        letter = String.fromCharCode(e.keyCode)
+                        lobbyName+=letter.toUpperCase();
+                }
         }
     } else {
         switch(e.keyCode){
@@ -182,6 +196,10 @@ function createLobbyControls(e){
                     default:
                         break;
                 }
+                break;
+	    case 27:
+                endCreateLobbyMenu();
+                gameState="main_menu"
                 break;
             }
     }

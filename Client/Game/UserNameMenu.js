@@ -43,7 +43,7 @@ function userNameMenuDraw(){
     }
     canvasContext.fillStyle="#ffffff";
     canvasContext.fillText(userNamestringGen(0+usernameMenuPointer),canvas.width/2,40*usernameMenuPointer+200);
-    canvasContext.drawImage(logo,40,-70);
+    canvasContext.drawImage(logo,280,-70);
     canvasContext.fillText("Press enter to input user name",canvas.width/2,300);
 }
 function userNameMenuControls(e){
@@ -61,11 +61,11 @@ function userNameMenuControls(e){
             default:
 		if(e.keyCode>=65 && e.keyCode<=90 ){
                 	letter = String.fromCharCode(e.keyCode)
-                	clientUsername+=letter;
+                	clientUsername+=letter.toUpperCase();
 		}
 		if(e.keyCode>=48 && e.keyCode<=57){
 			letter = String.fromCharCode(e.keyCode)
-                        clientUsername+=letter;
+                        clientUsername+=letter.toUpperCase();
 		}
  	     break;
         }

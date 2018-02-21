@@ -59,6 +59,7 @@ function lobbyMenuDraw() {
     canvasContext.fillStyle="#ffffff";
     canvasContext.fillText("Press escape to go to the main menu",canvas.width/2,450,400);
     canvasContext.fillText(("Select Lobby"),canvas.width/2,40);
+    if(!enteringLobbyPassword){
     canvasContext.fillText(("Host - Max Players - Password"),canvas.width/2,70,400);
     canvasContext.fillStyle = "#888888";
     for(i=0;i<Math.min(lobbies.length-(pagesPerPage*pageNum),pagesPerPage);i++) {
@@ -66,6 +67,9 @@ function lobbyMenuDraw() {
     }
     canvasContext.fillStyle="#ffffff";
     canvasContext.fillText(lobbyMenuParseArray(lobbyMenuPointer),canvas.width/2,100+40*(lobbyMenuPointer-(pagesPerPage*pageNum)),400);
+    }else{
+	canvasContext.fillText("Password attempt : "+passwordAttempt,canvas.width/2,250);
+    }
 }
 
 function lobbyMenuControls(e) {
@@ -83,8 +87,14 @@ function lobbyMenuControls(e) {
                 passwordAttempt = passwordAttempt.slice(0,passwordAttempt.length-1);
                 break;
             default:
-                var letter = String.fromCharCode(e.keyCode)
-                passwordAttempt += letter;
+                if(e.keyCode>=65 && e.keyCode<=90 ){
+                        letter = String.fromCharCode(e.keyCode)
+                        passwordAttempt+=letter.toUpperCase();
+                }
+                if(e.keyCode>=48 && e.keyCode<=57){
+                        letter = String.fromCharCode(e.keyCode)
+                        passwordAttempt+=letter.toUpperCase();
+           	}
                 break;
         }
     }
