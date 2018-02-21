@@ -63,10 +63,10 @@ function lobbyMenuDraw() {
     canvasContext.fillText(("Host - Max Players - Password"),canvas.width/2,70,400);
     canvasContext.fillStyle = "#888888";
     for(i=0;i<Math.min(lobbies.length-(pagesPerPage*pageNum),pagesPerPage);i++) {
-        canvasContext.fillText(lobbyMenuParseArray(i+pagesPerPage*pageNum),canvas.width/2,100+40*i,400);
+        canvasContext.fillText(lobbyMenuParseArray(i+pagesPerPage*pageNum),canvas.width/2,120+40*i,400);
     }
     canvasContext.fillStyle="#ffffff";
-    canvasContext.fillText(lobbyMenuParseArray(lobbyMenuPointer),canvas.width/2,100+40*(lobbyMenuPointer-(pagesPerPage*pageNum)),400);
+    canvasContext.fillText(lobbyMenuParseArray(lobbyMenuPointer),canvas.width/2,120+40*(lobbyMenuPointer-(pagesPerPage*pageNum)),400);
     }else{
 	canvasContext.fillText("Password attempt : "+passwordAttempt,canvas.width/2,250);
     }
