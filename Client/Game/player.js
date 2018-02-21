@@ -6,7 +6,9 @@ var player = {
     h: 60,
     size: 32,
     speed:5,
-    health:100};
+    health:100,
+    score:0
+};
 
 const KEY_A = 65;
 const KEY_W = 87;
