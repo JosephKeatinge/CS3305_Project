@@ -18,7 +18,7 @@ function creditsDraw(){
     canvasContext.fillText(credits[i],canvas.width/2,160+60*i);
     }
     canvasContext.fillText("Developers",canvas.width/2,220+60*i);
-    for(i=2;i<words.length;i++){
+    for(i=2;i<devs.length;i++){
     canvasContext.fillText(devs[i],canvas.width/2,280+60*i);
     }
 }
