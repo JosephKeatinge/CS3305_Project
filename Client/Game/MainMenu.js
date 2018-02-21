@@ -56,7 +56,7 @@ function mainmenucontrols(e){
         }else if(words[MainMenuPointer]=="How to play"){
             	break;
         }else if(words[MainMenuPointer]="Credits"){
-		break;
+		gameState="creditsMenu"
             }
         endMainMenu();
         break;

@@ -21,6 +21,7 @@ var gameStarted = false;
 var lobbyWaitRoom = false;
 var createLobbyMenu = false;
 var lobbyMenu = false;
+var creditsMenu=false
 
 //Canvas and map settings
 var canvas, canvasContext;
@@ -69,6 +70,13 @@ function updateAll() {
       }
       updategamemenu();
       break;
+    case "creditsMenu":
+	if(!creditsMenu){
+	  startCredits();
+	  creditsMenu=true
+	}
+	updateCreditsMenu()
+	break;
     case "lobby_list_menu":
       if (!lobbyMenu) {
         startLobbyMenu();
