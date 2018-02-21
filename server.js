@@ -85,7 +85,7 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
         //remove them from the players list
         this.players.splice(index, 1);
         this.playernames.splice(index, 1);
-        this.scores.splice(data.user);
+        delete this.scores[data.user];
     }
 
     this.updateScores = function(playerID){

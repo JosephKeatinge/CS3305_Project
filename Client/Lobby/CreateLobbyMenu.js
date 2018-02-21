@@ -178,8 +178,8 @@ function createLobbyControls(e){
                 }
                 break;
             case 13: // Enter key pressed
-                switch(pointer) {
-                    case 0:
+                text=["Create Lobby", "Lobby Name: ", "Number Of Players :","Password On :","Password :"]    
+		if(text[pointer]=="Create Lobby"){
                         if(lobbyName.length>0){
 			newLobby = createLobbyInfo();
                         create_lobby(socket,newLobby,clientUsername);
@@ -187,16 +187,13 @@ function createLobbyControls(e){
                         gameState="lobby";
                         endCreateLobbyMenu();
 			}
-                        break;
-                    case 1:
+		}else if(text[pointer]=="Lobby Name: "){
                         enteringName = true;
                         break;
-                    case 4:
+                }else if(text[pointer]=="Password :")
                         enterPassword = true;
-                    default:
-                        break;
                 }
-                break;
+        	break
 	    case 27:
                 endCreateLobbyMenu();
                 gameState="main_menu"
