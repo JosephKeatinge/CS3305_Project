@@ -41,7 +41,7 @@ function bulletsDraw(list,color) {
 
 
 
-function hitbyBullet(bulletlist,player){
+/*function hitbyBullet(bulletlist,player){
        bulletlist.forEach(function (bullet,j){
           if(socket.id!=bullet.id){
              if(collidesB(bullet,player)){
@@ -54,7 +54,7 @@ function hitbyBullet(bulletlist,player){
       });
    
    
-}
+}*/
 
 function collidesB(a, b) {
     //Niall's function. Not currently used but might be useful in future.
@@ -65,8 +65,8 @@ function bulletsMove(listBull) {
     listBull.forEach( function(bullet, j) {
     bullet.x += bullet.xtarget * bullet.speed;
     bullet.y += bullet.ytarget * bullet.speed;
-    var bulletXCoord = Math.round(bullet.x / (BRICK_W)-camPanX);
-    var bulletYCoord = Math.round(bullet.y / (BRICK_H)-camPanY);
+    var bulletXCoord = Math.round(bullet.x / (BRICK_W));
+    var bulletYCoord = Math.round(bullet.y / (BRICK_H));
 
     if (isWallAtColRow(bulletXCoord, bulletYCoord)) {
           //Tell Server that bullet has hit a wall
@@ -86,4 +86,29 @@ function mouseMove(e) {
     mouseX = e.layerX;
     mouseY = e.layerY;
     }
+}
+
+function bulletHitsPlayer(bulletlist, otherPlayers){
+    bulletlist.forEach( function (bullet, var b){
+        for(var id in otherPlayers){
+            if(socket.id == bullet.id){
+                if(collidesB(bullet, otherPlayers[id])){
+                   bulletlist.splice(b, 1);
+                   if(otherPlayers[id].health == 0 ){
+                       otherPlayers[socket.id].score += 1;
+                       //Otherplayer disappears
+                   }
+                }
+            }
+            else{
+              if(collidesB(bullet,otherPlayers[socket.id])){
+                 player.health-=10;
+                 //tell server i got hit 
+                 hit=true
+                 bulletlist.splice(b,1);
+             }
+            }
+            
+        }
+    });
 }
