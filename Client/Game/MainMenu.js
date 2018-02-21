@@ -44,16 +44,16 @@ function mainmenucontrols(e){
         MainMenuPointer=MainMenuPointer+1;
         break;
     case 13:
-      if(MainMenuPointer==0){
+      if(words[MainMenuPointer]=="Create Lobby"){
 	    endMainMenu()
             gameState="create_lobby_menu";
-        }else if(words[MainMenuPointer]=="Create Lobby"){
-	        endMainMenu()
-            gameState="lobby_list_menu";
         }else if(words[MainMenuPointer]=="Join Lobby"){
 	        endMainMenu()
-	        gameState="settingsMenu";
+            gameState="lobby_list_menu";
         }else if(words[MainMenuPointer]=="Settings"){
+	        endMainMenu()
+	        gameState="settingsMenu";
+        }else if(words[MainMenuPointer]=="How to play"){
             	break;
         }else if(words[MainMenuPointer]="Credits"){
 		break;

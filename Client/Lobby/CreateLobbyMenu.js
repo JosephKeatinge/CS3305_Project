@@ -125,7 +125,8 @@ function createLobbyControls(e){
                         letter = String.fromCharCode(e.keyCode)
                         lobbyName+=letter.toUpperCase();
                 }
-        }
+      	break;
+	}
     } else {
         switch(e.keyCode){
             case 87: // W key pressed
@@ -190,7 +191,7 @@ function createLobbyControls(e){
 		}else if(text[pointer]=="Lobby Name: "){
                         enteringName = true;
                         break;
-                }else if(text[pointer]=="Password :")
+                }else if(text[pointer]=="Password :"){
                         enterPassword = true;
                 }
         	break
