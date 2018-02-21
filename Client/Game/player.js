@@ -109,8 +109,21 @@ function movePlayer() {
     //is headed in is a wall, nothing will happen. Otherwise, move the amount dictated by the
     //movementAmount variable.
     if (moveRight) {
+
         if (!isWallAtColRow(playerXCoord + 1, playerYCoord)) {
-          player.x+= movementAmount
+            if ((isWallAtColRow(playerXCoord, playerYCoord + 1) && player.y > TILE_W * playerYCoord) ||
+                (isWallAtColRow(playerXCoord , playerYCoord - 1) && player.y < TILE_W * playerYCoord )) {
+
+                player.y = TILE_W * playerYCoord
+
+
+
+            }
+             else {
+                player.x += movementAmount
+
+            }
+
         }
         else if (TILE_W * playerXCoord > player.x){
             player.x += movementAmount;
@@ -118,24 +131,51 @@ function movePlayer() {
     }
     if (moveLeft) {
         if (!isWallAtColRow(playerXCoord - 1, playerYCoord)) {
-            player.x -=movementAmount;
+
+            if ((isWallAtColRow(playerXCoord , playerYCoord + 1) && player.y > TILE_W * playerYCoord) ||
+                (isWallAtColRow(playerXCoord , playerYCoord - 1) && player.y < TILE_W * playerYCoord - 1)) {
+                player.y = TILE_W * playerYCoord;
+
+            }
+            else {
+                player.x -= movementAmount
+
+            }
         }
-        else if (TILE_W*playerXCoord<player.x) {
-            
-            player.x -=movementAmount
-        }
-  }
-  if (moveUp) {
-      if (!isWallAtColRow(playerXCoord, playerYCoord - 1)) {
-            player.y -= movementAmount;
-      }
-        else if(TILE_W*playerYCoord<player.y) {
-            player.y -= movementAmount;
+        else if (TILE_W * playerXCoord < player.x) {
+            player.x -= movementAmount;
         }
     }
+        if (moveUp) {
+            if (!isWallAtColRow(playerXCoord, playerYCoord - 1)) {
+                if ((isWallAtColRow(playerXCoord +1, playerYCoord ) && player.x > TILE_W * playerXCoord) ||
+                    (isWallAtColRow(playerXCoord - 1, playerYCoord ) && player.x < TILE_W * playerXCoord - 1)) {
+                    player.x = playerXCoord * TILE_W;
+
+                }
+                else {
+                    player.y -= movementAmount
+
+                }
+            }
+            else if (TILE_W * playerYCoord < player.y) {
+                player.y -= movementAmount;
+            }
+        }
     if (moveDown) {
         if (!isWallAtColRow(playerXCoord, playerYCoord + 1)) {
-            player.y += movementAmount;
+
+                if ((isWallAtColRow(playerXCoord + 1, playerYCoord) && player.x > TILE_W * playerXCoord) ||
+                    (isWallAtColRow(playerXCoord - 1, playerYCoord) && player.x < TILE_W * playerXCoord - 1)) {
+
+                    player.x = playerXCoord * TILE_W;
+
+                }
+                else {
+                    player.y += movementAmount
+
+                }
+
         }
         else if (TILE_W * playerYCoord > player.y) {
             player.y += movementAmount;
