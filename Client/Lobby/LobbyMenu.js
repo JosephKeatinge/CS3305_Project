@@ -20,7 +20,7 @@ function startLobbyMenu() {
     lobbies = []
     window.addEventListener("keydown",lobbyMenuControls);
     pageNum=0;
-    pagesPerPage=15;
+    pagesPerPage=8;
     lobbyMenuPointer = 0;
     enteringLobbyPassword = false;
     socket.emit('requestLobbies');
@@ -57,16 +57,16 @@ function lobbyMenuDraw() {
     canvasContext.fillRect(0,0,canvas.width,canvas.height);
     canvasContext.font = "30px Silkscreen"
     canvasContext.fillStyle="#ffffff";
-    canvasContext.fillText("Press escape to go to the main menu",canvas.width/2,450,400);
+    canvasContext.fillText("Press escape to go to the main menu",canvas.width/2,500,400);
     canvasContext.fillText(("Select Lobby"),canvas.width/2,40);
     if(!enteringLobbyPassword){
     canvasContext.fillText(("Host - Max Players - Password"),canvas.width/2,70,400);
     canvasContext.fillStyle = "#888888";
     for(i=0;i<Math.min(lobbies.length-(pagesPerPage*pageNum),pagesPerPage);i++) {
-        canvasContext.fillText(lobbyMenuParseArray(i+pagesPerPage*pageNum),canvas.width/2,100+40*i,400);
+        canvasContext.fillText(lobbyMenuParseArray(i+pagesPerPage*pageNum),canvas.width/2,120+40*i,400);
     }
     canvasContext.fillStyle="#ffffff";
-    canvasContext.fillText(lobbyMenuParseArray(lobbyMenuPointer),canvas.width/2,100+40*(lobbyMenuPointer-(pagesPerPage*pageNum)),400);
+    canvasContext.fillText(lobbyMenuParseArray(lobbyMenuPointer),canvas.width/2,120+40*(lobbyMenuPointer-(pagesPerPage*pageNum)),400);
     }else{
 	canvasContext.fillText("Password attempt : "+passwordAttempt,canvas.width/2,250);
     }

@@ -39,7 +39,7 @@ function updateGame(){
     drawGame();
 
     //Check if i have been hit 
-    hitbyBullet(allBullets,player);
+    bulletHitsPlayer(allBullets,otherPlayers);
     socket.on('heartbeat', function(data) {
             otherPlayers=data;
     });
