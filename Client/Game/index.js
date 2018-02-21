@@ -10,11 +10,9 @@
     >settingsMenu
     */
 
-<<<<<<< HEAD
+
 var gameState = "username_menu";
 var clientUsername = "";
-=======
->>>>>>> c971c7e8cdd0da13190441ee4f2229c751a22c8f
 //Booleans to represent if the current gameState has been initialised yet
 var usernameMenu = false;
 var mainMenuEventListeners = false;
