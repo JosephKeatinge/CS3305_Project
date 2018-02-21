@@ -72,7 +72,7 @@ function drawGame(){
     canvasContext.restore();
     //Draw all the bullets 
     bulletsDraw(allBullets,'red');
-    drawGUI();
+    //drawGUI();
 
   
   
