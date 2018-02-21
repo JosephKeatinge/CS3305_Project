@@ -137,8 +137,12 @@ function lobbyMenuControls(e) {
             }
             break;
 	case 27:
-		endLobbyMenu();
-		gameState="main_menu";
+		if(!enteringLobbyPassword){
+		  endLobbyMenu();
+		  gameState="main_menu";
+		}else{
+		  enteringLobbyPassword=false;
+		}
 		break;
             //test case 
         /*(case 71:
