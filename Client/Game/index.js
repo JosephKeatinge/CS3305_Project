@@ -22,7 +22,7 @@ var lobbyWaitRoom = false;
 var createLobbyMenu = false;
 var lobbyMenu = false;
 var creditsMenu=false
-
+var howToPlay=false;
 //Canvas and map settings
 var canvas, canvasContext;
 var height, width;
@@ -63,6 +63,13 @@ function updateAll() {
       }
       updateUserNameMenu();
       break;
+    case "howToPlay":
+	if(!howToPlay){
+	 startHowToPlay()
+	 howToPlay=true;
+	}
+	updateHowToPlay();
+	break;
     case "main_menu":
       if (!mainMenuEventListeners) {
         startmainmenu();
