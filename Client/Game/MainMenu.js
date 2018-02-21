@@ -23,7 +23,7 @@ function mainmenudraw(){
     */
     canvasContext.fillStyle="#000000"
     canvasContext.fillRect(0,0,canvas.width,canvas.height);
-    canvasContext.drawImage(logo,40,10);
+    canvasContext.drawImage(logo,280,10);
     canvasContext.textAlign = "center";
     canvasContext.fillStyle="#888888";
     for(i=0;i<words.length;i++){

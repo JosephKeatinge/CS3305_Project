@@ -25,11 +25,11 @@ var lobbyMenu = false;
 //Canvas and map settings
 var canvas, canvasContext;
 var height, width;
-const TILE_W = 20;
-const TILE_H = 20;
-const TILE_COLS = 25;
-const TILE_ROWS = 25;
-
+const BRICK_W = 60;
+const BRICK_H = 60;
+const BRICK_GAP = 1;
+const BRICK_COLS = 20;
+const BRICK_ROWS = 15;
 //Game and lobby settings
 var gameState = "username_menu";
 var clientUsername = "";

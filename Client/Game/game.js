@@ -17,7 +17,7 @@ function startGame(){
   keyUp=window.addEventListener("keyup", deactivate, false);
   mouseMove=canvas.addEventListener('mousemove', mouseMove, true);
   click=canvas.addEventListener("click", function() {
-      var b=createBullet(mouseX, mouseY, player.x, player.y,socket.id);
+      var b=createBullet(mouseX, mouseY, player.x+50-camPanX, player.y+20-camPanY,socket.id);
       //Send this bullet to the server
       proxy.sendData(b,'shoot');
   });
@@ -35,6 +35,7 @@ function startGame(){
 
 function updateGame(){
     movePlayer();
+    cameraFollow();
     drawGame();
 
     //Check if i have been hit 
@@ -51,12 +52,28 @@ function updateGame(){
 }
 
 function drawGame(){
-    drawMap();
-    drawPlayer();
+    //Drawing black instead of floor
+    colorRect(0, 0, canvas.width, canvas.height, 'black');
+
+    canvasContext.save(); // needed to undo this .translate() used for scroll
+
+    // this next line is like subtracting camPanX and camPanY from every
+    // canvasContext draw operation up until we call canvasContext.restore
+    // this way we can just draw them at their "actual" position coordinates
+    canvasContext.translate(-camPanX,-camPanY);
+    drawOnlyBricksOnScreen();
+    //Draw the floor not working yet;
+    //drawFloor();
+    
+    //SHOULD BE CHANGED TO ONLY DRAW IF THEY ARE ON THERE SCREEN JUST LIKE MAP
     drawOtherPlayers();
-    //Draq all the bullets 
+    drawPlayer(player);
+    
+    canvasContext.restore();
+    //Draw all the bullets 
     bulletsDraw(allBullets,'red');
-    drawGUI();
+    //drawGUI();
+
   
   
 }
