@@ -3,7 +3,7 @@ var devs;
 function startCredits(){
     window.addEventListener("keydown",creditsMenuControls);
     credits=["Product Owner : Joseph Keatinge","Scrum Master : Sam Drugan"]
-    devs=["Darragh McMahon          Evan Young", "Niall Buckley           Sile Neylon","Adam Egan          Michael Matthews"]
+    devs=["Darragh McMahon          Evan Young", "Niall Buckley            Sile Neylon","Adam Egan          Michael Matthews"]
     canvasContext.font = "30px Silkscreen"
 } 
 function updateCreditsMenu(){
