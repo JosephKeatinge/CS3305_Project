@@ -79,25 +79,84 @@ function drawOtherPlayers(){
 
 function movePlayer() {
     //Move player only if there is no wall 
-    var nextX = player.x;
-    var nextY = player.y;
+    //Translating the player x and y canvas coordinates to x and y coordinates in the map array
+    var playerXCoord = Math.round(player.x / (BRICK_W));
+    var playerYCoord = Math.round(player.y / (BRICK_H));
+    //Logic is the same regardless of direction: if the next tile in the direction the player
+    //is headed in is a wall, nothing will happen. Otherwise, move the amount dictated by the
+    //movementAmount variable.
+    if (moveRight) {
 
-    if(moveLeft) {
-      nextX += -player.speed;
-    }
-    if(moveRight) {
-      nextX += player.speed;
-    }
-    if(moveUp) {
-      nextY += -player.speed;
-    }
-    if(moveDown) {
-      nextY += player.speed;
-    }
+        if (!isWallAtColRow(playerXCoord + 1, playerYCoord)) {
+            if ((isWallAtColRow(playerXCoord, playerYCoord + 1) && player.y > BRICK_W * playerYCoord) ||
+                (isWallAtColRow(playerXCoord , playerYCoord - 1) && player.y < BRICK_W * playerYCoord )) {
 
-    if(isBrickAtPixelCoord(nextX,nextY) == false) {
-      player.x = nextX;
-      player.y = nextY;
+                player.y = BRICK_W * playerYCoord
+
+
+
+            }
+             else {
+                player.x += player.speed
+
+            }
+
+        }
+        else if (BRICK_W * playerXCoord > player.x){
+            player.x += player.speed;
+        }
+    }
+    if (moveLeft) {
+        if (!isWallAtColRow(playerXCoord - 1, playerYCoord)) {
+
+            if ((isWallAtColRow(playerXCoord , playerYCoord + 1) && player.y > BRICK_W * playerYCoord) ||
+                (isWallAtColRow(playerXCoord , playerYCoord - 1) && player.y < BRICK_W * playerYCoord - 1)) {
+                player.y = BRICK_W * playerYCoord;
+
+            }
+            else {
+                player.x -= player.speed
+
+            }
+        }
+        else if (BRICK_W * playerXCoord < player.x) {
+            player.x -= player.speed;
+        }
+    }
+        if (moveUp) {
+            if (!isWallAtColRow(playerXCoord, playerYCoord - 1)) {
+                if ((isWallAtColRow(playerXCoord +1, playerYCoord ) && player.x > BRICK_W * playerXCoord) ||
+                    (isWallAtColRow(playerXCoord - 1, playerYCoord ) && player.x < BRICK_W * playerXCoord - 1)) {
+                    player.x = playerXCoord * BRICK_W;
+
+                }
+                else {
+                    player.y -= player.speed
+
+                }
+            }
+            else if (BRICK_W * playerYCoord < player.y) {
+                player.y -= movementAmount;
+            }
+        }
+    if (moveDown) {
+        if (!isWallAtColRow(playerXCoord, playerYCoord + 1)) {
+
+                if ((isWallAtColRow(playerXCoord + 1, playerYCoord) && player.x > BRICK_W * playerXCoord) ||
+                    (isWallAtColRow(playerXCoord - 1, playerYCoord) && player.x < BRICK_W * playerXCoord - 1)) {
+
+                    player.x = playerXCoord * BRICK_W;
+
+                }
+                else {
+                    player.y += movementAmount
+
+                }
+
+        }
+        else if (BRICK_W * playerYCoord > player.y) {
+            player.y += player.speed;
+        }
     }
   }
 

@@ -10,6 +10,7 @@ function startGame(){
 
   proxy=new Proxy(socket,currentLobby.id);
   loadImages();
+  console.log(socket.id);
   playerReset(player);
   playerImageLoad();
 
@@ -39,7 +40,7 @@ function updateGame(){
     drawGame();
 
     //Check if i have been hit 
-    bulletHitsPlayer(allBullets,otherPlayers);
+    hitbyBullet(allBullets,player);
     socket.on('heartbeat', function(data) {
             otherPlayers=data;
     });

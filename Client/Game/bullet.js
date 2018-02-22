@@ -41,11 +41,12 @@ function bulletsDraw(list,color) {
 
 
 
-/*function hitbyBullet(bulletlist,player){
+function hitbyBullet(bulletlist,player){
        bulletlist.forEach(function (bullet,j){
-          if(socket.id!=bullet.id){
+           if (socket.id != bullet.id) {
              if(collidesB(bullet,player)){
-                 player.health-=10;
+                 player.health -= 10;
+                 console.log(player.health);
                  //tell server i got hit 
                  hit=true
                  bulletlist.splice(j,1);
@@ -54,7 +55,7 @@ function bulletsDraw(list,color) {
       });
    
    
-}*/
+}
 
 function collidesB(a, b) {
     //Niall's function. Not currently used but might be useful in future.
@@ -88,9 +89,9 @@ function mouseMove(e) {
     }
 }
 
-function bulletHitsPlayer(bulletlist, otherPlayers){
-    bulletlist.forEach( function (bullet, var b){
-        for(var id in otherPlayers){
+/*function bulletHitsPlayer(bulletlist, otherPlayers){
+    bulletlist.forEach(function (bullet, var b){
+        for(var i= 0; i < otherPlayers.length; i++){
             if(socket.id == bullet.id){
                 if(collidesB(bullet, otherPlayers[id])){
                    bulletlist.splice(b, 1);
@@ -111,4 +112,4 @@ function bulletHitsPlayer(bulletlist, otherPlayers){
             
         }
     });
-}
+}*/
