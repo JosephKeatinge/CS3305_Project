@@ -64,7 +64,7 @@ function drawGame(){
     canvasContext.translate(-camPanX,-camPanY);
     drawOnlyBricksOnScreen();
     //Draw the floor not working yet;
-    //drawFloor();
+    drawFloor();
     
     //SHOULD BE CHANGED TO ONLY DRAW IF THEY ARE ON THERE SCREEN JUST LIKE MAP
     drawOtherPlayers();
