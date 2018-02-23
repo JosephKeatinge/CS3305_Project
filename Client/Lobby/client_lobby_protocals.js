@@ -82,7 +82,7 @@ socket.on("updateScores",function(data){
     scoreBoard.push(data[0])
     for(var i = 1; i<data.length; i++){
       for(var j = 0; j < scoreBoard.length; j++){
-      	if(data[i].score < scoreboard[j].score){
+      	if(data[i].playerScore < scoreBoard[j].playerScore){
       		scoreBoard.splice(j,0,data[i]);
       		break
       	}

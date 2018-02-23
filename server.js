@@ -16,7 +16,7 @@ var lobbies = {};
 var lobbyno = 0;
 
 
-app.set('port', 5000);
+app.set('port', 1194);
 app.use('/Client/Game', express.static(__dirname + '/Client/Game'));
 app.use('/Client/Lobby', express.static(__dirname + '/Client/Lobby'));
 app.use('/Client/Assets', express.static(__dirname + '/Client/Assets'));
@@ -26,7 +26,7 @@ app.get('/', function(request, response) {
   response.sendFile(path.join(__dirname, 'index.html'));
 });
 // Starts the server.
-server.listen(5000, function() {
+server.listen(1194, function() {
   console.log('Starting server on port 5000');
 });
 
@@ -161,7 +161,17 @@ function requestLobbies() {
 
 }
 
-
+function requestScoreBoard(currentLobby){
+  scoreBoard = []
+  for(var i = 0; i < currentLobby.players.length; i++){
+    playerInfo = {
+      playerName:currentLobby.playernames[i],
+      playerScore:currentLobby.scores[currentLobby.players[i]]
+    }
+    scoreBoard.push(playerInfo);
+  }
+  return scoreBoard
+}
 
 
 io.on('connection', function (socket) {
@@ -211,7 +221,7 @@ io.on('connection', function (socket) {
      //console.log("start_game")
       //Sends an emit to the lobby room
       io.to(lobbyid).emit('begingame', lobbyid);
-      io.to(lobbyid).emit("updateScores",lobbies[lobbyid].scores);
+      io.to(lobbyid).emit("updateScores",requestScoreBoard(lobbies[lobbyid]));
       //creates a new game server and adds it to the servers dictionary
       var game_server = new GameServer(lobbyid);
       servers[lobbyid] = game_server;
@@ -264,7 +274,7 @@ io.on('connection', function (socket) {
   });
  socket.on("newScore",function(data){
     lobbies[data.lobby].updateScore(data.playerid)
-    socket.emit("updateScores",lobbies[data.lobby].scores);
+    socket.emit("updateScores",requestScoreBoard(lobbies[data.lobby]));
 })
 
   
