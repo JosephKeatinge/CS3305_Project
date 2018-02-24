@@ -43,15 +43,32 @@ function bulletsDraw(list,color) {
 
 function hitbyBullet(bulletlist,player){
        bulletlist.forEach(function (bullet,j){
-           if (socket.id != bullet.id) {
-             if(collidesB(bullet,player)){
+        for(var id in otherPlayers){
+          //Bullet has hit me
+           var enemyBullet=bullet;
+           if (socket.id != enemyBullet.id) {
+             if(collidesB(enemyBullet,player)){
                  player.health -= 10;
-                 console.log(player.health);
-                 //tell server i got hit 
+                 console.log(enemyBullet.id+" Hit me you CUCK");
                  hit=true
                  bulletlist.splice(j,1);
+                 if(player.health<=0){
+                     console.log("IM DEAD YOU CUCK ");
+                     //RESPAWN ME 
+                     //ADD THE SCORE TO enemyBullet.id
+
+                 }
              }
+          }
+          else{
+            if(id!=socket.id){
+              //I HIT SOMEONE THEY WILL UPDATE MY SCORE
+               if(collidesB(bullet,otherPlayers[id])){
+                      bulletlist.splice(j,1);
+             }
+          }
           }   
+        }
       });
    
    

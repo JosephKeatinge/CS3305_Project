@@ -27,7 +27,7 @@ app.get('/', function(request, response) {
 });
 // Starts the server.
 server.listen(1194, function() {
-  console.log('Starting server on port 5000');
+  console.log('Starting server on port 1194');
 });
 
 //Lobby Server Class
@@ -74,7 +74,6 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
             this.playernames.push(player.username);
             this.scores[player.id] = 0;
         }
-	console.log(this.playernames);
     }
     /*The function for a player leaving the server
      *@params data: contains data.user, the user to leave
@@ -89,7 +88,7 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
     }
 
     this.updateScores = function(playerID){
-      this.scores[playerID] += 1
+      this.scores[playerID] += 1;
     }
     
 }
@@ -111,7 +110,9 @@ function GameServer(lobby) {
                     x: player.x,
                     y: player.y,
                     health:player.health,
-                    count: this.count
+                    count: this.count,
+                    w:player.w,
+                    h:player.h
                 }
             },
             //Update position of each player and health
@@ -275,7 +276,7 @@ io.on('connection', function (socket) {
  socket.on("newScore",function(data){
     lobbies[data.lobby].updateScore(data.playerid)
     socket.emit("updateScores",requestScoreBoard(lobbies[data.lobby]));
-})
+});
 
   
   /*
