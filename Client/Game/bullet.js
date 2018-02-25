@@ -7,6 +7,11 @@ var ytarget = 0;
 var allBullets=[];
 var mouseX;
 var mouseY;
+var otherPlayers;
+var respawnCo = {
+    x : 100,
+    y : 100
+}
 function createBullet(targetX, targetY, shooterX, shooterY,clientID) {
 
     deltaX = targetX - shooterX;
@@ -41,38 +46,21 @@ function bulletsDraw(list,color) {
 
 
 
-function hitbyBullet(bulletlist,player){
+/*function hitbyBullet(bulletlist,player){
        bulletlist.forEach(function (bullet,j){
-        for(var id in otherPlayers){
-          //Bullet has hit me
-           var enemyBullet=bullet;
-           if (socket.id != enemyBullet.id) {
-             if(collidesB(enemyBullet,player)){
+           if (socket.id != bullet.id) {
+             if(collidesB(bullet,player)){
                  player.health -= 10;
-                 console.log(enemyBullet.id+" Hit me you CUCK");
+                 console.log(player.health);
+                 //tell server i got hit 
                  hit=true
                  bulletlist.splice(j,1);
-                 if(player.health<=0){
-                     console.log("IM DEAD YOU CUCK ");
-                     //RESPAWN ME 
-                     //ADD THE SCORE TO enemyBullet.id
-
-                 }
              }
-          }
-          else{
-            if(id!=socket.id){
-              //I HIT SOMEONE THEY WILL UPDATE MY SCORE
-               if(collidesB(bullet,otherPlayers[id])){
-                      bulletlist.splice(j,1);
-             }
-          }
           }   
-        }
       });
    
    
-}
+}*/
 
 function collidesB(a, b) {
     //Niall's function. Not currently used but might be useful in future.
@@ -106,27 +94,43 @@ function mouseMove(e) {
     }
 }
 
-/*function bulletHitsPlayer(bulletlist, otherPlayers){
-    bulletlist.forEach(function (bullet, var b){
-        for(var i= 0; i < otherPlayers.length; i++){
+function bulletHitsPlayer(bulletlist, otherPlayers){
+    bulletlist.forEach(function (bullet,b){
+        for(var id in otherPlayers){
+            //My bullet hits player
             if(socket.id == bullet.id){
                 if(collidesB(bullet, otherPlayers[id])){
-                   bulletlist.splice(b, 1);
-                   if(otherPlayers[id].health == 0 ){
-                       otherPlayers[socket.id].score += 1;
-                       //Otherplayer disappears
+                    console.log("I hit someone");
+                    //if my bullet hits someone
+                    bulletlist.splice(b, 1);
+                    if(otherPlayers[id].health == 0 ){
+                       //if my bullet is last to hit a player increase my score
+                        player.score += 1;
+                        //need to tell server to increase my score
                    }
                 }
             }
             else{
+              //I get hit by bullet
               if(collidesB(bullet,otherPlayers[socket.id])){
+                 console.log("i got hit");
                  player.health-=10;
                  //tell server i got hit 
-                 hit=true
+                 hit=true;
                  bulletlist.splice(b,1);
+                 if (player.health <= 0){
+                     //if i die (health reaches 0) respawn me
+                     respawn(player);
+                }
              }
             }
             
         }
     });
-}*/
+}
+
+function respawn(deadPlayer){
+    deadPlayer.x = respawnCo.x;
+    deadPlayer.y = respawnCo.y;
+    deadPlayer.health = 100;
+}
