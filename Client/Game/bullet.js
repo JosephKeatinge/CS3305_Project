@@ -25,8 +25,8 @@ function createBullet(targetX, targetY, shooterX, shooterY,clientID) {
     speed:10,
     xtarget: xtarget,
     ytarget: ytarget,
-    w: 3,
-    h: 3,
+    w: 5,
+    h: 5,
     angle: rotation,
     id:clientID
     }
@@ -63,7 +63,7 @@ function bulletsDraw(list,color) {
 }*/
 
 function collidesB(a, b) {
-    //Niall's function. Not currently used but might be useful in future.
+    //Checks if item a is colliding with item b
     return  a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
 }
 //Makes the bullets move
@@ -112,7 +112,7 @@ function bulletHitsPlayer(bulletlist, otherPlayers){
             }
             else{
               //I get hit by bullet
-              if(collidesB(bullet,otherPlayers[socket.id])){
+              if(collidesB(bullet, player)){
                  console.log("i got hit");
                  player.health-=10;
                  //tell server i got hit 
@@ -120,6 +120,7 @@ function bulletHitsPlayer(bulletlist, otherPlayers){
                  bulletlist.splice(b,1);
                  if (player.health <= 0){
                      //if i die (health reaches 0) respawn me
+                     console.log("I am dead");
                      respawn(player);
                 }
              }
