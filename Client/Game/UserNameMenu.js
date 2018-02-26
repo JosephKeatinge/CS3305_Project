@@ -59,6 +59,7 @@ function userNameMenuControls(e){
                 clientUsername=clientUsername.slice(0,clientUsername.length-1);
                 break;
             default:
+		if(clientUsername.length<=10){
 		if(e.keyCode>=65 && e.keyCode<=90 ){
                 	letter = String.fromCharCode(e.keyCode)
                 	clientUsername+=letter.toUpperCase();
@@ -67,6 +68,7 @@ function userNameMenuControls(e){
 			letter = String.fromCharCode(e.keyCode)
                         clientUsername+=letter.toUpperCase();
 		}
+	     }
  	     break;
         }
     }else{
