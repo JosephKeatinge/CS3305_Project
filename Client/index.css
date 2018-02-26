@@ -9,3 +9,14 @@
     src: local("slkscrb"), url("/Assets/slkscrb.ttf");
     format("truetype");
 }
+canvas {
+    padding-left:0;
+    padding-right: 0;
+    margin-left:auto;
+    margin-right:auto;
+    display:block;
+
+}
+body{
+    background-color:black;
+}
