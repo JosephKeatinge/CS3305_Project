@@ -82,80 +82,173 @@ function movePlayer() {
     //Translating the player x and y canvas coordinates to x and y coordinates in the map array
     var playerXCoord = Math.round(player.x / (BRICK_W));
     var playerYCoord = Math.round(player.y / (BRICK_H));
+
     //Logic is the same regardless of direction: if the next tile in the direction the player
     //is headed in is a wall, nothing will happen. Otherwise, move the amount dictated by the
     //movementAmount variable.
+
     if (moveRight) {
 
-        if (!isWallAtColRow(playerXCoord + 1, playerYCoord)) {
-            if ((isWallAtColRow(playerXCoord, playerYCoord + 1) && player.y > BRICK_W * playerYCoord) ||
-                (isWallAtColRow(playerXCoord , playerYCoord - 1) && player.y < BRICK_W * playerYCoord )) {
-
-                player.y = BRICK_W * playerYCoord
-
-
-
+        if (isWallAtColRow(playerXCoord + 1, playerYCoord + 1) && player.y > BRICK_W * playerYCoord && player.x > BRICK_W * playerXCoord) {
+            
+            if (moveDown) {
+                player.x+=5
             }
-             else {
-                player.x += player.speed
+            if (moveUp) {
+                player.x -= 5;
+            }
+            else {
+                player.y -= 5
 
             }
 
         }
-        else if (BRICK_W * playerXCoord > player.x){
+        else if (isWallAtColRow(playerXCoord + 1, playerYCoord - 1) && player.y < BRICK_W * playerYCoord && player.x > BRICK_W * playerXCoord) {
+            
+            if (moveDown) {
+                player.x += 5
+            }
+            if (moveUp) {
+                player.x -= 5;
+            }
+            else {
+                player.y += 5
+            }
+
+
+
+        }
+        else if (!isWallAtColRow(playerXCoord + 1, playerYCoord)) {
+
+
+            player.x += player.speed
+
+
+
+        }
+        else if (BRICK_W * playerXCoord > player.x) {
+
+            
             player.x += player.speed;
         }
     }
     if (moveLeft) {
-        if (!isWallAtColRow(playerXCoord - 1, playerYCoord)) {
-
-            if ((isWallAtColRow(playerXCoord , playerYCoord + 1) && player.y > BRICK_W * playerYCoord) ||
-                (isWallAtColRow(playerXCoord , playerYCoord - 1) && player.y < BRICK_W * playerYCoord - 1)) {
-                player.y = BRICK_W * playerYCoord;
-
+        if (isWallAtColRow(playerXCoord - 1, playerYCoord + 1) && player.y > BRICK_W * playerYCoord && player.x < BRICK_W * playerXCoord) {
+            
+            if (moveDown) {
+                player.x -= 5
+            }
+            else if (moveUp) {
+                player.x += 5;
             }
             else {
-                player.x -= player.speed
-
+                player.y -= 5
             }
+
+        }
+        else if (isWallAtColRow(playerXCoord - 1, playerYCoord - 1) && player.y < BRICK_W * playerYCoord - 1 && player.x < BRICK_W * playerXCoord) {
+       
+            if (moveDown) {
+                player.x -= 5
+            }
+            else if (moveUp) {
+                player.x += 5;
+            }
+            else {
+                player.y += 5
+            }
+        }
+        else if (!isWallAtColRow(playerXCoord - 1, playerYCoord)) {
+
+
+            player.x -= player.speed
+
+
         }
         else if (BRICK_W * playerXCoord < player.x) {
             player.x -= player.speed;
         }
     }
-        if (moveUp) {
-            if (!isWallAtColRow(playerXCoord, playerYCoord - 1)) {
-                if ((isWallAtColRow(playerXCoord +1, playerYCoord ) && player.x > BRICK_W * playerXCoord) ||
-                    (isWallAtColRow(playerXCoord - 1, playerYCoord ) && player.x < BRICK_W * playerXCoord - 1)) {
-                    player.x = playerXCoord * BRICK_W;
-
-                }
-                else {
-                    player.y -= player.speed
-
-                }
+    if (moveUp) {
+        if (isWallAtColRow(playerXCoord + 1, playerYCoord - 1) && player.x > BRICK_W * playerXCoord && player.y < BRICK_W * playerYCoord) {
+            
+            if (moveLeft) {
+                player.y -= 5
             }
-            else if (BRICK_W * playerYCoord < player.y) {
-                player.y -= movementAmount;
+            else if (moveRight) {
+                player.y -= 5
+            }
+            else {
+                player.x -= 5
+            }
+
+        }
+        else if (isWallAtColRow(playerXCoord - 1, playerYCoord - 1) && player.x < BRICK_W * playerXCoord - 1 && player.y < BRICK_W * playerYCoord) {
+            
+            if (moveLeft) {
+                player.y -= 5
+            }
+            else if (moveRight) {
+                player.y -= 5
+            }
+            else {
+                player.x += 5
             }
         }
+        else if (!isWallAtColRow(playerXCoord, playerYCoord - 1)) {
+
+
+            player.y -= player.speed
+
+
+        }
+        else if (BRICK_W * playerYCoord < player.y) {
+            player.y -= player.speed;
+        }
+    }
     if (moveDown) {
-        if (!isWallAtColRow(playerXCoord, playerYCoord + 1)) {
+        if (isWallAtColRow(playerXCoord + 1, playerYCoord + 1) && player.x > BRICK_W * playerXCoord && player.y > BRICK_W * playerYCoord) {
+            
+            if (moveLeft) {
+                player.y += 5
+            }
+            if (moveRight) {
+                player.y -= 5
+            }
+            else {
+                            player.x -= 5
 
-                if ((isWallAtColRow(playerXCoord + 1, playerYCoord) && player.x > BRICK_W * playerXCoord) ||
-                    (isWallAtColRow(playerXCoord - 1, playerYCoord) && player.x < BRICK_W * playerXCoord - 1)) {
+            }
 
-                    player.x = playerXCoord * BRICK_W;
 
-                }
-                else {
-                    player.y += movementAmount
 
-                }
+
+        }
+        else if (isWallAtColRow(playerXCoord - 1, playerYCoord + 1) && player.x < BRICK_W * playerXCoord && player.y > BRICK_W * playerYCoord) {
+            
+
+            if (moveLeft) {
+                player.y-=5
+            }
+            if (moveRight) {
+                player.y+=5
+            }
+            else {
+                player.x += 5
+
+            }
+
+
+        }
+        else if (!isWallAtColRow(playerXCoord, playerYCoord + 1)) {
+
+
+            player.y += player.speed;
 
         }
         else if (BRICK_W * playerYCoord > player.y) {
             player.y += player.speed;
         }
     }
-  }
+}
+
