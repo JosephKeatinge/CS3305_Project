@@ -97,6 +97,7 @@ function createLobbyControls(e){
                 password=password.slice(0,password.length-1);
                 break;
             default:
+		if(password.length<20){
 		if(e.keyCode>=65 && e.keyCode<=90 ){
                         letter = String.fromCharCode(e.keyCode)
                         password+=letter.toUpperCase();
@@ -105,6 +106,7 @@ function createLobbyControls(e){
                         letter = String.fromCharCode(e.keyCode)
                         password+=letter.toUpperCase();
                 }
+		}
 
                 break;
         }
@@ -117,6 +119,7 @@ function createLobbyControls(e){
                 lobbyName=lobbyName.slice(0,lobbyName.length-1);
                 break;
             default:
+		if(lobbyName.length<15){
 		if(e.keyCode>=65 && e.keyCode<=90 ){
                         letter = String.fromCharCode(e.keyCode)
                         lobbyName+=letter.toUpperCase();
@@ -125,6 +128,7 @@ function createLobbyControls(e){
                         letter = String.fromCharCode(e.keyCode)
                         lobbyName+=letter.toUpperCase();
                 }
+		}
       	break;
 	}
     } else {
