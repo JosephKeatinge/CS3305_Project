@@ -37,6 +37,7 @@ function lobbyWaitRoomControls(e) {
       break
     case 27:
 	leave_lobby(currentLobby.id,socket);
+        endLobbyWaitRoom();
 	gameState="main_menu";
 	break;
     }
