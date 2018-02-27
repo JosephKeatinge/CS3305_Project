@@ -12,6 +12,11 @@ var respawnCo = {
     x : 100,
     y : 100
 }
+function shoot(){
+    var b=createBullet(mouseX+camPanX, mouseY+camPanY, player.x+50, player.y+20,socket.id);
+    //Send this bullet to the server
+    proxy.sendData(b,'shoot');
+}
 function createBullet(targetX, targetY, shooterX, shooterY,clientID) {
 
     deltaX = targetX - shooterX;
@@ -43,7 +48,6 @@ function bulletsDraw(list,color) {
 
   }
 }
-
 
 function collidesB(a, b) {
     //Checks if item a is colliding with item b
@@ -113,57 +117,6 @@ function mouseMove(e) {
       });
 }
 
-
-
-
-
-
-
-
-
-/*
-function bulletHitsPlayer(bulletlist, otherPlayers){
-    bulletlist.forEach(function (bullet,b){
-        for(var id in otherPlayers){
-            //My bullet hits player
-            if(socket.id == bullet.id){
-                console.log("im in here");
-                if(collidesB(bullet, otherPlayers[id])){
-                    console.log("I hit someone");
-                        console.log(otherPlayers);
-                    //if my bullet hits someone
-                    bulletlist.splice(b, 1);
-                
-                    console.log(otherPlayers[id].health);
-                    if(otherPlayers[id].health <= 0 ){
-                        console.log("HELLO");
-                       //if my bullet is last to hit a player increase my score
-                        socket.emit("newScore",player,currentLobby);
-                        player.score += 1;
-                        console.log(player.score);
-                        //need to tell server to increase my score
-                   }
-                }
-            }
-            else{
-              //I get hit by bullet
-              if(collidesB(bullet, player)){
-                 console.log("i got hit");
-                 player.health-=10;
-                 //tell server i got hit 
-                 hit=true;
-                 bulletlist.splice(b,1);
-                 if (player.health <= 0){
-                     //if i die (health reaches 0) respawn me
-                     console.log("I am dead");
-                     respawn(player);
-                }
-             }
-            }
-            
-        }
-    });
-}*/
 
 function respawn(deadPlayer){
     deadPlayer.x = respawnCo.x;
