@@ -11,20 +11,16 @@ var enterPassword;
 var text;
 var pointer;
 var numOfPlayers;
-var mapPointer;
-var maps;
 function startCreateLobbyMenu(){
     window.addEventListener("keydown",createLobbyControls);
     lobbyName = "";
     enteringName = false;
-    mapPointer=0;
     passwordOn=false;
     password="";
     enterPassword=false;
     numOfPlayers=2;
     pointer=0;
-    text=["Create Lobby", "Lobby Name: ","Map : ", "Number Of Players :","Password On :","Password :"]
-    maps=["Sand","Stone"]
+    text=["Create Lobby", "Lobby Name: ", "Number Of Players :","Password On :","Password :"]
 }
 function stringGen(i){
     /* 
@@ -38,16 +34,13 @@ function stringGen(i){
         case 1:
             str = "Lobby Name: " + lobbyName;
             break;
-	case 2:
-	    str = "Map : " + maps[mapPointer];
-	    break;
-        case 3:
+        case 2:
             str="Number Of Players: "+ numOfPlayers;
             break;
-        case 4:
+        case 3:
             str="Password On: " + passwordOn;
             break;
-        case 5:
+        case 4:
 	    if(passwordOn==true){
               str="Password : " + password;
 	    }
@@ -86,8 +79,7 @@ function createLobbyInfo(){
         host : clientUsername,
         max_players : numOfPlayers,
         pwordOn : passwordOn,
-        password : password,
-	map : currentMap
+        password : password
     };
     return newlobbiesinfo;
 }
@@ -164,14 +156,10 @@ function createLobbyControls(e){
                 break;
             case 68: // D key pressed
                 switch(pointer) {
-		    case 2:
-			if(mapPointer<maps.length-1){mapPointer +=1;}
-			currentMap=maps[mapPointer]
-			break;
-                    case 3:
+                    case 2:
                         if (numOfPlayers < maxPlayers) { numOfPlayers += 1; }
                         break;
-                    case 4:
+                    case 3:
                         passwordOn = !passwordOn;
                         break;
                     default:
@@ -180,14 +168,10 @@ function createLobbyControls(e){
                 break;
             case 65: // A key pressed
                 switch(pointer) {
-	            case 2:
-			if(mapPointer>0){mapPointer -=1;}
-			currentMap=maps[mapPointer]
-                        break;
-                    case 3:
+                    case 2:
                         if (numOfPlayers > 0) { numOfPlayers -= 1; }
                         break;
-                    case 4:
+                    case 3:
                         passwordOn = !passwordOn;
                         break;
                     default:
@@ -198,11 +182,10 @@ function createLobbyControls(e){
                 text=["Create Lobby", "Lobby Name: ", "Number Of Players :","Password On :","Password :"]    
 		if(text[pointer]=="Create Lobby"){
                         if(lobbyName.length>0){
-			currentMap=maps[mapPointer]
 			newLobby = createLobbyInfo();
-                        create_lobby(socket,newLobby,clientUsername,currentMap);
-                        gameState="lobby"
-			console.log(currentMap)
+                        create_lobby(socket,newLobby,clientUsername);
+                        console.log(newLobby);
+                        gameState="lobby";
                         endCreateLobbyMenu();
 			}
 		}else if(text[pointer]=="Lobby Name: "){
@@ -210,8 +193,8 @@ function createLobbyControls(e){
                         break;
                 }else if(text[pointer]=="Password :"){
                         enterPassword = true;
-		}
-		break;
+                }
+        	break
 	    case 27:
                 endCreateLobbyMenu();
                 gameState="main_menu"
