@@ -38,28 +38,5 @@ Proxy.prototype = {
 
         this.players=players;
         return this.players;
-    },
-
-
-
-
-    receiveData2 : function(Data){
-        //get and process data from server
-        var game = this;
-        Data.players.forEach(function(ServerPlayer){
-            //update local player
-            //if(game.localPlayer!==undefined && ServerPLayer.id==game.localPlayer.id){ }
-            //update server players
-            var found = false;
-            game.players.forEach(function(localPlayer){
-                if(localPlayer.id===ServerPlayer.id){
-                    localPlayer.x=serverPlayer.x;
-                    localPlayer.x=serverPlayer.y;
-                }
-                localPlayer.refresh();
-                found=true;
-            });
-        });
-
     }
 }
