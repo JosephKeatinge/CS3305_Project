@@ -20,6 +20,7 @@ var createLobbyMenu = false;
 var lobbyMenu = false;
 var creditsMenu=false
 var howToPlay=false;
+var endGame=false;
 
 
 //Canvas and map settings
@@ -121,7 +122,12 @@ function updateAll() {
       }
       updateLobbyWaitRoom();
       break;
-    case "pause_menu":
+    case "endGame":
+      if(!endGame){
+          startEndGame();
+          endGame=true;
+      }
+      updateEndGame();
       break;
   }
 //console.log(gameState);

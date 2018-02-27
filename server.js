@@ -31,7 +31,7 @@ server.listen(1194, function() {
 });
 
 //Lobby Server Class
-function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword,init_map) {
+class Lobby {
     /*
      *@constructor for the Lobby API
      *@params players, the list of players in the lobby
@@ -42,30 +42,31 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword,in
      *@params password, the password for the lobby. Initially null.
 
     */
-    this.players = [];
-    this.playernames = [];
-    this.host = lobbyhost;
-    this.id = init_id;
-    this.max_players= init_max_players;
-    this.pwordOn= init_pwordon;
-    this.password= init_pword;
-    this.gameOn = false;
-    this.scores = {};
-    this.map = init_map;
+    constructor(init_id, lobbyhost, init_max_players, init_pwordon, init_pword, init_map) {
+        this.players = [];
+        this.playernames = [];
+        this.host = lobbyhost;
+        this.id = init_id;
+        this.max_players= init_max_players;
+        this.pwordOn= init_pwordon;
+        this.password= init_pword;
+        this.gameOn = false;
+        this.scores = {};
+        this.map = init_map;
+    }
 
     /* Function for requesting basic lobby information
      * @return JSON object with Lobbynum, the lobby ID; Players, the amount of players in the lobby; maxPlayers, the max amount of players allowed
     */
-    console.log(init_map)
-    this.requestInfo = function () {
-        return { id: this.id, host: this.host,playernames:this.playernames,map:this.map,passwordOn: this.pwordOn, password: this.password, max_players: this.max_players };
 
+    requestInfo() {
+        return { id: this.id, host: this.host,playernames:this.playernames,map:this.map,passwordOn: this.pwordOn, password: this.password, max_players: this.max_players };
     }
 
     /*Function for a player joining a server
      *@params player: the player to join
     */
-    this.playerJoin = function (player) {
+    playerJoin(player) {
         if (this.players.length >= this.max_players) {
             socket.emit('fullLobby', 'Lobby is full.');
 
@@ -80,74 +81,67 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword,in
     /*The function for a player leaving the server
      *@params data: contains data.user, the user to leave
     */
-    this.playerLeave = function (data) {
+    playerLeave(data) {
         //Find the index of the player
-        var index = this.players.indexOf(data.user);
+        var index = this.players.indexOf(data.username);
         //remove them from the players list
         this.players.splice(index, 1);
         this.playernames.splice(index, 1);
-        delete this.scores[data.user];
+        delete this.scores[data.username];
     }
 
-    this.updateScores = function(playerID){
-      this.scores[playerID] += 1;
+    updateScores(playerID){
+        this.scores[playerID] += 1;
     }
-    
 }
+
 //Server Class
-function GameServer(lobby) {
-    this.players = {};
-    this.count = 0;
-    this.game_id = lobby;
-}
-//Define Methods
+class GameServer {
 
-       //Add player to dictionary storing x and y
-   
-       GameServer.prototype = {
-            //Add player to dictionary storing x and y
-            addPlayer: function (player, id) {
-                this.count += 1;
-                this.players[id] = {
-                    x: player.x,
-                    y: player.y,
-                    health:player.health,
-                    count: this.count,
-                    w:player.w,
-                    h:player.h
-                }
-            },
-            //Update position of each player and health
-            updatePlayers: function (newpos, pid) {
-                for (var id in this.players) {
-                    if (id == pid) {
-                        var player = this.players[id];
-                        player.x = newpos.x;
-                        player.y = newpos.y;
-                        player.health=newpos.health;
-                    }
-                    console.log(this.players);
-                    this.sendPlayerData();
-                }
+    constructor(lobby) {
+        this.players = {};
+        this.count = 0;
+        this.game_id = lobby;
+    }
 
-            },
-            //Send dictionary to player
-            sendPlayerData: function () {
-           
-                io.to(this.game_id).emit('heartbeat', this.players);
-            },
-            //send bullet to each player
-            playerBullets: function (bullet,socket) {
-              io.to(this.game_id).emit('bullets',bullet);
-            },
-            //Delete player from dictionary when they leave
-            playerDisconnect: function (socket) {
-                delete this.players[socket.id];
-
+    //Add player to dictionary storing x and y
+    addPlayer(player, id) {
+        this.count += 1;
+        this.players[id] = {
+            x: player.x,
+            y: player.y,
+            health:player.health,
+            count: this.count,
+            w:player.w,
+            h:player.h
+        }
+    }
+    //Update position of each player and health
+    updatePlayers(newpos, pid) {
+        for (var id in this.players) {
+            if (id == pid) {
+                var player = this.players[id];
+                player.x = newpos.x;
+                player.y = newpos.y;
+                player.health=newpos.health;
             }
-           
-      }
-
+            console.log(this.players);
+            this.sendPlayerData();
+        }
+    }
+    //Send dictionary to player
+    sendPlayerData() {
+        io.to(this.game_id).emit('heartbeat', this.players);
+    }
+    //send bullet to each player
+    playerBullets(bullet,socket) {
+        io.to(this.game_id).emit('bullets',bullet);
+    }
+    //Delete player from dictionary when they leave
+    playerDisconnect(socket) {
+        delete this.players[socket.id];
+    }
+}
 
 function requestLobbies() {
     var lobbies_info = [];
@@ -204,14 +198,6 @@ io.on('connection', function (socket) {
 
   });
 
-
-
-
-
-
-
-
-
     //Lobby information requested by the client
     //Returns an array of JSON objects @see Lobby.requestInfo()
   socket.on('requestLobbies', function () {
@@ -221,7 +207,6 @@ io.on('connection', function (socket) {
   //Starts the main game
     //Currently works with old game.js wrapped in a socket.on('begingame'), with var socket taken out
   socket.on('start_game', function (lobbyid) {
-     //console.log("start_game")
       //Sends an emit to the lobby room
       io.to(lobbyid).emit('begingame', lobbyid);
       io.to(lobbyid).emit("updateScores",requestScoreBoard(lobbies[lobbyid]));
@@ -241,8 +226,7 @@ io.on('connection', function (socket) {
     //To answer a client emit requesting to create a lobby
   socket.on('create_lobby', function (lobbyinfo) {
       lobbyno += 1
-      newlobby = new Lobby(lobbyinfo.lobby_id, lobbyinfo.host,lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password, lobbyinfo.map);
-      //console.log(newlobby);
+      newlobby = new Lobby(lobbyinfo.lobby_id, lobbyinfo.host, lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password, lobbyinfo.map);
       lobbies[newlobby.id] = newlobby;
       lobbies[newlobby.id].playerJoin({"id":socket.id, "username":newlobby.host});
       clients[socket.id] = newlobby.id;
@@ -267,7 +251,7 @@ io.on('connection', function (socket) {
      
       lobbies[data.lobby].playerLeave({"id": socket.id, "username": data.username});
       socket.leave(data.lobby);
-      io.to(data.lobby).emit('playerJoined', lobbies[data.lobby].requestInfo());
+      io.to(data.lobby).emit('playerLeave', lobbies[data.lobby].requestInfo());
       if (lobbies[data.lobby].players.length == 0) {
           delete lobbies[data.lobby];
       }

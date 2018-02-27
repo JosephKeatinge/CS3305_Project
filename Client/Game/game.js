@@ -5,8 +5,17 @@
 //instantiate player objects
 var playerPic=document.createElement("img");
 var otherPlayers;
+var score=0
+
 
 function startGame(){
+  console.log("this is the score");
+  console.log(score);
+  if(score===10){
+      console.log("hey");
+      endGame();
+      gameState="endGame"
+  }
 
   proxy=new Proxy(socket,currentLobby.id);
   loadImages();
@@ -14,16 +23,10 @@ function startGame(){
   playerReset(player);
   playerImageLoad();
 
-  keyDown =window.addEventListener("keydown", activate, false);
-  keyUp=window.addEventListener("keyup", deactivate, false);
-  mouseMove=canvas.addEventListener('mousemove', mouseMove, true);
-  click=canvas.addEventListener("click", function() {
-      console.log("Camera: "+camPanX+", "+camPanY);
-      console.log("Mouse: "+mouseX+", "+mouseY);
-      var b=createBullet(mouseX+camPanX, mouseY+camPanY, player.x+50, player.y+20,socket.id);
-      //Send this bullet to the server
-      proxy.sendData(b,'shoot');
-  });
+  window.addEventListener("keydown", activate, false);
+  window.addEventListener("keyup", deactivate, false);
+  canvas.addEventListener('mousemove', mouseMove, true);
+  canvas.addEventListener("click", shoot,false);
   //Send the players init position
   proxy.sendData(player,'newplayer');
 
@@ -37,8 +40,12 @@ function startGame(){
 
 
 function updateGame(){
+  if(score===10){
+      endTheGame();
+      gameState="endGame"
+  }
     //Check if i have been hit 
-    bulletHitsPlayer(allBullets,player);
+    hitbyBullet(allBullets,player);
     socket.on('heartbeat', function(data) {
             otherPlayers=data;
     });
@@ -47,6 +54,8 @@ function updateGame(){
       proxy.sendData(player,'position');
       hit=false;
      }
+
+
     movePlayer();
     cameraFollow();
     drawGame();
@@ -80,11 +89,13 @@ function drawGame(){
 }
 
 //remove EventListeners change game state
-function endGame(){
-    keyDown.removeEventListener();
-    keyUp.removeEventListener();
-    mouseMove.removeEventListener();
-    click.removeEventListener();
-    gameState = "main_menu";
+function endTheGame(){
+    window.removeEventListener("keydown", activate);
+    window.removeEventListener("keyup", deactivate);
+    canvas.removeEventListener('mousemove', mouseMove);
+    canvas.removeEventListener("click", shoot,false);
+    playerReset(player);
+    score=0
+
     gameStarted = false;
 }
