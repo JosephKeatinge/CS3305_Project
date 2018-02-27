@@ -22,12 +22,15 @@ var camPanY=0.0;
 const PLAYER_DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X = 150;
 const PLAYER_DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y = 100;
 const GUI_WIDTH=200;
+console.log(currentLobby);
 // 0 Corresponds to a floor tile, 1 for a wall, 2 is the starting position for the player
 const TILE_FLOOR = 0;
 const TILE_WALL = 1;
 const PLAYERSTART = 2;
 
 function loadImages() {
+	currentMap=currentLobby.map
+	console.log(currentLobby);
 	if(currentMap=="Stone"){
 	wallPic.src = "/Client/Assets/stoneFloor.png";
 	floorPic.src = "/Client/Assets/stoneWall.png";

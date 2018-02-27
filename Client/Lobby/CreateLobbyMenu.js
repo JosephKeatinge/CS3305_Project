@@ -86,7 +86,8 @@ function createLobbyInfo(){
         host : clientUsername,
         max_players : numOfPlayers,
         pwordOn : passwordOn,
-        password : password
+        password : password,
+	map : currentMap
     };
     return newlobbiesinfo;
 }
@@ -165,6 +166,7 @@ function createLobbyControls(e){
                 switch(pointer) {
 		    case 2:
 			if(mapPointer<maps.length-1){mapPointer +=1;}
+			currentMap=maps[mapPointer]
 			break;
                     case 3:
                         if (numOfPlayers < maxPlayers) { numOfPlayers += 1; }
@@ -180,6 +182,7 @@ function createLobbyControls(e){
                 switch(pointer) {
 	            case 2:
 			if(mapPointer>0){mapPointer -=1;}
+			currentMap=maps[mapPointer]
                         break;
                     case 3:
                         if (numOfPlayers > 0) { numOfPlayers -= 1; }
@@ -195,10 +198,11 @@ function createLobbyControls(e){
                 text=["Create Lobby", "Lobby Name: ", "Number Of Players :","Password On :","Password :"]    
 		if(text[pointer]=="Create Lobby"){
                         if(lobbyName.length>0){
+			currentMap=maps[mapPointer]
 			newLobby = createLobbyInfo();
-                        create_lobby(socket,newLobby,clientUsername);
-                        console.log(newLobby);
-                        gameState="lobby";
+                        create_lobby(socket,newLobby,clientUsername,currentMap);
+                        gameState="lobby"
+			console.log(currentMap)
                         endCreateLobbyMenu();
 			}
 		}else if(text[pointer]=="Lobby Name: "){
@@ -219,5 +223,4 @@ function createLobbyControls(e){
 function endCreateLobbyMenu(){
   window.removeEventListener("keydown",createLobbyControls);
   createLobbyMenu = false;
-  currentMap=maps[mapPointer]
 }
