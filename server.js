@@ -42,7 +42,7 @@ class Lobby {
      *@params password, the password for the lobby. Initially null.
 
     */
-    constructor(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
+    constructor(init_id, lobbyhost, init_max_players, init_pwordon, init_pword, init_map) {
         this.players = [];
         this.playernames = [];
         this.host = lobbyhost;
@@ -52,6 +52,7 @@ class Lobby {
         this.password= init_pword;
         this.gameOn = false;
         this.scores = {};
+        this.map = init_map;
     }
 
     /* Function for requesting basic lobby information
@@ -59,7 +60,7 @@ class Lobby {
     */
 
     requestInfo() {
-        return { id: this.id, host: this.host,playernames:this.playernames,passwordOn: this.pwordOn, password: this.password, max_players: this.max_players };
+        return { id: this.id, host: this.host,playernames:this.playernames,map:this.map,passwordOn: this.pwordOn, password: this.password, max_players: this.max_players };
     }
 
     /*Function for a player joining a server
@@ -225,7 +226,7 @@ io.on('connection', function (socket) {
     //To answer a client emit requesting to create a lobby
   socket.on('create_lobby', function (lobbyinfo) {
       lobbyno += 1
-      newlobby = new Lobby(lobbyinfo.lobby_id, lobbyinfo.host, lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password);
+      newlobby = new Lobby(lobbyinfo.lobby_id, lobbyinfo.host, lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password, lobbyinfo.map);
       lobbies[newlobby.id] = newlobby;
       lobbies[newlobby.id].playerJoin({"id":socket.id, "username":newlobby.host});
       clients[socket.id] = newlobby.id;
