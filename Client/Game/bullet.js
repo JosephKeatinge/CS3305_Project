@@ -94,18 +94,70 @@ function mouseMove(e) {
     }
 }
 
+
+
+
+
+
+ function hitbyBullet(bulletlist,player){
+       bulletlist.forEach(function (bullet,j){
+            for(var id in otherPlayers){
+            //Bullet has hit me
+                var enemyBullet=bullet;
+                if (socket.id != enemyBullet.id) {
+                    if(collidesB(enemyBullet,player)){
+                        player.health -= 50;
+                        bulletlist.splice(j,1);
+                        hit=true
+                        //tell server i got hit 
+                        console.log(enemyBullet.id+" Hit me ");
+                        if(player.health<=0){
+                            console.log("IM DEAD ");
+                            socket.emit("newScore",{"playerid":enemyBullet.id,"lobby":currentLobby.id});
+                            respawn(player);
+                 }
+             }
+          }
+          else{
+            if(id!=socket.id){
+              //I hit someone delete their bullet
+               if(collidesB(bullet,otherPlayers[id])){
+                        bulletlist.splice(j,1);
+             }
+          }
+          }   
+        }
+      });
+}
+
+
+
+
+
+
+
+
+
+/*
 function bulletHitsPlayer(bulletlist, otherPlayers){
     bulletlist.forEach(function (bullet,b){
         for(var id in otherPlayers){
             //My bullet hits player
             if(socket.id == bullet.id){
+                console.log("im in here");
                 if(collidesB(bullet, otherPlayers[id])){
                     console.log("I hit someone");
+                        console.log(otherPlayers);
                     //if my bullet hits someone
                     bulletlist.splice(b, 1);
-                    if(otherPlayers[id].health == 0 ){
+                
+                    console.log(otherPlayers[id].health);
+                    if(otherPlayers[id].health <= 0 ){
+                        console.log("HELLO");
                        //if my bullet is last to hit a player increase my score
+                        socket.emit("newScore",player,currentLobby);
                         player.score += 1;
+                        console.log(player.score);
                         //need to tell server to increase my score
                    }
                 }
@@ -128,7 +180,7 @@ function bulletHitsPlayer(bulletlist, otherPlayers){
             
         }
     });
-}
+}*/
 
 function respawn(deadPlayer){
     deadPlayer.x = respawnCo.x;
