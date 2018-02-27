@@ -43,6 +43,9 @@ function activate(event) {
     } if (ekeyCode === KEY_S) {
       moveDown = true;
     }
+     if(ekeyCode===13){
+        score+=1;
+     }
 }
 
 function deactivate(event) {
