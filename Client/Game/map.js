@@ -29,8 +29,8 @@ const TILE_WALL = 1;
 const PLAYERSTART = 2;
 
 function loadImages() {
-	floorPic.src = "/Client/Assets/stoneFloor.png";
-	wallPic.src = "/Client/Assets/stoneWall.jpg";
+	wallPic.src = "/Client/Assets/stoneFloor.png";
+	floorPic.src = "/Client/Assets/stoneWall.png";
 }
 
 
