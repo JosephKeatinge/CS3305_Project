@@ -45,23 +45,6 @@ function bulletsDraw(list,color) {
 }
 
 
-
-/*function hitbyBullet(bulletlist,player){
-       bulletlist.forEach(function (bullet,j){
-           if (socket.id != bullet.id) {
-             if(collidesB(bullet,player)){
-                 player.health -= 10;
-                 console.log(player.health);
-                 //tell server i got hit 
-                 hit=true
-                 bulletlist.splice(j,1);
-             }
-          }   
-      });
-   
-   
-}*/
-
 function collidesB(a, b) {
     //Checks if item a is colliding with item b
     return  a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
