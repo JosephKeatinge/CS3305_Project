@@ -29,8 +29,8 @@ var height, width;
 const BRICK_W = 60;
 const BRICK_H = 60;
 const BRICK_GAP = 1;
-const BRICK_COLS = 20;
-const BRICK_ROWS = 15;
+var BRICK_COLS;
+var BRICK_ROWS;
 
 
 //Game and lobby settings
@@ -129,6 +129,13 @@ function updateAll() {
       }
       updateEndGame();
       break;
+  }
+  if(currentLobby.map=="Sand"){
+    BRICK_COLS = 20;
+    BRICK_ROWS = 15;
+  }else if(currentLobby.map=="Stone"){
+    BRICK_COLS = 21;
+    BRICK_ROWS = 16;
   }
 //console.log(gameState);
 }
