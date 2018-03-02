@@ -21,6 +21,7 @@ var lobbyMenu = false;
 var creditsMenu=false
 var howToPlay=false;
 var endGame=false;
+var inLobby=false;
 
 
 //Canvas and map settings
@@ -63,6 +64,7 @@ function updateAll() {
       if (!usernameMenu) {
         startUserNameMenu();
         usernameMenu = true;
+        inLobby=false;
       }
       updateUserNameMenu();
       break;
@@ -70,6 +72,7 @@ function updateAll() {
       if(!howToPlay){
         startHowToPlay()
         howToPlay=true;
+        inLobby=false;
       }
       updateHowToPlay();
       break;
@@ -77,6 +80,7 @@ function updateAll() {
       if (!mainMenuEventListeners) {
         startmainmenu();
         mainMenuEventListeners = true;
+        inLobby=false;
       }
       updategamemenu();
       break;
@@ -84,6 +88,7 @@ function updateAll() {
       if(!creditsMenu){
         startCredits();
         creditsMenu=true
+        inLobby=false;
       }
       updateCreditsMenu()
       break;
@@ -91,6 +96,7 @@ function updateAll() {
       if (!lobbyMenu) {
         startLobbyMenu();
         lobbyMenu = true;
+        inLobby=false;
       }
       updateLobbyMenu();
       break;
@@ -98,6 +104,7 @@ function updateAll() {
       if(!settingsMenu){
         startSettingsMenu();
         settingsMenu=true;
+        inLobby=false;
       }
       updateSettingsMenu();
       break;
@@ -105,6 +112,7 @@ function updateAll() {
       if (!createLobbyMenu) {
         startCreateLobbyMenu();
         createLobbyMenu = true;
+        inLobby=false;
       }
       createLobbyUpdate();
       break;
@@ -119,6 +127,7 @@ function updateAll() {
       if (!lobbyWaitRoom) {
         startLobbyWaitRoom();
         lobbyWaitRoom = true;
+        inLobby=true;
       }
       updateLobbyWaitRoom();
       break;
