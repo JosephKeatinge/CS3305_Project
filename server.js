@@ -31,7 +31,7 @@ server.listen(1194, function() {
 });
 
 //Lobby Server Class
-class Lobby {
+function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword) {
     /*
      *@constructor for the Lobby API
      *@params players, the list of players in the lobby
@@ -42,31 +42,28 @@ class Lobby {
      *@params password, the password for the lobby. Initially null.
 
     */
-    constructor(init_id, lobbyhost, init_max_players, init_pwordon, init_pword, init_map) {
-        this.players = [];
-        this.playernames = [];
-        this.host = lobbyhost;
-        this.id = init_id;
-        this.max_players= init_max_players;
-        this.pwordOn= init_pwordon;
-        this.password= init_pword;
-        this.gameOn = false;
-        this.scores = {};
-        this.map = init_map;
-    }
+    this.players = [];
+    this.playernames = [];
+    this.host = lobbyhost;
+    this.id = init_id;
+    this.max_players= init_max_players;
+    this.pwordOn= init_pwordon;
+    this.password= init_pword;
+    this.gameOn = false;
+    this.scores = {};
 
     /* Function for requesting basic lobby information
      * @return JSON object with Lobbynum, the lobby ID; Players, the amount of players in the lobby; maxPlayers, the max amount of players allowed
     */
+    this.requestInfo = function () {
+        return { id: this.id, host: this.host,playernames:this.playernames,passwordOn: this.pwordOn, password: this.password, max_players: this.max_players };
 
-    requestInfo() {
-        return { id: this.id, host: this.host,playernames:this.playernames,map:this.map,passwordOn: this.pwordOn, password: this.password, max_players: this.max_players };
     }
 
     /*Function for a player joining a server
      *@params player: the player to join
     */
-    playerJoin(player) {
+    this.playerJoin = function (player) {
         if (this.players.length >= this.max_players) {
             socket.emit('fullLobby', 'Lobby is full.');
 
@@ -81,67 +78,81 @@ class Lobby {
     /*The function for a player leaving the server
      *@params data: contains data.user, the user to leave
     */
-    playerLeave(data) {
+    this.playerLeave = function (data) {
         //Find the index of the player
-        var index = this.players.indexOf(data.username);
+        var index = this.players.indexOf(data.user);
         //remove them from the players list
         this.players.splice(index, 1);
         this.playernames.splice(index, 1);
-        delete this.scores[data.username];
+        delete this.scores[data.user];
     }
 
-    updateScores(playerID){
-        this.scores[playerID] += 1;
+    this.updateScores = function(playerID){
+      this.scores[playerID] += 1;
     }
+    
 }
-
 //Server Class
-class GameServer {
-
-    constructor(lobby) {
-        this.players = {};
-        this.count = 0;
-        this.game_id = lobby;
-    }
-
-    //Add player to dictionary storing x and y
-    addPlayer(player, id) {
-        this.count += 1;
-        this.players[id] = {
-            x: player.x,
-            y: player.y,
-            health:player.health,
-            count: this.count,
-            w:player.w,
-            h:player.h
-        }
-    }
-    //Update position of each player and health
-    updatePlayers(newpos, pid) {
-        for (var id in this.players) {
-            if (id == pid) {
-                var player = this.players[id];
-                player.x = newpos.x;
-                player.y = newpos.y;
-                player.health=newpos.health;
-            }
-            console.log(this.players);
-            this.sendPlayerData();
-        }
-    }
-    //Send dictionary to player
-    sendPlayerData() {
-        io.to(this.game_id).emit('heartbeat', this.players);
-    }
-    //send bullet to each player
-    playerBullets(bullet,socket) {
-        io.to(this.game_id).emit('bullets',bullet);
-    }
-    //Delete player from dictionary when they leave
-    playerDisconnect(socket) {
-        delete this.players[socket.id];
-    }
+function GameServer(lobby) {
+    this.players = {};
+    this.count = 0;
+    this.game_id = lobby;
+    this.scores={};
 }
+//Define Methods
+
+       //Add player to dictionary storing x and y
+   
+       GameServer.prototype = {
+            //Add player to dictionary storing x and y
+            addPlayer: function (player, id) {
+                this.count += 1;
+                this.players[id] = {
+                    x: player.x,
+                    y: player.y,
+                    health:player.health,
+                    count: this.count,
+                    w:player.w,
+                    h:player.h,
+                    score:player.score
+                }
+            },
+            //Update position of each player and health
+            updatePlayers: function (newpos, pid) {
+                for (var id in this.players) {
+                    if (id == pid) {
+                        var player = this.players[id];
+                        player.x = newpos.x;
+                        player.y = newpos.y;
+                        player.health=newpos.health;
+                    }
+                    this.sendPlayerData();
+                }
+
+            },
+            //Send dictionary to player
+            sendPlayerData: function () {
+           
+                io.to(this.game_id).emit('heartbeat', this.players);
+            },
+            //send bullet to each player
+            playerBullets: function (bullet,socket) {
+              io.to(this.game_id).emit('bullets',bullet);
+            },
+            //Delete player from dictionary when they leave
+            playerDisconnect: function (socket) {
+                delete this.players[socket.id];
+
+            },
+            updatesScores:function(enemy_id,socket){
+                this.players[enemy_id].score+=1;
+                console.log(enemy_id);
+                console.log(this.players);
+                console.log(this.players[enemy_id].score);
+            }
+           
+      }
+
 
 function requestLobbies() {
     var lobbies_info = [];
@@ -193,10 +204,17 @@ io.on('connection', function (socket) {
       servers[bullet.gameid].playerBullets(bullet.user,socket);
 
   });
-  socket.on('outside',function(bullet){
-        servers[bullet.gameid].bulletDelete(bullet.user,socket.id);
 
+  socket.on('updateScores',function(enemy_id){
+      console.log("HEYO");
+      servers[enemy_id.gameid].updatesScores(enemy_id.user,socket);
   });
+
+
+
+
+
+
 
     //Lobby information requested by the client
     //Returns an array of JSON objects @see Lobby.requestInfo()
@@ -207,9 +225,10 @@ io.on('connection', function (socket) {
   //Starts the main game
     //Currently works with old game.js wrapped in a socket.on('begingame'), with var socket taken out
   socket.on('start_game', function (lobbyid) {
+     //console.log("start_game")
       //Sends an emit to the lobby room
       io.to(lobbyid).emit('begingame', lobbyid);
-      io.to(lobbyid).emit("updateScores",requestScoreBoard(lobbies[lobbyid]));
+     // io.to(lobbyid).emit("updateScores",requestScoreBoard(lobbies[lobbyid]));
       //creates a new game server and adds it to the servers dictionary
       var game_server = new GameServer(lobbyid);
       servers[lobbyid] = game_server;
@@ -226,7 +245,8 @@ io.on('connection', function (socket) {
     //To answer a client emit requesting to create a lobby
   socket.on('create_lobby', function (lobbyinfo) {
       lobbyno += 1
-      newlobby = new Lobby(lobbyinfo.lobby_id, lobbyinfo.host, lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password, lobbyinfo.map);
+      newlobby = new Lobby(lobbyinfo.lobby_id, lobbyinfo.host, lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password);
+      //console.log(newlobby);
       lobbies[newlobby.id] = newlobby;
       lobbies[newlobby.id].playerJoin({"id":socket.id, "username":newlobby.host});
       clients[socket.id] = newlobby.id;
@@ -251,7 +271,7 @@ io.on('connection', function (socket) {
      
       lobbies[data.lobby].playerLeave({"id": socket.id, "username": data.username});
       socket.leave(data.lobby);
-      io.to(data.lobby).emit('playerLeave', lobbies[data.lobby].requestInfo());
+      io.to(data.lobby).emit('playerJoined', lobbies[data.lobby].requestInfo());
       if (lobbies[data.lobby].players.length == 0) {
           delete lobbies[data.lobby];
       }
@@ -260,8 +280,11 @@ io.on('connection', function (socket) {
 
   });
  socket.on("newScore",function(data){
-    lobbies[data.lobby].updateScore(data.playerid)
-    socket.emit("updateScores",requestScoreBoard(lobbies[data.lobby]));
+    console.log("heyo");
+    console.log(data);
+    console.log(lobbies);
+    //lobbies[data.lobby].updateScores(data.playerid)
+    //socket.emit("updateScores",requestScoreBoard(lobbies[data.lobby]));
 });
 
   
