@@ -15,6 +15,7 @@ var respawnCo = {
 function shoot(){
     var b=createBullet(mouseX+camPanX, mouseY+camPanY, player.x+50, player.y+20,socket.id);
     //Send this bullet to the server
+   // sound.play();
     proxy.sendData(b,'shoot');
 }
 function createBullet(targetX, targetY, shooterX, shooterY,clientID) {
@@ -40,6 +41,7 @@ function createBullet(targetX, targetY, shooterX, shooterY,clientID) {
 }
 //draws the bullet
 function bulletsDraw(list,color) {
+
   for(var i=0; i<list.length;i+=1){
       canvasContext.fillStyle = color;
       canvasContext.fillRect(list[i].x, list[i].y, list[i].w, list[i].h);
@@ -100,7 +102,10 @@ function mouseMove(e) {
                         console.log(enemyBullet.id+" Hit me ");
                         if(player.health<=0){
                             console.log("IM DEAD ");
-                            socket.emit("newScore",{"playerid":enemyBullet.id,"lobby":currentLobby.id});
+                            var enemyid=enemyBullet.id
+                            hasScored=true;
+                            //socket.emit("newScore",{"playerid":enemyBullet.id,"lobby":currentLobby.id});
+                            proxy.sendData(enemyid,"updateScores");
                             respawn(player);
                  }
              }
@@ -121,5 +126,5 @@ function mouseMove(e) {
 function respawn(deadPlayer){
     deadPlayer.x = respawnCo.x;
     deadPlayer.y = respawnCo.y;
-    deadPlayer.health = 100;
+    deadPlayer.health = 200;
 }

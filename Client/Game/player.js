@@ -6,7 +6,7 @@ var player = {
     h: 60,
     size: 32,
     speed:5,
-    health:100,
+    health:200,
     score:0
 };
 
@@ -49,9 +49,6 @@ function activate(event) {
     } if (ekeyCode === KEY_S) {
       moveDown = true;
     }
-     if(ekeyCode===13){
-        score+=1;
-     }
 }
 
 function deactivate(event) {

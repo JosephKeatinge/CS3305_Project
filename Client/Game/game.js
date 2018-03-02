@@ -6,23 +6,18 @@
 var playerPic=document.createElement("img");
 var otherPlayers;
 var score=0
-
-
+//var sound = document.createElement("audio");
+//sound.src="/Client/Assets/shoot.wav"
 function startGame(){
-  console.log("this is the score");
-  console.log(score);
-  if(score===10){
-      console.log("hey");
-      endGame();
-      gameState="endGame"
-  }
+ 
+
 
   proxy=new Proxy(socket,currentLobby.id);
   loadImages();
   console.log(socket.id);
   playerReset(player);
   playerImageLoad();
-
+  
   window.addEventListener("keydown", activate, false);
   window.addEventListener("keyup", deactivate, false);
   canvas.addEventListener('mousemove', mouseMove, true);
@@ -40,10 +35,13 @@ function startGame(){
 
 
 function updateGame(){
-  if(score===10){
-      endTheGame();
-      gameState="endGame"
+  for(var id in otherPlayers){
+    if(otherPlayers[id].score===2){
+            endTheGame();
+            gameState="endGame"
+    }
   }
+
     //Check if i have been hit 
     hitbyBullet(allBullets,player);
     socket.on('heartbeat', function(data) {
@@ -55,7 +53,7 @@ function updateGame(){
       hit=false;
      }
 
-
+    console.log(otherPlayers);
     movePlayer();
     cameraFollow();
     drawGame();
@@ -94,8 +92,11 @@ function endTheGame(){
     window.removeEventListener("keyup", deactivate);
     canvas.removeEventListener('mousemove', mouseMove);
     canvas.removeEventListener("click", shoot,false);
+    resetMap();
     playerReset(player);
-    score=0
+    player.score=0;
+    proxy.sendData(player,'position');
+
 
     gameStarted = false;
 }
