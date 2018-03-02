@@ -78,7 +78,7 @@ function createLobbyDraw(){
     }
     canvasContext.fillStyle="#ffffff";
     canvasContext.fillText(stringGen(pointer),canvas.width/2,40*pointer+100);
-    canvasContext.fillText("Press escape to enter the main menu",canvas.width/2,40*5+100)
+    canvasContext.fillText("Press escape to enter the main menu",canvas.width/2,40*7+100)
 }
 function createLobbyInfo(){
     var newlobbiesinfo =
@@ -154,11 +154,11 @@ function createLobbyControls(e){
                         pointer=text.length-1;
                     }
                 } else {
-                    if (pointer<text.length-1) {
+                    if (pointer<text.length-2) {
                         pointer+=1;
                         password = "";
                     } else {
-                        pointer=text.length-1;
+                        pointer=text.length-2;
                     }
                 }
                 break;
