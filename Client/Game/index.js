@@ -139,6 +139,7 @@ function updateAll() {
       updateEndGame();
       break;
   }
+  if(inLobby){
   if(currentLobby.map=="Sand"){
     BRICK_COLS = 20;
     BRICK_ROWS = 15;
@@ -149,6 +150,7 @@ function updateAll() {
     BRICK_COLS = 21;
     BRICK_ROWS = 15;
   }
+}
 
 //console.log(gameState);
 }
