@@ -11,7 +11,7 @@ function startUserNameMenu(){
     logo.src = "/Client/Assets/victus.png";
 }
 function updateUserNameMenu(){
-    /* 
+    /*
     Creates an interval in which clear and draw are called
     */
     userNameMenuDraw();
@@ -31,7 +31,7 @@ function userNamestringGen(i){
 function userNameMenuDraw(){
     canvasContext.fillStyle="#000000";
     canvasContext.fillRect(0,0,canvas.width,canvas.height);
-    /* 
+    /*
     Draws the text to the screen
     */
     canvasContext.textAlign = "center";
@@ -101,7 +101,7 @@ function userNameMenuControls(e){
 	    }
 	}else if(clientUsername.length==0){
 	    if(usernameMenuPointer>0){
-		usernameMenuPointer=0	
+		usernameMenuPointer=0
 	     }
 	}
 	console.log(usernameMenuPointer);
