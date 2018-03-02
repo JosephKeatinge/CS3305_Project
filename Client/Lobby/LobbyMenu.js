@@ -1,8 +1,8 @@
 /**
  * Creates a menu of available lobbies which can be selected
- * When a user selects a lobby they will be brought to that game of selection 
+ * When a user selects a lobby they will be brought to that game of selection
  * The lobby menu displays the host,number of players and if there is a password
- *  
+ *
 */
 var pageNum;
 var pagesPerPage;
@@ -27,30 +27,30 @@ function startLobbyMenu() {
 }
 
 function updateLobbyMenu() {
-    /* 
+    /*
     Creates an interval to call clear and draw
     */
-    lobbyMenuDraw();    
+    lobbyMenuDraw();
 }
 
 function lobbyMenuParseArray(i) {
-    /* 
+    /*
     Generates the text for the draw function
     */
 
     var str = ""
     if (lobbies.length > 0) {
         if (lobbies[i].pwordOn != false) {
-            str = lobbies[i].id + " - " + lobbies[i].max_players + " - " + "Yes";
+            str = lobbies[i].id + "-" +lobbies[i].map + " - " + lobbies[i].max_players + " - " + "Yes";
         } else {
-            str = lobbies[i].id + " - " + lobbies[i].max_players + " - " + "No";
+            str = lobbies[i].id + "-" +lobbies[i].map + " - " + lobbies[i].max_players + " - " + "No";
         }
     }
     return str;
 }
 
 function lobbyMenuDraw() {
-     /* 
+     /*
     Draws the text to the screen
     */
     canvasContext.fillStyle="#000000";
@@ -60,7 +60,7 @@ function lobbyMenuDraw() {
     canvasContext.fillText("Press escape to go to the main menu",canvas.width/2,500,400);
     canvasContext.fillText(("Select Lobby"),canvas.width/2,40);
     if(!enteringLobbyPassword){
-    canvasContext.fillText(("Host - Max Players - Password"),canvas.width/2,70,400);
+    canvasContext.fillText(("Host - Map - Max Players - Password"),canvas.width/2,70,400);
     canvasContext.fillStyle = "#888888";
     for(i=0;i<Math.min(lobbies.length-(pagesPerPage*pageNum),pagesPerPage);i++) {
         canvasContext.fillText(lobbyMenuParseArray(i+pagesPerPage*pageNum),canvas.width/2,120+40*i,400);
@@ -74,7 +74,7 @@ function lobbyMenuDraw() {
 
 function lobbyMenuControls(e) {
     /*
-    Sets the controls for the user and keeps track of lobbyMenuPointers 
+    Sets the controls for the user and keeps track of lobbyMenuPointers
     */
     if(enteringLobbyPassword){
         //User trying to enter lobby password
@@ -105,14 +105,14 @@ function lobbyMenuControls(e) {
             }else if(pageNum>0){
                 lobbyMenuPointer-=1;
                 pageNum-=1;
-            }                      
+            }
             break;
         case 83:
             if(lobbyMenuPointer < lobbies.length-1){
                 lobbyMenuPointer+=1;
             }if(lobbyMenuPointer>(pagesPerPage-1)+(pagesPerPage*pageNum)){
                 pageNum+=1;
-            }       
+            }
             break;
         case 13: //Enter key pressed
             selectedLobby = lobbies[lobbyMenuPointer];
@@ -123,7 +123,7 @@ function lobbyMenuControls(e) {
                     //If so connect
                     socket.emit('join_lobby', { "lobby": selectedLobby.id,"username":clientUsername });
                     currentLobby = selectedLobby;
-                    gameState = "lobby";  
+                    gameState = "lobby";
                     endLobbyMenu();
                 //If the current attempt is not correct or no attempt has been made, allow the user to enter the password
             } else {
@@ -132,7 +132,7 @@ function lobbyMenuControls(e) {
             } else {
                 socket.emit('join_lobby', { "lobby": selectedLobby.id,"username":clientUsername});
                 currentLobby = selectedLobby;
-                gameState = "lobby";  
+                gameState = "lobby";
                 endLobbyMenu();
             }
             break;
@@ -144,7 +144,7 @@ function lobbyMenuControls(e) {
 		  enteringLobbyPassword=false;
 		}
 		break;
-            //test case 
+            //test case
         /*(case 71:
             console.log('here');
             socket.emit('create_lobby', { "host": socket.id, "max_players": 4, 'pwordOn': false, 'password': '' });
