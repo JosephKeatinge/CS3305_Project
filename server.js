@@ -147,9 +147,6 @@ function GameServer(lobby) {
             },
             updatesScores:function(enemy_id,socket){
                 this.players[enemy_id].score+=1;
-                console.log(enemy_id);
-                console.log(this.players);
-                console.log(this.players[enemy_id].score);
             }
            
       }
