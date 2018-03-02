@@ -195,7 +195,6 @@ function createLobbyControls(e){
                 }
                 break;
             case 13: // Enter key pressed
-                text=["Create Lobby", "Lobby Name: ", "Number Of Players :","Password On :","Password :"]
 		if(text[pointer]=="Create Lobby"){
                         if(lobbyName.length>0){
 			currentMap=maps[mapPointer]
