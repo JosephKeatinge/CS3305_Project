@@ -148,10 +148,10 @@ function createLobbyControls(e){
                 break;
             case 83: // S key pressed
                 if (passwordOn) {
-                    if (pointer<text.length) {
+                    if (pointer<text.length-1) {
                         pointer+=1;
                     } else {
-                        pointer=text.length;
+                        pointer=text.length-1;
                     }
                 } else {
                     if (pointer<text.length-1) {
