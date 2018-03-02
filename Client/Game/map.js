@@ -15,6 +15,7 @@ const PLAYERSTART = 2;
 function loadImages() {
 	currentMap=currentLobby.map
 	console.log(currentLobby);
+	if(inLobby){
 	if(currentMap=="Stone"){
 	wallPic.src = "/Client/Assets/stoneFloor.png";
 	floorPic.src = "/Client/Assets/stoneWall.png";
@@ -75,6 +76,7 @@ function loadImages() {
 				1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1];
 	}
+}
 }
 
 
