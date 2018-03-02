@@ -83,7 +83,51 @@ function drawOtherPlayers(){
         canvasContext.drawImage(playerPic, player.x, player.y);}
   }
 }
-
+/*
+*Function for preventing players from colliding with eachother
+*@params direction - the direction the player is going in
+*@returns true if they are about to collide with another player, false otherwise
+*/
+function isOtherPlayer(direction) {
+    
+    for (var id in otherPlayers) {
+        if (id != socket.id) {
+           //The other player
+            var player2 = otherPlayers[id];
+            
+            if (direction == 'right') {
+                //If they are within 60 pixels of eachother, and the player tries to move right, will return true to stop them
+                if ((player2.x-player.x<60 &&player.x<player2.x) && (player.y - player2.y < 60 && player.y - player2.y > -60)) {
+                    return true
+                }
+            }
+            
+            else if (direction == 'left') {
+                //If they are within 60 pixels of eachother, and the player tries to move left, will return true to stop them
+                if ((player.x - player2.x < 60 && player2.x < player.x) && (player.y - player2.y < 60 && player.y - player2.y > -60)) {
+                    return true
+                }
+            }
+            
+            else if (direction == 'up') {
+                //If they are within 60 pixels of eachother, and the player tries to move up, will return true to stop them
+                if ((player.y- player2.y < 60 && player2.y < player.y) && (player.x - player2.x < 60 && player.x - player2.x > -60)) {
+                    return true
+                }
+                
+            }
+            else if (direction == 'down') {
+                //If they are within 60 pixels of eachother, and the player tries to move down, will return true to stop them
+                if ((player2.y - player.y < 60 && player.y < player2.y) && (player.x - player2.x < 60 && player.x - player2.x > -60)) {
+                    
+                    return true
+                }
+            }
+            //If there is no other player in the direction the player is heading in, return false
+            return false;
+        }
+    }
+}
 
 
 function movePlayer() {
@@ -97,10 +141,12 @@ function movePlayer() {
     //movementAmount variable.
 
     if (moveRight) {
-
+        if (isOtherPlayer('right')){
+       
+        }
          //If a player collides with a wall brick, they are centred back to a position where they will not collide with the wall but can still
         //freely move
-         if (isWallAtColRow(playerXCoord + 1, playerYCoord + 1) && player.y > BRICK_W * playerYCoord && player.x > BRICK_W * playerXCoord) {
+         else if (isWallAtColRow(playerXCoord + 1, playerYCoord + 1) && player.y > BRICK_W * playerYCoord && player.x > BRICK_W * playerXCoord) {
             //this is for one tile floor where there is a wall above and below it. It makes it so the player does not clip the wall on these
             if (isWallAtColRow(playerXCoord + 1, playerYCoord - 1)) {
                 player.x +=player.speed
@@ -151,8 +197,10 @@ function movePlayer() {
         }
     }
     if (moveLeft) {
-
-        if (isWallAtColRow(playerXCoord - 1, playerYCoord + 1) && player.y > BRICK_W * playerYCoord && player.x < BRICK_W * playerXCoord) {
+        if (isOtherPlayer( 'left')) {
+            
+        }
+        else if (isWallAtColRow(playerXCoord - 1, playerYCoord + 1) && player.y > BRICK_W * playerYCoord && player.x < BRICK_W * playerXCoord) {
 
             if (isWallAtColRow(playerXCoord - 1, playerYCoord - 1)){
                 player.x -=player.speed
@@ -186,8 +234,11 @@ function movePlayer() {
         }
     }
     if (moveUp) {
+        if (isOtherPlayer('up')) {
+           
+        }
         //For if a player is about to clip into a wall moving upwards
-        if (isWallAtColRow(playerXCoord + 1, playerYCoord - 1) && player.x > BRICK_W * playerXCoord && player.y < BRICK_W * playerYCoord) {
+        else if (isWallAtColRow(playerXCoord + 1, playerYCoord - 1) && player.x > BRICK_W * playerXCoord && player.y < BRICK_W * playerYCoord) {
             //If the player is moving up and left
             if (moveLeft) {
                 player.y-=5
@@ -234,8 +285,10 @@ function movePlayer() {
         }
     }
     if (moveDown) {
-
-        if (isWallAtColRow(playerXCoord + 1, playerYCoord + 1) && player.x > BRICK_W * playerXCoord && player.y > BRICK_W * playerYCoord) {
+        if (isOtherPlayer('down')) {
+            
+        }
+       else if (isWallAtColRow(playerXCoord + 1, playerYCoord + 1) && player.x > BRICK_W * playerXCoord && player.y > BRICK_W * playerYCoord) {
 
             if (moveLeft) {
                 player.y+=player.speed
