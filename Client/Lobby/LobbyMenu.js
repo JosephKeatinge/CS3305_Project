@@ -68,7 +68,7 @@ function lobbyMenuDraw() {
     canvasContext.fillStyle="#ffffff";
     canvasContext.fillText(lobbyMenuParseArray(lobbyMenuPointer),canvas.width/2,120+40*(lobbyMenuPointer-(pagesPerPage*pageNum)),400);
     }else{
-	canvasContext.fillText("Password attempt : "+passwordAttempt,canvas.width/2,280);
+	canvasContext.fillText("Password attempt : "+passwordAttempt,canvas.width/2,350);
     }
 }
 
