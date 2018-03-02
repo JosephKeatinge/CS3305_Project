@@ -56,7 +56,7 @@ function loadImages() {
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 	}else if(currentMap=="Factory"){
 		floorPic.src="/Client/Assets/metalfloor.png";
-	  wallPic.src="/Client/Assets/metalwall.jpg";
+	  wallPic.src="/Client/Assets/metalwall.png";
 	brickGrid =
       [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
