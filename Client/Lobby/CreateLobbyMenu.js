@@ -1,7 +1,7 @@
 /**
  * Creates a menu of settings for creating a new Lobby
  * User can change the number of players and set a password
- *  
+ *
 */
 var lobbyName;
 var enteringName;
@@ -24,10 +24,10 @@ function startCreateLobbyMenu(){
     numOfPlayers=2;
     pointer=0;
     text=["Create Lobby", "Lobby Name: ","Map : ", "Number Of Players :","Password On :","Password :"]
-    maps=["Sand","Stone"]
+    maps=["Sand","Stone","Factory"]
 }
 function stringGen(i){
-    /* 
+    /*
     Generates the needed lines of text based on i from the draw loop
     */
     var str=""
@@ -57,7 +57,7 @@ function stringGen(i){
 }
 
 function createLobbyUpdate(){
-    /* 
+    /*
     Creates an interval in which clear and draw are called
     */
     createLobbyDraw();
@@ -65,7 +65,7 @@ function createLobbyUpdate(){
 function createLobbyDraw(){
     canvasContext.fillStyle="#000000";
     canvasContext.fillRect(0,0,canvas.width,canvas.height);
-    /* 
+    /*
     Draws the text to the screen
     */
     canvasContext.textAlign = "center";
@@ -81,7 +81,7 @@ function createLobbyDraw(){
     canvasContext.fillText("Press escape to enter the main menu",canvas.width/2,40*5+100)
 }
 function createLobbyInfo(){
-    var newlobbiesinfo = 
+    var newlobbiesinfo =
     {   lobby_id : lobbyName,
         host : clientUsername,
         max_players : numOfPlayers,
@@ -93,7 +93,7 @@ function createLobbyInfo(){
 }
 function createLobbyControls(e){
     /*
-    Sets the controls for the user and keeps track of pointers 
+    Sets the controls for the user and keeps track of pointers
     */
     console.log("test")
     if(enterPassword){
@@ -195,7 +195,7 @@ function createLobbyControls(e){
                 }
                 break;
             case 13: // Enter key pressed
-                text=["Create Lobby", "Lobby Name: ", "Number Of Players :","Password On :","Password :"]    
+                text=["Create Lobby", "Lobby Name: ", "Number Of Players :","Password On :","Password :"]
 		if(text[pointer]=="Create Lobby"){
                         if(lobbyName.length>0){
 			currentMap=maps[mapPointer]

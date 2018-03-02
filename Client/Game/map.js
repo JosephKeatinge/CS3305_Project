@@ -54,6 +54,25 @@ function loadImages() {
         1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+	}else if(currentMap=="Factory"){
+		floorPic.src="/Client/Assets/metalfloor.png";
+	  wallPic.src="/Client/Assets/metalwall.jpg";
+	brickGrid =
+      [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 2, 0, 0, 1, 0, 0, 0, 2, 0, 0, 1, 0, 0, 2, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 2, 0, 0, 1, 0, 0, 0, 2, 0, 0, 1, 0, 0, 2, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 	}
 }
 
@@ -76,11 +95,11 @@ function isBrickAtTileCoord(brickTileCol, brickTileRow) {
     var brickIndex = brickTileToIndex(brickTileCol, brickTileRow);
     return (brickGrid[brickIndex] == 1);
   }
-  
+
   function isBrickAtPixelCoord(hitPixelX, hitPixelY) {
     var tileCol = hitPixelX / BRICK_W;
     var tileRow = hitPixelY / BRICK_H;
-    
+
     // using Math.floor to round down to the nearest whole number
     tileCol = Math.floor( tileCol );
     tileRow = Math.floor( tileRow );
@@ -90,12 +109,12 @@ function isBrickAtTileCoord(brickTileCol, brickTileRow) {
        tileRow < 0 || tileRow >= BRICK_ROWS) {
        return false;
     }
-    
+
     var brickIndex = brickTileToIndex(tileCol, tileRow);
     return (brickGrid[brickIndex] == 1);
   }
 
-   
+
 
 function cameraFollow() {
     var cameraFocusCenterX = camPanX + (canvas.width-GUI_WIDTH)/2;
@@ -143,7 +162,7 @@ function cameraFollow() {
     canvasContext.fillStyle = fillColor;
     canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
   }
-  
+
   function colorCircle(centerX, centerY, radius, fillColor) {
     canvasContext.fillStyle = fillColor;
     canvasContext.beginPath();
@@ -164,10 +183,10 @@ function cameraFollow() {
     // +2 for columns since BRICK_W doesn't divide evenly into canvas.width
     var cameraRightMostCol = cameraLeftMostCol + colsThatFitOnScreen + 2;
     var cameraBottomMostRow = cameraTopMostRow + rowsThatFitOnScreen + 1;
-    
+
     for(var eachCol=cameraLeftMostCol; eachCol<cameraRightMostCol; eachCol++) {
       for(var eachRow=cameraTopMostRow; eachRow<cameraBottomMostRow; eachRow++) {
-      
+
         if( isBrickAtTileCoord(eachCol, eachRow) ) {
           var arrayIndex=rowColToArrayIndex(eachCol,eachRow);
           var brickLeftEdgeX = eachCol * BRICK_W;

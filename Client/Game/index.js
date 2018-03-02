@@ -133,7 +133,7 @@ function updateAll() {
   if(currentLobby.map=="Sand"){
     BRICK_COLS = 20;
     BRICK_ROWS = 15;
-  }else if(currentLobby.map=="Stone"){
+  }else{
     BRICK_COLS = 21;
     BRICK_ROWS = 16;
   }
