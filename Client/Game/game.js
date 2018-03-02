@@ -48,10 +48,9 @@ function updateGame(){
             otherPlayers=data;
     });
     //sends server information if they been hit or have moved
-    if(moveRight||moveLeft||moveUp||moveDown||hit||hasScored){  
+    if(moveRight||moveLeft||moveUp||moveDown||hit){  
       proxy.sendData(player,'position');
       hit=false;
-      hasScored=false;
      }
 
     console.log(otherPlayers);
