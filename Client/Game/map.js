@@ -240,7 +240,7 @@ function playerReset(player) {
 		for(var eachCol=0; eachCol<BRICK_COLS; eachCol++) {
 			var arrayIndex = rowColToArrayIndex(eachCol, eachRow);
 			if(brickGrid[arrayIndex] == PLAYERSTART) {
-				brickGrid[arra2yIndex] = TILE_FLOOR;
+				brickGrid[arrayIndex] = TILE_FLOOR;
 				player.x = eachCol * BRICK_W + BRICK_W/2;
 				player.y = eachRow * BRICK_H + BRICK_H/2;
 			}
