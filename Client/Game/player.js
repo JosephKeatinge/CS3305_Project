@@ -40,6 +40,7 @@ function playerImageLoad() {
 
 function activate(event) {
     //Called when a key is pressed, sets the relevant moving variable to true.
+    if(dead){ dead = false;}
     var ekeyCode = event.keyCode;
     if (ekeyCode === KEY_D) {
         moveRight = true;
@@ -69,7 +70,10 @@ function deactivate(event) {
 
 function drawPlayer(){
     //Draws player on the canvas if the image is loaded
-        canvasContext.drawImage(playerPic, player.x, player.y, 55, 55);
+    if (dead){
+        canvasContext.globalAlpha = 0.4;
+    }
+    canvasContext.drawImage(playerPic, player.x, player.y, 55, 55);
 
 }
 
