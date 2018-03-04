@@ -113,15 +113,18 @@ GameServer.prototype = {
      *@params player,Is the player that has joined as a object
      *@params id,Is the Socket id of the player
   */
-  addPlayer: function (player, pid) {
+  addPlayer: function (player,playerName, pid) {
+
       this.players[pid] = {
           x: player.x,
           y: player.y,
           health:player.health,
           w:player.w,
           h:player.h,
-          score:player.score
+          score:player.score,
+          id:playerName
       }
+      console.log(this.players);
   },
 
    /*Update the location and health of each Player
@@ -207,7 +210,7 @@ io.on('connection', function (socket) {
   //A player has connected and sent there initial x,y postion
   socket.on('newplayer', function(data) {
     //Server stores this in a dictionary with the socket id as the key and player object
-    servers[data.gameid].addPlayer(data.user,socket.id);
+    servers[data.gameid].addPlayer(data.user,data.userName,socket.id);
   });
   socket.on('position', function (newpos) {
     //Every few seconds the player sends their position as a object

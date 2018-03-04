@@ -5,16 +5,12 @@
 //instantiate player objects
 var playerPic=document.createElement("img");
 var otherPlayers;
-var score=0
+var target=2
 //var sound = document.createElement("audio");
 //sound.src="/Client/Assets/shoot.wav"
 function startGame(){
- 
-
-
   proxy=new Proxy(socket,currentLobby.id);
   loadImages();
-  console.log(socket.id);
   playerReset(player);
   playerImageLoad();
   
@@ -35,12 +31,15 @@ function startGame(){
 
 
 function updateGame(){
-  for(var id in otherPlayers){
-    if(otherPlayers[id].score===2){
-            endTheGame();
-            gameState="endGame"
+  if(otherPlayers.length!=0){
+    for(var id in otherPlayers){
+      if(otherPlayers[id].score===target){
+              endTheGame();
+              otherPlayers={};
+              gameState="endGame"
+      }
     }
-  }
+}
 
     //Check if i have been hit 
     hitbyBullet(allBullets,player);
@@ -76,9 +75,9 @@ function drawGame(){
     //SHOULD BE CHANGED TO ONLY DRAW IF THEY ARE ON THERE SCREEN JUST LIKE MAP
     drawOtherPlayers();
     drawPlayer(player);
+    //Draw All the Bullets
     bulletsDraw(allBullets,'black');
     canvasContext.restore();
-    //Draw all the bullets 
 
     drawGUI();
 
@@ -88,15 +87,10 @@ function drawGame(){
 
 //remove EventListeners change game state
 function endTheGame(){
+    proxy.sendData(player,'disconnect0');
     window.removeEventListener("keydown", activate);
     window.removeEventListener("keyup", deactivate);
     canvas.removeEventListener('mousemove', mouseMove);
     canvas.removeEventListener("click", shoot,false);
-    resetMap();
-    playerReset(player);
-    player.score=0;
-    proxy.sendData(player,'position');
-
-
     gameStarted = false;
 }

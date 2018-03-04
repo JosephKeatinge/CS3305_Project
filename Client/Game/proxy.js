@@ -30,7 +30,7 @@ Proxy.prototype = {
     sendData : function(data,e){
         var gameid = this.game_id;
         
-        this.socket.emit(e, { 'user': data, 'gameid': gameid });
+        this.socket.emit(e, { 'user': data, 'gameid': gameid ,'userName':clientUsername});
     },
     
 
