@@ -8,6 +8,8 @@ var allBullets=[];
 var mouseX;
 var mouseY;
 var otherPlayers;
+var hitSound = document.createElement("audio");
+hitSound.src="/Client/Assets/hitSound.wav";
 var respawnCo = {
     x : 100,
     y : 100
@@ -99,6 +101,7 @@ function mouseMove(e) {
                         bulletlist.splice(j,1);
                         hit=true
                         //tell server i got hit 
+                        hitSound.play();
                         console.log(enemyBullet.id+" Hit me ");
                         if(player.health<=0){
                             console.log("IM DEAD ");
