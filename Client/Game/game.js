@@ -7,7 +7,7 @@ var playerPic=document.createElement("img");
 var otherPlayers;
 var target=2;
 var sound = document.createElement("audio");
-sound.src="/Client/Assets/shoot.wav";
+sound.src="/Client/Assets/shot.wav";
 var soundtrack = document.createElement("audio");
 soundtrack.src="/Client/Assets/Soundtrack.wav";
 soundtrack.loop = true;
