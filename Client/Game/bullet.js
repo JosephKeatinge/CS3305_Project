@@ -126,8 +126,8 @@ function mouseMove(e) {
 }
 
 
-function respawn(deadPlayer){
+/*function respawn(deadPlayer){
     deadPlayer.x = respawnCo.x;
     deadPlayer.y = respawnCo.y;
     deadPlayer.health = 200;
-}
+}*/
