@@ -8,6 +8,9 @@ var otherPlayers;
 var target=2;
 var sound = document.createElement("audio");
 sound.src="/Client/Assets/shoot.wav";
+var soundtrack = document.createElement("audio");
+soundtrack.src="/Client/Assets/Soundtrack.wav";
+soundtrack.loop = true;
 function startGame(){
   proxy=new Proxy(socket,currentLobby.id);
   loadImages();
@@ -93,5 +96,7 @@ function endTheGame(){
     window.removeEventListener("keyup", deactivate);
     canvas.removeEventListener('mousemove', mouseMove);
     canvas.removeEventListener("click", shoot,false);
+    soundtrack.pause();
+    soundtrack.currentTime = 0;
     gameStarted = false;
 }
