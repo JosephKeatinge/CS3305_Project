@@ -96,7 +96,7 @@ function mouseMove(e) {
             //Bullet has hit me
                 var enemyBullet=bullet;
                 if (socket.id != enemyBullet.id) {
-                    if(collidesB(enemyBullet,player)){
+                    if(collidesB(enemyBullet,player)&&(player.hasShield==false)){
                         player.health -= 50;
                         bulletlist.splice(j,1);
                         hit=true
