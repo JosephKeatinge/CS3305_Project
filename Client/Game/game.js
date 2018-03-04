@@ -5,9 +5,9 @@
 //instantiate player objects
 var playerPic=document.createElement("img");
 var otherPlayers;
-var target=2
-//var sound = document.createElement("audio");
-//sound.src="/Client/Assets/shoot.wav"
+var target=2;
+var sound = document.createElement("audio");
+sound.src="/Client/Assets/shoot.wav";
 function startGame(){
   proxy=new Proxy(socket,currentLobby.id);
   loadImages();
@@ -23,6 +23,7 @@ function startGame(){
 
   //Add bullets received from server to list 
   socket.on('bullets',function(bullets){
+            sound.play();
             allBullets.push(bullets);   
     });
 
