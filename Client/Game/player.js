@@ -7,7 +7,8 @@ var player = {
     size: 32,
     speed:5,
     health:200,
-    score:0
+    score:0,
+    hasShield: false,
 };
 
 const KEY_A = 65;
