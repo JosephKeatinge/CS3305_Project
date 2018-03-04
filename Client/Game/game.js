@@ -4,6 +4,9 @@
 //endState function -Remove Event Listeners
 //instantiate player objects
 var playerPic=document.createElement("img");
+var potionPic=document.createElement("img");
+var shieldPic=document.createElement("img");
+var bootsPic=document.createElement("img");
 var otherPlayers;
 var target=2;
 var sound = document.createElement("audio");
@@ -16,6 +19,9 @@ function startGame(){
   loadImages();
   playerReset(player);
   playerImageLoad();
+  shieldImageLoad();
+  bootsImageLoad();
+  potionImageLoad();
   
   window.addEventListener("keydown", activate, false);
   window.addEventListener("keyup", deactivate, false);
@@ -81,6 +87,14 @@ function drawGame(){
     drawPlayer(player);
     //Draw All the Bullets
     bulletsDraw(allBullets,'black');
+    //Draw the powerups
+	  drawPotion();
+	  drawShield();
+	  drawBoots();
+    //Check powerup collision
+	  collidesPotion();
+	  collidesShield();
+	  collidesBoots();
     canvasContext.restore();
 
     drawGUI();
