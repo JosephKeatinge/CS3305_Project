@@ -8,7 +8,6 @@ var otherPlayers;
 //Score target
 var target=2;
 //Sounds
-soundtrack.loop = true;
 /*
   *This function is called at the start of the game
   *Load images and adds event listeners

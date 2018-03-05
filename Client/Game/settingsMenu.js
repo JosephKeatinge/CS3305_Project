@@ -1,4 +1,5 @@
 var settingsMenuPointer=0;
+var volume=5;
 console.log("a");
 function startSettingsMenu(){
     window.addEventListener("keydown",settingsMenuControls);
@@ -41,9 +42,13 @@ function settingsMenuControls(e){
     switch(e.keyCode){
         case 87:
             settingsMenuPointer-=1;
+            menuSound.play()
+            menuSound.currentTime=0;
             break;
         case 83:
             settingsMenuPointer+=1;
+            menuSound.play()
+            menuSound.currentTime=0;
             break;
         case 13:
             if(words[settingsMenuPointer]=="Change UserName"){
