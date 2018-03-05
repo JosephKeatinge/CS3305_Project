@@ -1,32 +1,38 @@
-//updateGame function
-//drawGame function
-//startGame function
-//endState function -Remove Event Listeners
-//instantiate player objects
+//Images to Load
 var playerPic=document.createElement("img");
 var potionPic=document.createElement("img");
 var shieldPic=document.createElement("img");
 var bootsPic=document.createElement("img");
+//otherPlayers list
 var otherPlayers;
+//Score target
 var target=2;
+//Sounds
 var sound = document.createElement("audio");
 sound.src="/Client/Assets/shot.wav";
 var soundtrack = document.createElement("audio");
 soundtrack.src="/Client/Assets/Soundtrack.wav";
 soundtrack.loop = true;
+/*
+  *This function is called at the start of the game
+  *Load images and adds event listeners
+*/
 function startGame(){
+  //Initiate proxy between client and server
   proxy=new Proxy(socket,currentLobby.id);
+  //Load All Images
   loadImages();
   playerReset(player);
   playerImageLoad();
   shieldImageLoad();
   bootsImageLoad();
   potionImageLoad();
-  
+  //Event Listeners
   window.addEventListener("keydown", activate, false);
   window.addEventListener("keyup", deactivate, false);
   canvas.addEventListener('mousemove', mouseMove, true);
   canvas.addEventListener("click", shoot,false);
+
   //Send the players init position
   proxy.sendData(player,'newplayer');
 
@@ -34,25 +40,28 @@ function startGame(){
   socket.on('bullets',function(bullets){
             sound.play();
             allBullets.push(bullets);   
-    });
+  });
 
 
 }
 
-
+/*
+  *This function updates the Game and calls movement functions
+*/
 function updateGame(){
-  if(otherPlayers.length!=0){
-    for(var id in otherPlayers){
-      if(otherPlayers[id].score===target){
-              endTheGame();
-              otherPlayers={};
-              gameState="endGame"
+    //Check if a player has reached the score target if so end the game
+    if(otherPlayers.length!=0){
+      for(var id in otherPlayers){
+        if(otherPlayers[id].score===target){
+                endTheGame();
+                otherPlayers={};
+                gameState="endGame"
+        }
       }
     }
-}
-
-    //Check if i have been hit 
+    //Check if the player has been hit
     hitbyBullet(allBullets,player);
+    //Receive  positions of other players
     socket.on('heartbeat', function(data) {
             otherPlayers=data;
     });
@@ -61,28 +70,28 @@ function updateGame(){
       proxy.sendData(player,'position');
       hit=false;
      }
-
-    console.log(otherPlayers);
     movePlayer();
+    collidesPotion();
+    collidesShield();
+    collidesBoots();
     cameraFollow();
     drawGame();
 }
 
+/*
+   *This function draws everything onto the canvas every interval
+*/
 function drawGame(){
-    //Drawing black instead of floor
     colorRect(0, 0, canvas.width, canvas.height, 'black');
-
     canvasContext.save(); // needed to undo this .translate() used for scroll
-
     // this next line is like subtracting camPanX and camPanY from every
     // canvasContext draw operation up until we call canvasContext.restore
     // this way we can just draw them at their "actual" position coordinates
     canvasContext.translate(-camPanX,-camPanY);
     drawOnlyBricksOnScreen();
-    //Draw the floor not working yet;
+    //Draw the floor 
     drawFloor();
-    
-    //SHOULD BE CHANGED TO ONLY DRAW IF THEY ARE ON THERE SCREEN JUST LIKE MAP
+    //Draw OtherPlayers and myself)
     drawOtherPlayers();
     drawPlayer(player);
     //Draw All the Bullets
@@ -92,18 +101,15 @@ function drawGame(){
 	  drawShield();
 	  drawBoots();
     //Check powerup collision
-	  collidesPotion();
-	  collidesShield();
-	  collidesBoots();
     canvasContext.restore();
-
+    //Draw the Scoreboard 
     drawGUI();
-
-  
-  
 }
 
-//remove EventListeners change game state
+/*
+   *This function is called when a person reaches  the target
+   *score,it removes all eventListeners and changes the state
+*/
 function endTheGame(){
     proxy.sendData(player,'disconnect0');
     window.removeEventListener("keydown", activate);
