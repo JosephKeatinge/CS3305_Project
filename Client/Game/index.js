@@ -39,7 +39,7 @@ var gameState = "username_menu";
 var clientUsername = "";
 var maxPlayers = 4;
 var currentLobby;
-
+var volume; 
 var socket=io.connect();
 var logo = new Image();
 logo.src="Client/Assets/victus.png";

@@ -6,7 +6,7 @@ function startSettingsMenu(){
     words=["Volume : ","Change UserName","Main Menu"];
     settingsMenuPointer=0;
     canvasContext.font="30px Silkscreen";
-    volume=0;
+    volume=5;
 } 
 function updateSettingsMenu(){
     settingsMenuDraw();
