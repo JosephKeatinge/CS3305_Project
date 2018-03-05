@@ -76,8 +76,8 @@ function getshield() {
 	shield.h = 0;
 	
 	player.hasShield = true;
-	//calls shieltimeout after 30 seconds 
-	setTimeout(shieldTimeout,30000);
+	//calls shieltimeout after 10 seconds 
+	setTimeout(shieldTimeout,10000);
 	
 }
 
