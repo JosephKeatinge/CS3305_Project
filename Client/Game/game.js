@@ -49,7 +49,6 @@ function updateGame(){
       for(var id in otherPlayers){
         if(otherPlayers[id].score===target){
                 endTheGame();
-                otherPlayers={};
                 gameState="endGame"
         }
       }
