@@ -33,13 +33,15 @@ const BRICK_GAP = 1;
 var BRICK_COLS;
 var BRICK_ROWS;
 
-
 //Game and lobby settings
 var gameState = "username_menu";
 var clientUsername = "";
 var maxPlayers = 4;
 var currentLobby;
-var volume; 
+var volume=5
+var menuSound = document.createElement("audio");
+menuSound.src="/Client/Assets/menu.wav";
+menuSound.volume=volume/10;
 var socket=io.connect();
 var logo = new Image();
 logo.src="Client/Assets/victus.png";

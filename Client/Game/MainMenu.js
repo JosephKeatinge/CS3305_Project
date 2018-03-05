@@ -39,9 +39,11 @@ function mainmenucontrols(e){
     switch(e.keyCode){
     case 87:
         MainMenuPointer=MainMenuPointer-1;
+        menuSound.play()
         break;
     case 83:
         MainMenuPointer=MainMenuPointer+1;
+        menuSound.play()
         break;
     case 13:
       if(words[MainMenuPointer]=="Create Lobby"){
