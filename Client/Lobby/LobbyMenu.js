@@ -80,6 +80,8 @@ function lobbyMenuControls(e) {
         //User trying to enter lobby password
         switch(e.keyCode){
             case 13:
+                menuSound.play()
+                menuSound.currentTime=0;
                 enteringLobbyPassword=false;
                 console.log("Entered: " + passwordAttempt);
                 break;
@@ -100,6 +102,8 @@ function lobbyMenuControls(e) {
     }
     switch(e.keyCode){
         case 87:
+            menuSound.play()
+            menuSound.currentTime=0;
             if(lobbyMenuPointer > 0 + (pagesPerPage*pageNum)){
                 lobbyMenuPointer-=1;
             }else if(pageNum>0){
@@ -108,13 +112,18 @@ function lobbyMenuControls(e) {
             }
             break;
         case 83:
+            menuSound.play()
+            menuSound.currentTime=0;
             if(lobbyMenuPointer < lobbies.length-1){
                 lobbyMenuPointer+=1;
             }if(lobbyMenuPointer>(pagesPerPage-1)+(pagesPerPage*pageNum)){
                 pageNum+=1;
             }
             break;
-        case 13: //Enter key pressed
+        case 13:
+            menuSound.play()
+            menuSound.currentTime=0;
+             //Enter key pressed
             selectedLobby = lobbies[lobbyMenuPointer];
             //If the selected lobby has a password
             if (selectedLobby.passwordOn) {
@@ -137,6 +146,8 @@ function lobbyMenuControls(e) {
             }
             break;
 	case 27:
+        menuSound.play()
+        menuSound.currentTime=0;
 		if(!enteringLobbyPassword){
 		  endLobbyMenu();
 		  gameState="main_menu";

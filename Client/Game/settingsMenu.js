@@ -58,12 +58,18 @@ function settingsMenuControls(e){
             break;
         case 68:
             if(words[settingsMenuPointer]=="Volume : "){
+                menuSound.play()
+                menuSound.currentTime=0;
                 volume+=1;
+                setVolume();
             }
             break
         case 65:
             if(words[settingsMenuPointer]=="Volume : "){
+                menuSound.play()
+                menuSound.currentTime=0;
                 volume-=1;
+                setVolume();
             }
             break;
         }
@@ -80,5 +86,4 @@ function settingsMenuControls(e){
 function endSettingsMenu(){
     window.removeEventListener("keydown",settingsMenuControls);
     settingsMenu=false;
-    setVolume();
 }

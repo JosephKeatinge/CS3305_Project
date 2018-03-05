@@ -50,6 +50,8 @@ function userNameMenuControls(e){
     if (enterName) {
         switch(e.keyCode){
 	    case 13:
+        menuSound.play()
+        menuSound.currentTime=0;
 		if(clientUsername.length>0){
 		  enterName=false;
 	          endUserNameMenu();
@@ -72,6 +74,8 @@ function userNameMenuControls(e){
     }else{
         switch(e.keyCode){
         case 87:
+            menuSound.play()
+            menuSound.currentTime=0;
             if(usernameMenuPointer>0){
                 usernameMenuPointer-=1;
             }else{
@@ -79,6 +83,8 @@ function userNameMenuControls(e){
             }
             break;
         case 83:
+            menuSound.play()
+            menuSound.currentTime=0;
             if(usernameMenuPointer<text.length-1){
                 usernameMenuPointer+=1;
             }else{
@@ -86,6 +92,8 @@ function userNameMenuControls(e){
             }
             break;
         case 13:
+            menuSound.play()
+            menuSound.currentTime=0;
             if(clientUsername.length>0){
                 enterName=true;
 		endUserNameMenu();

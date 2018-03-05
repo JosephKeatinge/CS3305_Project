@@ -105,6 +105,8 @@ function createLobbyControls(e){
     if(enterPassword){
         switch(e.keyCode){
             case 13:
+                menuSound.play()
+                menuSound.currentTime=0;
                 enterPassword=false;
                 break;
             case 8:
@@ -125,9 +127,12 @@ function createLobbyControls(e){
     } else if (enteringName) {
         switch(e.keyCode){
             case 13:
+                menuSound.play()
+                menuSound.currentTime=0;
                 enteringName=false;
                 break;
             case 8:
+
                 lobbyName=lobbyName.slice(0,lobbyName.length-1);
                 break;
             default:
@@ -144,6 +149,8 @@ function createLobbyControls(e){
     } else {
         switch(e.keyCode){
             case 87: // W key pressed
+                menuSound.play()
+                menuSound.currentTime=0;
                 if(pointer>0){
                     //Move up unless at first item in list
                     pointer-=1;
@@ -153,6 +160,8 @@ function createLobbyControls(e){
                 }
                 break;
             case 83: // S key pressed
+                menuSound.play()
+                menuSound.currentTime=0;
                 if (passwordOn) {
                     if (pointer<text.length-1) {
                         pointer+=1;
@@ -168,7 +177,10 @@ function createLobbyControls(e){
                     }
                 }
                 break;
-            case 68: // D key pressed
+            case 68:
+                menuSound.play()
+                menuSound.currentTime=0; 
+                // D key pressed
                 switch(pointer) {
 		    case 2:
 			if(mapPointer<maps.length-1){mapPointer +=1;}
@@ -190,6 +202,8 @@ function createLobbyControls(e){
                 }
                 break;
             case 65: // A key pressed
+                menuSound.play()
+                menuSound.currentTime=0;
                 switch(pointer) {
 	            case 2:
 			if(mapPointer>0){mapPointer -=1;}
@@ -211,6 +225,8 @@ function createLobbyControls(e){
                 }
                 break;
             case 13: // Enter key pressed
+            menuSound.play()
+            menuSound.currentTime=0;
 		if(text[pointer]=="Create Lobby"){
                         if(lobbyName.length>0){
 			currentMap=maps[mapPointer]
@@ -228,6 +244,8 @@ function createLobbyControls(e){
 		}
 		break;
 	    case 27:
+                menuSound.play()
+                menuSound.currentTime=0;
                 endCreateLobbyMenu();
                 gameState="main_menu"
                 break;
