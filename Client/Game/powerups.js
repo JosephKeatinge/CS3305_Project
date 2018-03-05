@@ -1,5 +1,5 @@
 
-
+//Load powerup images
 function potionImageLoad() {
     potionPic.src = "/Client/Assets/potion.png";
 }
@@ -42,7 +42,7 @@ var potion = {
 	  
 	};
 
-	
+//clears potion and increments player health	
 function getpotion() {
 	potion.x = 0;
 	potion.y = 0;
@@ -55,16 +55,20 @@ function getpotion() {
 	
 }
 
+//clears boots
 function getboots() {
 	boots.x = 0;
 	boots.y = 0;
 	boots.w = 0;
 	boots.h = 0;
-	
-	player.speed = 10;
+	//increments speed
+	player.speed = 8;
+	//calls bootsTimeout after 20 seconds
 	setTimeout(bootsTimeout,20000);
 	
 }
+
+//clears shield
 function getshield() {
 	shield.x = 0;
 	shield.y = 0;
@@ -72,8 +76,8 @@ function getshield() {
 	shield.h = 0;
 	
 	player.hasShield = true;
-	
-	setTimeout(shieldTimeout,20000);
+	//calls shieltimeout after 30 seconds 
+	setTimeout(shieldTimeout,30000);
 	
 }
 
