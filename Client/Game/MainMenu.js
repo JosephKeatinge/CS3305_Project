@@ -40,10 +40,12 @@ function mainmenucontrols(e){
     case 87:
         MainMenuPointer=MainMenuPointer-1;
         menuSound.play()
+        menuSound.currentTime=0;
         break;
     case 83:
         MainMenuPointer=MainMenuPointer+1;
         menuSound.play()
+        menuSound.currentTime=0;
         break;
     case 13:
       if(words[MainMenuPointer]=="Create Lobby"){
