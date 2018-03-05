@@ -10,8 +10,6 @@ var mouseX;
 var mouseY;
 var otherPlayers;
 //Sound for when a player is hit
-var hitSound = document.createElement("audio");
-hitSound.src="/Client/Assets/hitSound.wav";
 var respawnCo = {
     x : 100,
     y : 100

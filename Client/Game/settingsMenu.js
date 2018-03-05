@@ -1,4 +1,3 @@
-var volume;
 var settingsMenuPointer=0;
 console.log("a");
 function startSettingsMenu(){
@@ -6,11 +5,16 @@ function startSettingsMenu(){
     words=["Volume : ","Change UserName","Main Menu"];
     settingsMenuPointer=0;
     canvasContext.font="30px Silkscreen";
-    volume=5;
 } 
 function updateSettingsMenu(){
     settingsMenuDraw();
     console.log(settingsMenuPointer);
+}
+function setVolume(){
+
+    for(i=0; i<sounds.length; i++){
+        sounds[i].volume=volume;
+    }
 }
 function settingsMenuDraw(){
     canvasContext.fillStyle="#000000";              
@@ -43,10 +47,10 @@ function settingsMenuControls(e){
             break;
         case 13:
             if(words[settingsMenuPointer]=="Change UserName"){
-		endSettingsMenu();
+		        endSettingsMenu();
                 gameState="username_menu";
             }else if(words[settingsMenuPointer]=="Main Menu"){
-		endSettingsMenu();
+		        endSettingsMenu();
                 gameState="main_menu";
             }
             break;
@@ -74,4 +78,5 @@ function settingsMenuControls(e){
 function endSettingsMenu(){
     window.removeEventListener("keydown",settingsMenuControls);
     settingsMenu=false;
+    setVolume();
 }

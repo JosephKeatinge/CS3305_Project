@@ -38,10 +38,20 @@ var gameState = "username_menu";
 var clientUsername = "";
 var maxPlayers = 4;
 var currentLobby;
-var volume=5
+var volume;
+var sound = document.createElement("audio");
+sound.src="/Client/Assets/shot.wav";
+var soundtrack = document.createElement("audio");
+soundtrack.src="/Client/Assets/Soundtrack.wav";
+var hitSound = document.createElement("audio");
+hitSound.src="/Client/Assets/hitSound.wav";
 var menuSound = document.createElement("audio");
 menuSound.src="/Client/Assets/menu.wav";
-menuSound.volume=volume/10;
+menuSound.volume=5/10;
+var sounds=[menuSound,sound,soundtrack,hitSound]
+for(i=0; i<sounds.length;i++){
+  sounds[i].currentTime=0;
+}
 var socket=io.connect();
 var logo = new Image();
 logo.src="Client/Assets/victus.png";

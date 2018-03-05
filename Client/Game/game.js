@@ -8,10 +8,6 @@ var otherPlayers;
 //Score target
 var target=2;
 //Sounds
-var sound = document.createElement("audio");
-sound.src="/Client/Assets/shot.wav";
-var soundtrack = document.createElement("audio");
-soundtrack.src="/Client/Assets/Soundtrack.wav";
 soundtrack.loop = true;
 /*
   *This function is called at the start of the game
