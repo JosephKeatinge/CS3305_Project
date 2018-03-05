@@ -31,7 +31,7 @@ server.listen(1194, function() {
 });
 
 //Lobby Server Class
-function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword,init_map) {
+function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword,init_map,init_score) {
     /*
      *@constructor for the Lobby API
      *@params players, the list of players in the lobby
@@ -52,6 +52,7 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword,in
     this.gameOn = false;
     this.scores = {};
     this.map=init_map;
+    this.score=init_score;
 }
 
 Lobby.prototype={
@@ -59,7 +60,7 @@ Lobby.prototype={
      * @return JSON object with Lobbynum, the lobby ID; Players, the amount of players in the lobby; maxPlayers, the max amount of players allowed
     */
     requestInfo : function () {
-        return { id: this.id, host: this.host,playernames:this.playernames,map:this.map,passwordOn: this.pwordOn, password: this.password, max_players: this.max_players };
+        return { id: this.id, host: this.host,playernames:this.playernames,map:this.map,passwordOn: this.pwordOn, password: this.password, max_players: this.max_players, score : this.score };
 
     },
 

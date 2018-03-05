@@ -13,6 +13,7 @@ var pointer;
 var numOfPlayers;
 var mapPointer;
 var maps;
+var maxScore;
 function startCreateLobbyMenu(){
     window.addEventListener("keydown",createLobbyControls);
     lobbyName = "";
@@ -22,8 +23,9 @@ function startCreateLobbyMenu(){
     password="";
     enterPassword=false;
     numOfPlayers=2;
+    maxScore=2;
     pointer=0;
-    text=["Create Lobby", "Lobby Name: ","Map : ", "Number Of Players :","Password On :","Password :"]
+    text=["Create Lobby", "Lobby Name: ","Map : ", "Number Of Players :","Max score :","Password On :","Password :"]
     maps=["Sand","Stone","Factory"]
 }
 function stringGen(i){
@@ -45,9 +47,12 @@ function stringGen(i){
             str="Number Of Players: "+ numOfPlayers;
             break;
         case 4:
-            str="Password On: " + passwordOn;
+            str="Max Score : "+maxScore
             break;
         case 5:
+            str="Password On: " + passwordOn;
+            break;
+        case 6:
 	    if(passwordOn==true){
               str="Password : " + password;
 	    }
@@ -87,7 +92,8 @@ function createLobbyInfo(){
         max_players : numOfPlayers,
         pwordOn : passwordOn,
         password : password,
-	map : currentMap
+	    map : currentMap,
+        score : maxScore
     };
     return newlobbiesinfo;
 }
@@ -172,6 +178,10 @@ function createLobbyControls(e){
                         if (numOfPlayers < maxPlayers) { numOfPlayers += 1; }
                         break;
                     case 4:
+                        if(maxScore<20){
+                            maxScore+=1
+                        }
+                    case 5:
                         passwordOn = !passwordOn;
                         break;
                     default:
@@ -188,6 +198,10 @@ function createLobbyControls(e){
                         if (numOfPlayers > 0) { numOfPlayers -= 1; }
                         break;
                     case 4:
+                        if(maxScore>0){
+                            maxScore-=1;
+                        }
+                    case 5:
                         passwordOn = !passwordOn;
                         break;
                     default:
