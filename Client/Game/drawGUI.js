@@ -19,5 +19,9 @@ function drawGUI(){
       canvasContext.fillText(otherPlayers[id].id+ " : " + otherPlayers[id].score ,canvas.width - 100,200 + i*50);
       i++
   }
-
+  canvasContext.fillStyle = "#ff0000"
+  canvasContext.fillRect(canvas.width - 180,40,160,20)
+  canvasContext.fillStyle = "#00ff00"
+  console.log(player.health)
+  canvasContext.fillRect(canvas.width - 180,40,(160 - (((200-player.health)/200)*160)),20)
 }
