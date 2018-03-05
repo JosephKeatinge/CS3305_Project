@@ -4,7 +4,7 @@ function startSettingsMenu(){
     words=["Volume : ","Change UserName","Main Menu"];
     settingsMenuPointer=0;
     canvasContext.font="30px Silkscreen";
-} 
+}
 function updateSettingsMenu(){
     settingsMenuDraw();
 }
@@ -15,7 +15,7 @@ function setVolume(){
     }
 }
 function settingsMenuDraw(){
-    canvasContext.fillStyle="#000000";              
+    canvasContext.fillStyle="#000000";
     canvasContext.fillRect(0,0,canvas.width,canvas.height);
     canvasContext.fillStyle="#888888";
     canvasContext.fillText("Settings",canvas.width/2,100);
@@ -58,18 +58,22 @@ function settingsMenuControls(e){
             break;
         case 68:
             if(words[settingsMenuPointer]=="Volume : "){
+              if(volume<10){
                 menuSound.play()
                 menuSound.currentTime=0;
                 volume+=1;
                 setVolume();
+              }
             }
             break
         case 65:
             if(words[settingsMenuPointer]=="Volume : "){
+                if(volume>0){
                 menuSound.play()
                 menuSound.currentTime=0;
                 volume-=1;
                 setVolume();
+              }
             }
             break;
         }
@@ -78,10 +82,10 @@ function settingsMenuControls(e){
         }else if(settingsMenuPointer>=words.length){
             settingsMenuPointer=words.length-1;
         }else if(volume>10){
-	volume=10
-	}else if(volume<0){
-	volume=0;
-	}
+	           volume=10
+	      }else if(volume<0){
+	             volume=0;
+	      }
 }
 function endSettingsMenu(){
     window.removeEventListener("keydown",settingsMenuControls);
