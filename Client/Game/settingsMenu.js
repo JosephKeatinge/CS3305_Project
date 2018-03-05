@@ -1,6 +1,4 @@
-var settingsMenuPointer=0;
-var volume=5;
-console.log("a");
+var settingsMenuPointer;
 function startSettingsMenu(){
     window.addEventListener("keydown",settingsMenuControls);
     words=["Volume : ","Change UserName","Main Menu"];
@@ -9,12 +7,11 @@ function startSettingsMenu(){
 } 
 function updateSettingsMenu(){
     settingsMenuDraw();
-    console.log(settingsMenuPointer);
 }
 function setVolume(){
 
     for(i=0; i<sounds.length; i++){
-        sounds[i].volume=volume;
+        sounds[i].volume=volume/10;
     }
 }
 function settingsMenuDraw(){
@@ -52,10 +49,10 @@ function settingsMenuControls(e){
             break;
         case 13:
             if(words[settingsMenuPointer]=="Change UserName"){
-		        endSettingsMenu();
+		endSettingsMenu();
                 gameState="username_menu";
             }else if(words[settingsMenuPointer]=="Main Menu"){
-		        endSettingsMenu();
+		endSettingsMenu();
                 gameState="main_menu";
             }
             break;

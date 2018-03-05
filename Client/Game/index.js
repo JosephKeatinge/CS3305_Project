@@ -38,7 +38,7 @@ var gameState = "username_menu";
 var clientUsername = "";
 var maxPlayers = 4;
 var currentLobby;
-var volume;
+var volume=5;
 var sound = document.createElement("audio");
 sound.src="/Client/Assets/shot.wav";
 var soundtrack = document.createElement("audio");
