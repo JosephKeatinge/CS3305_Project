@@ -181,6 +181,7 @@ function createLobbyControls(e){
                         if(maxScore<20){
                             maxScore+=1
                         }
+			break;
                     case 5:
                         passwordOn = !passwordOn;
                         break;
@@ -201,6 +202,7 @@ function createLobbyControls(e){
                         if(maxScore>0){
                             maxScore-=1;
                         }
+			break;
                     case 5:
                         passwordOn = !passwordOn;
                         break;
