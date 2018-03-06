@@ -57,21 +57,23 @@ function userNameMenuControls(e){
 	          endUserNameMenu();
 		}
 		break;
-            case 8:
+        case 8:
                 clientUsername=clientUsername.slice(0,clientUsername.length-1);
                 break;
             default:
-		if(e.keyCode>=65 && e.keyCode<=90 ){
+            if(clientUsername<=15){
+		        if(e.keyCode>=65 && e.keyCode<=90 ){
                 	letter = String.fromCharCode(e.keyCode)
                 	clientUsername+=letter.toUpperCase();
-		}
-		if(e.keyCode>=48 && e.keyCode<=57){
-			letter = String.fromCharCode(e.keyCode)
-                        clientUsername+=letter.toUpperCase();
-		}
- 	     break;
+		        }
+		        if(e.keyCode>=48 && e.keyCode<=57){
+			        letter = String.fromCharCode(e.keyCode)
+                    clientUsername+=letter.toUpperCase();
+		        }
+ 	        break;
+            }
         }
-    }else{
+        }else{
         switch(e.keyCode){
         case 87:
             menuSound.play()
@@ -119,4 +121,5 @@ function endUserNameMenu(){
   window.removeEventListener("keydown",userNameMenuControls);
   usernameMenu = false;
   gameState = "main_menu";
+
 }
