@@ -46,7 +46,7 @@ function updateGame(){
     //Check if a player has reached the score target if so end the game
     if(otherPlayers.length!=0){
       for(var id in otherPlayers){
-        if(otherPlayers[id].score===lobby.score){
+        if(otherPlayers[id].score===currentLobby.score){
                 endTheGame();
                 gameState="endGame"
         }

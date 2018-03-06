@@ -53,6 +53,7 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword,in
     this.scores = {};
     this.map=init_map;
     this.score=init_score;
+    console.log(this.score)
 }
 
 Lobby.prototype={
@@ -267,7 +268,7 @@ io.on('connection', function (socket) {
     //To answer a client emit requesting to create a lobby
   socket.on('create_lobby', function (lobbyinfo) {
       lobbyno += 1
-      newlobby = new Lobby(lobbyinfo.lobby_id, lobbyinfo.host, lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password,lobbyinfo.map);
+      newlobby = new Lobby(lobbyinfo.lobby_id, lobbyinfo.host, lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password,lobbyinfo.map,lobbyinfo.score);
       //console.log(newlobby);
       lobbies[newlobby.id] = newlobby;
       lobbies[newlobby.id].playerJoin({"id":socket.id, "username":newlobby.host});

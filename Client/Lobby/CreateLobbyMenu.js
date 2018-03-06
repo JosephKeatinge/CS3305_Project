@@ -92,7 +92,7 @@ function createLobbyInfo(){
         max_players : numOfPlayers,
         pwordOn : passwordOn,
         password : password,
-	    map : currentMap,
+	map : currentMap,
         score : maxScore
     };
     return newlobbiesinfo;
@@ -233,7 +233,7 @@ function createLobbyControls(e){
 			newLobby = createLobbyInfo();
                         create_lobby(socket,newLobby,clientUsername,currentMap);
                         gameState="lobby"
-			console.log(currentMap)
+			console.log(maxScore)
                         endCreateLobbyMenu();
 			}
 		}else if(text[pointer]=="Lobby Name: "){
