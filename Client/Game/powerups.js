@@ -95,37 +95,43 @@ setInterval("createPotion()", (Math.random()* (30000) + 10000));
 setInterval("createShield()", (Math.random()* (30000) + 10000));
 
 function createPotion() {
-	var x = Math.random()* (width) + 1;
-	var y = Math.random()* (height) + 1;
-	if(!isWallAtColRow(x, y)){
-		potion.x = x;
-		potion.y = y;
-		potion.h = 40;
-		potion.w = 40;
-	}
+	var k = Math.floor((Math.random() * (spawnPotion.length)) + 0);
+	potion.x = spawnPotion[k].x;
+	potion.y = spawnPotion[k].y;
+	potion.h = 40;
+	potion.w = 40;
+	
 }
+	
+
 
 function createShield() {
-	var x = Math.random()* (width) + 1;
-	var y = Math.random()* (height) + 1;
-	if(!isWallAtColRow(x, y)){
-		shield.x = x;
-		shield.y = y;
-		shield.h = 40;
-		shield.w = 40;
-	}
+	var j = Math.floor((Math.random() * (spawnBoots.length)) + 0); 
+	shield.x = spawnShield[j].x;
+	shield.y = spawnShield[j].y;
+	shield.h = 40;
+	shield.w = 40;
+	
 }
 
 function createBoots() {
-	var x = Math.random()* (width) + 1;
-	var y = Math.random()* (height) + 1;
-	if(!isWallAtColRow(x, y)){
-		boots.x = x;
-		boots.y = y;
-		boots.h = 40;
-		boots.w = 40;
-	}
+	var i = Math.floor((Math.random() * (spawnBoots.length)) + 0);
+	
+	boots.x = spawnBoots[i].x;
+	boots.y = spawnBoots[i].y;
+	boots.h = 40;
+	boots.w = 40;
 }
+
+var spawnPotion = [{x:300, y:60}, ,{x:900, y:780}, {x:480, y:120}, {x:1080, y:1020} ];
+				
+var spawnShield = [{x:300, y:300}, {x:900, y:120}, {x:480, y:900},
+				{x:900, y:600}, {x:1020, y:420} ];
+				
+var spawnBoots = [{x:120, y:780}, {x:540, y:420}, {x:1020, y:60}, {x:900, y:540},  ];
+
+
+
 
 
 
