@@ -213,7 +213,7 @@ function createLobbyControls(e){
                         if (numOfPlayers > 0) { numOfPlayers -= 1; }
                         break;
                     case 4:
-                        if(maxScore>0){
+                        if(maxScore>2){
                             maxScore-=1;
                         }
 			break;
