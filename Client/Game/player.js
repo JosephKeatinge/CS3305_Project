@@ -143,8 +143,15 @@ function movePlayer() {
     //movementAmount variable.
 
     if (moveRight) {
+        
         if (isOtherPlayer('right')){
        
+        }
+        else if (isWallAtColRow(playerXCoord + 1, playerYCoord) ) {
+            if (BRICK_W * playerXCoord - player.x > player.speed && BRICK_W * playerXCoord > player.x) {
+                player.x += player.speed
+            }
+          
         }
          //If a player collides with a wall brick, they are centred back to a position where they will not collide with the wall but can still
         //freely move
@@ -198,15 +205,18 @@ function movePlayer() {
 
 
         }
-        else if (BRICK_W * playerXCoord > player.x) {
 
 
-            player.x += player.speed;
-        }
     }
     if (moveLeft) {
         if (isOtherPlayer( 'left')) {
             
+        }
+        else if (isWallAtColRow(playerXCoord - 1, playerYCoord)) {
+            if (player.x - BRICK_W * playerXCoord > player.speed && BRICK_W * playerXCoord < player.x) {
+                player.x -= player.speed
+            }
+
         }
         else if (isWallAtColRow(playerXCoord - 1, playerYCoord + 1) && player.y > BRICK_W * playerYCoord && player.x < BRICK_W * playerXCoord) {
             
@@ -216,7 +226,7 @@ function movePlayer() {
             }
             else {
                 
-                player.x = (BRICK_W * playerXCoord) + (player.x - playerXCoord * BRICK_W)
+                player.x -=player.speed
             }
             player.y = ((BRICK_W * (playerYCoord)) + (player.y - ((playerYCoord) * BRICK_W)))
             
@@ -231,6 +241,7 @@ function movePlayer() {
                 player.x = (BRICK_W * playerXCoord) + (player.x - playerXCoord * BRICK_W)
                 
             }
+            player.y = ((BRICK_W * (playerYCoord)) + (player.y - ((playerYCoord) * BRICK_W)))
             
       
         }
@@ -240,13 +251,17 @@ function movePlayer() {
             player.x -= player.speed
 
         }
-        else if (BRICK_W * playerXCoord < player.x) {
-            player.x -= player.speed;
-        }
+        
     }
     if (moveUp) {
         if (isOtherPlayer('up')) {
            
+        }
+        else if (isWallAtColRow(playerXCoord , playerYCoord-1)) {
+            if (player.y-BRICK_W * playerYCoord  > player.speed && BRICK_W * playerYCoord < player.y) {
+                player.y -= player.speed
+            }
+
         }
         //For if a player is about to clip into a wall moving upwards
         else if (!isWallAtColRow(playerXCoord, playerYCoord - 1)&& isWallAtColRow(playerXCoord + 1, playerYCoord - 1) && player.x > BRICK_W * playerXCoord && player.y < BRICK_W * playerYCoord) {
@@ -294,14 +309,17 @@ function movePlayer() {
 
 
         }
-        else if (BRICK_W * playerYCoord < player.y) {
-            player.y -= player.speed;
-
-        }
+        
     }
     if (moveDown) {
         if (isOtherPlayer('down')) {
             
+        }
+        else if (isWallAtColRow(playerXCoord, playerYCoord+1)) {
+            if ( BRICK_W * playerYCoord - player.y > player.speed && BRICK_W * playerYCoord > player.y) {
+                player.y += player.speed
+            }
+
         }
         else if (!isWallAtColRow(playerXCoord, playerYCoord + 1)&& isWallAtColRow(playerXCoord + 1, playerYCoord + 1) && player.x > BRICK_W * playerXCoord && player.y > BRICK_W * playerYCoord) {
             
@@ -352,9 +370,7 @@ function movePlayer() {
             player.y += player.speed;
 
         }
-        else if (BRICK_W * playerYCoord > player.y) {
-            player.y += player.speed;
 
-        }
+
     }
 }
