@@ -95,7 +95,7 @@ setInterval("createPotion()", (Math.random()* (30000) + 10000));
 setInterval("createShield()", (Math.random()* (30000) + 10000));
 
 function createPotion() {
-	var k = Math.floor((Math.random() * (spawnPotion.length)) + 0);
+	var k = Math.floor((Math.random()* (3)) + 0);
 	potion.x = spawnPotion[k].x;
 	potion.y = spawnPotion[k].y;
 	potion.h = 40;
@@ -106,7 +106,7 @@ function createPotion() {
 
 
 function createShield() {
-	var j = Math.floor((Math.random() * (spawnBoots.length)) + 0); 
+	var j = Math.floor((Math.random()* (4)) + 0); 
 	shield.x = spawnShield[j].x;
 	shield.y = spawnShield[j].y;
 	shield.h = 40;
@@ -115,7 +115,7 @@ function createShield() {
 }
 
 function createBoots() {
-	var i = Math.floor((Math.random() * (spawnBoots.length)) + 0);
+	var i = Math.floor((Math.random()* (3)) + 0);
 	
 	boots.x = spawnBoots[i].x;
 	boots.y = spawnBoots[i].y;
@@ -123,7 +123,7 @@ function createBoots() {
 	boots.w = 40;
 }
 
-var spawnPotion = [{x:300, y:60}, ,{x:900, y:780}, {x:480, y:120}, {x:1080, y:1020} ];
+var spawnPotion = [{x:300, y:60}, {x:900, y:780}, {x:480, y:120}, {x:1080, y:1020} ];
 				
 var spawnShield = [{x:300, y:300}, {x:900, y:120}, {x:480, y:900},
 				{x:900, y:600}, {x:1020, y:420} ];
