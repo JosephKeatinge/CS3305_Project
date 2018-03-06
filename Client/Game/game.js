@@ -6,7 +6,6 @@ var bootsPic=document.createElement("img");
 //otherPlayers list
 var otherPlayers;
 //Score target
-var target=2;
 //Sounds
 /*
   *This function is called at the start of the game
@@ -31,10 +30,10 @@ function startGame(){
   //Send the players init position
   proxy.sendData(player,'newplayer');
 
-  //Add bullets received from server to list 
+  //Add bullets received from server to list
   socket.on('bullets',function(bullets){
             sound.play();
-            allBullets.push(bullets);   
+            allBullets.push(bullets);
   });
 
 
@@ -47,9 +46,8 @@ function updateGame(){
     //Check if a player has reached the score target if so end the game
     if(otherPlayers.length!=0){
       for(var id in otherPlayers){
-        if(otherPlayers[id].score===target){
+        if(otherPlayers[id].score===currentLobby.score){
                 endTheGame();
-                otherPlayers={};
                 gameState="endGame"
         }
       }
@@ -61,7 +59,7 @@ function updateGame(){
             otherPlayers=data;
     });
     //sends server information if they been hit or have moved
-    if(moveRight||moveLeft||moveUp||moveDown||hit){  
+    if(moveRight||moveLeft||moveUp||moveDown||hit){
       proxy.sendData(player,'position');
       hit=false;
      }
@@ -84,7 +82,7 @@ function drawGame(){
     // this way we can just draw them at their "actual" position coordinates
     canvasContext.translate(-camPanX,-camPanY);
     drawOnlyBricksOnScreen();
-    //Draw the floor 
+    //Draw the floor
     drawFloor();
     //Draw OtherPlayers and myself)
     drawOtherPlayers();
@@ -97,7 +95,7 @@ function drawGame(){
 	  drawBoots();
     //Check powerup collision
     canvasContext.restore();
-    //Draw the Scoreboard 
+    //Draw the Scoreboard
     drawGUI();
 }
 

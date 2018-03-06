@@ -24,6 +24,7 @@ function endGameDraw(){
 function startGameControls(e){
     if(e.keyCode==13){
         endGameControls();
+        otherPlayers={};
         gameState="main_menu";
     }
 }
