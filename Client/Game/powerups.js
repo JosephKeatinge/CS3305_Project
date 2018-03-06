@@ -62,7 +62,7 @@ function getboots() {
 	boots.w = 0;
 	boots.h = 0;
 	//increments speed
-	player.speed = 8;
+	player.speed = 10;
 	//calls bootsTimeout after 10 seconds
 	setTimeout(bootsTimeout,10000);
 	
