@@ -9,6 +9,7 @@ var player = {
     health:200,
     score:0,
     hasShield: false,
+    direction: 0,
 };
 
 const KEY_A = 65;
@@ -30,7 +31,7 @@ var playerLoaded = false;
 function playerImageLoad() {
     //Sets the playerLoaded variable to true once the player sprite image is loaded.
     if(currentLobby.map=="Sand"){
-      playerPic.src = "/Client/Assets/player.png";
+      playerPic.src = "/Client/Assets/dragon_player.png";
     }else if(currentLobby.map=="Stone"){
       playerPic.src = "/Client/Assets/slime.png";
     }else if(currentLobby.map=="Factory"){
@@ -73,16 +74,25 @@ function drawPlayer(){
     if (dead){
         canvasContext.globalAlpha = 0.4;
     }
-    canvasContext.drawImage(playerPic, player.x, player.y, 55, 55);
-
+    player_image_index = Math.round(player.direction/2);
+    if(player_image_index == 180){
+        player_image_index = 0
+    }
+    canvasContext.drawImage(playerPic,0 + 60* player_image_index,0,60,60,player.x,player.y,60,60);
 }
 
 //Draws other players in the game
 function drawOtherPlayers(){
   for(var id in otherPlayers){
     if (id != socket.id){
-      var player=otherPlayers[id];
-        canvasContext.drawImage(playerPic, player.x, player.y);}
+      var otherPlayer=otherPlayers[id]; 
+        player_image_index = Math.round(otherPlayer.direction/2);
+        if(player_image_index == 180){
+            player_image_index = 0
+        }
+        console.log(otherPlayer.direction)
+        canvasContext.drawImage(playerPic,0 + 60* player_image_index,0,60,60,otherPlayer.x,otherPlayer.y,60,60);
+     }
   }
 }
 /*
@@ -137,7 +147,9 @@ function movePlayer() {
     //Translating the player x and y canvas coordinates to x and y coordinates in the map array
     var playerXCoord = Math.round(player.x / (BRICK_W));
     var playerYCoord = Math.round(player.y / (BRICK_H));
-
+      
+    player.direction = Math.atan2(mouseY + camPanY - (player.y+20),mouseX + camPanX - (player.x+50))*180/Math.PI;
+    player.direction = (270 + player.direction) % 360
     //Logic is the same regardless of direction: if the next tile in the direction the player
     //is headed in is a wall, nothing will happen. Otherwise, move the amount dictated by the
     //movementAmount variable.

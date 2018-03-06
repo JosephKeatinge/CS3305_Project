@@ -124,7 +124,8 @@ GameServer.prototype = {
           w:player.w,
           h:player.h,
           score:player.score,
-          id:playerName
+          id:playerName,
+          direction:player.direction,
       }
       console.log(this.players);
   },
@@ -140,6 +141,7 @@ GameServer.prototype = {
               player.x = newpos.x;
               player.y = newpos.y;
               player.health=newpos.health;
+              player.direction = newpos.direction;
           }
           this.sendPlayerData();
       }
