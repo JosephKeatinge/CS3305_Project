@@ -17,7 +17,7 @@ function drawGUI(){
   //Draw Health Bar
   canvasContext.fillStyle = "#ff0000"
   canvasContext.fillRect(canvas.width - 180,40,160,20)
-  if(player.health==false){
+  if(player.hasShield===false){
   canvasContext.fillStyle = "#00ff00"
   }
   else{
