@@ -258,9 +258,9 @@ function createLobbyControls(e){
                         	    gameState="lobby"
                         	    endCreateLobbyMenu();
 			        }
-		        }else if(text[pointer]=="Lobby Name: "){
+		        }
                         //allows the user to enter the lobby name
-            	menuSound.play()
+             	 menuSound.play()
            	 menuSound.currentTime=0;
 		if(text[pointer]=="Create Lobby"){
             	    if(lobbyName.length>0){
@@ -276,8 +276,8 @@ function createLobbyControls(e){
                     }else if(text[pointer]=="Password :"){
                         //enter the password 
                         enterPassword = true;
+			break;
 		    }
-		}
 		break;
 	        case 27:
                 //press escape to leave the menu
