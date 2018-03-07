@@ -14,7 +14,8 @@ var otherPlayers;
 function startGame(){
   //Initiate proxy between client and server
   proxy=new Proxy(socket,currentLobby.id);
-  //Load All Images
+  soundtrack.play()
+  //Load All Image
   loadMap();
   respawn(player);
   playerImageLoad();
