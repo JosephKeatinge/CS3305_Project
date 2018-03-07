@@ -250,18 +250,18 @@ function createLobbyControls(e){
                 menuSound.currentTime=0;
 		        if(text[pointer]=="Create Lobby"){
                     //if pointer is on create lobby
-                    if(lobbyName.length>0){
+                    		if(lobbyName.length>0){
                         //if the lobby name is greater than 0 then create the lobby
-			            currentMap=maps[mapPointer]
+			    	    currentMap=maps[mapPointer]
 			            newLobby = createLobbyInfo();
-                        create_lobby(socket,newLobby,clientUsername,currentMap);
-                        gameState="lobby"
-                        endCreateLobbyMenu();
+                        	    create_lobby(socket,newLobby,clientUsername,currentMap);
+                        	    gameState="lobby"
+                        	    endCreateLobbyMenu();
 			        }
 		        }else if(text[pointer]=="Lobby Name: "){
                         //allows the user to enter the lobby name
-            menuSound.play()
-            menuSound.currentTime=0;
+            	menuSound.play()
+           	 menuSound.currentTime=0;
 		if(text[pointer]=="Create Lobby"){
             	    if(lobbyName.length>0){
 			currentMap=maps[mapPointer];
@@ -277,8 +277,8 @@ function createLobbyControls(e){
                         //enter the password 
                         enterPassword = true;
 		    }
-		    break;
 		}
+		break;
 	        case 27:
                 //press escape to leave the menu
                 menuSound.play()
