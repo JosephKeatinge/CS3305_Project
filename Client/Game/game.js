@@ -15,7 +15,7 @@ function startGame(){
   //Initiate proxy between client and server
   proxy=new Proxy(socket,currentLobby.id);
   //Load All Images
-  loadImages();
+  loadMap();
   playerReset(player);
   playerImageLoad();
   shieldImageLoad();

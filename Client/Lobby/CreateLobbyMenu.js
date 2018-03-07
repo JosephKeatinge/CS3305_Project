@@ -101,7 +101,6 @@ function createLobbyControls(e){
     /*
     Sets the controls for the user and keeps track of pointers
     */
-    console.log("test")
     if(enterPassword){
         switch(e.keyCode){
             case 13:
@@ -228,13 +227,12 @@ function createLobbyControls(e){
             menuSound.play()
             menuSound.currentTime=0;
 		if(text[pointer]=="Create Lobby"){
-                        if(lobbyName.length>0){
-			currentMap=maps[mapPointer]
-			newLobby = createLobbyInfo();
-                        create_lobby(socket,newLobby,clientUsername,currentMap);
-                        gameState="lobby"
-			console.log(maxScore)
-                        endCreateLobbyMenu();
+            if(lobbyName.length>0){
+			    currentMap=maps[mapPointer];
+			    newLobby = createLobbyInfo();
+                create_lobby(socket,newLobby,clientUsername,currentMap);
+                gameState="lobby";
+                endCreateLobbyMenu();
 			}
 		}else if(text[pointer]=="Lobby Name: "){
                         enteringName = true;

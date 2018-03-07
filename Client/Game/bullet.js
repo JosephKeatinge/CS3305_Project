@@ -58,14 +58,11 @@ function createBullet(targetX, targetY, shooterX, shooterY,clientID) {
  *@params color,Color of the bullet
 */
 function bulletsDraw(list,color) {
-
-  for(var i=0; i<list.length;i+=1){
-      canvasContext.fillStyle = color;
-      canvasContext.fillRect(list[i].x, list[i].y, list[i].w, list[i].h);
-      bulletsMove(list);
-
-
-  }
+    bulletsMove(list);
+    for(var i=0; i<list.length;i+=1){
+        canvasContext.fillStyle = color;
+        canvasContext.fillRect(list[i].x, list[i].y, list[i].w, list[i].h);
+    }
 }
 
 /*Check collision between two objects
@@ -82,19 +79,30 @@ function collidesB(a, b) {
  *@params listBull,list of bullets to move
 */
 function bulletsMove(listBull) {
+//Moves each bullet on the map. If the bullet collides with a wall it will be
+//deleted from the game.
     listBull.forEach( function(bullet, j) {
-    bullet.x += bullet.xtarget * bullet.speed;
-    bullet.y += bullet.ytarget * bullet.speed;
-    var bulletXCoord = Math.round(bullet.x / (BRICK_W));
-    var bulletYCoord = Math.round(bullet.y / (BRICK_H));
-
-    if (isWallAtColRow(bulletXCoord, bulletYCoord)) {
-          //Tell Server that bullet has hit a wall
-          //proxy.sendData(bullet,'outside');
-          listBull.splice(j,1);
+        if (checkForWallCollision(bullet)) {
+            listBull.splice(j,1);
+        } else {
+            bullet.x += bullet.xtarget * bullet.speed;
+            bullet.y += bullet.ytarget * bullet.speed;
         }
-        
     });
+}
+
+function checkForWallCollision(bullet) {
+    //Checks if the next move on the bullet's collision is a wall, if so
+    //returns true, if not returns false
+    var nextX = bullet.x + bullet.xtarget * bullet.speed;
+    var nextY = bullet.y + bullet.ytarget * bullet.speed;
+    nextX = Math.floor(nextX / BRICK_W);
+    nextY = Math.floor(nextY / BRICK_H);
+    if (isWallAtColRow(nextX, nextY)) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 /*Gets x and y of mouse click
