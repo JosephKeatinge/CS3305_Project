@@ -5,7 +5,7 @@ var player = {
     w: 60,
     h: 60,
     size: 32,
-    speed:5,
+    speed:6,
     health:200,
     score:0,
     hasShield: false,

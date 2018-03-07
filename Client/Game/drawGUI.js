@@ -1,3 +1,8 @@
+
+/*
+ *This function draws the gui on the righthand side 
+ *It includes the scoreboard and the healthBar
+*/
 function drawGUI(){
   //Draw Scoreboard
   canvasContext.fillStyle = "#000000";

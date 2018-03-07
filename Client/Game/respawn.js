@@ -28,5 +28,5 @@ function respawn(deadPlayer){
     var playerSpawn = respawnSpots[Math.floor(Math.random() * respawnSpots.length)];
     deadPlayer.x = playerSpawn.x;
     deadPlayer.y = playerSpawn.y;
-    deadPlayer.health = 100;
+    deadPlayer.health = 200;
 }
