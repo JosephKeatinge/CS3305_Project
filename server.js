@@ -13,13 +13,10 @@ var clients = {};
 var servers = {};
 //Dictionary containing lobby numbers (same as their game server number) as keys and lobby objects as values
 var lobbies = {};
-
-
 app.set('port', 1194);
 app.use('/Client/Game', express.static(__dirname + '/Client/Game'));
 app.use('/Client/Lobby', express.static(__dirname + '/Client/Lobby'));
 app.use('/Client/Assets', express.static(__dirname + '/Client/Assets'));
-
 // Routing
 app.get('/', function(request, response) {
   response.sendFile(path.join(__dirname, 'index.html'));
@@ -28,7 +25,6 @@ app.get('/', function(request, response) {
 server.listen(1194, function() {
   console.log('Starting server on port 1194');
 });
-
 //Lobby Server Class
 function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword, init_map, init_score) {
     /*
@@ -49,7 +45,6 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword, i
     this.pwordOn= init_pwordon;
     this.password= init_pword;
     this.gameOn = false;
-    this.scores = {};
     this.map=init_map;
     this.score=init_score;
 }
@@ -75,7 +70,6 @@ Lobby.prototype={
             //Add player to the list of users in lobby
             this.players.push(player.id);
             this.playernames.push(player.username);
-            this.scores[player.id] = 0;
         }
     },
     /*The function for a player leaving the server
@@ -87,12 +81,9 @@ Lobby.prototype={
         //remove them from the players list
         this.players.splice(index, 1);
         this.playernames.splice(index, 1);
-        delete this.scores[data.user];
     },
 
-    updateScores:function(playerID){
-      this.scores[playerID] += 1;
-    }
+
     
 }
 //Server Class
@@ -125,7 +116,6 @@ GameServer.prototype = {
           id:playerName,
           direction:player.direction,
       }
-      console.log(this.players);
   },
 
    /*Update the location and health of each Player
@@ -193,19 +183,6 @@ function requestLobbies() {
     io.emit('lobbyList', lobbies_info);
 
 }
-
-function requestScoreBoard(currentLobby){
-  scoreBoard = []
-  for(var i = 0; i < currentLobby.players.length; i++){
-    playerInfo = {
-      playerName:currentLobby.playernames[i],
-      playerScore:currentLobby.scores[currentLobby.players[i]]
-    }
-    scoreBoard.push(playerInfo);
-  }
-  return scoreBoard
-}
-
 //Main Server Loop
 io.on('connection', function (socket) {
     
@@ -230,7 +207,6 @@ io.on('connection', function (socket) {
   //Disconnect player when game is over
   socket.on('disconnect0',function(data){
       servers[data.gameid].playerDisconnect(socket);
-      console.log("im disconnecting");
   });
 
 
@@ -239,31 +215,21 @@ io.on('connection', function (socket) {
 
 
 
-    //Lobby information requested by the client
-    //Returns an array of JSON objects @see Lobby.requestInfo()
+  //Lobby information requested by the client
+  //Returns an array of JSON objects @see Lobby.requestInfo()
   socket.on('requestLobbies', function () {
       requestLobbies();
   });
 
   //Starts the main game
-    //Currently works with old game.js wrapped in a socket.on('begingame'), with var socket taken out
   socket.on('start_game', function (lobbyid) {
-     //console.log("start_game")
       //Sends an emit to the lobby room
       io.to(lobbyid).emit('begingame', lobbyid);
-     // io.to(lobbyid).emit("updateScores",requestScoreBoard(lobbies[lobbyid]));
       //creates a new game server and adds it to the servers dictionary
       var game_server = new GameServer(lobbyid);
       servers[lobbyid] = game_server;
       delete lobbies[lobbyid];
-
-      /*setInterval(function () {
-          
-          servers[lobbyid].sendPlayerData();
-      }, 60);*/
       requestLobbies();
-     
-      
   });
     //To answer a client emit requesting to create a lobby
   socket.on('create_lobby', function (lobbyinfo) {
@@ -275,9 +241,7 @@ io.on('connection', function (socket) {
       clients[socket.id] = newlobby.id;
       socket.join(newlobby.id);
       socket.emit('lobbyCreated', lobbies[newlobby.id].requestInfo());
-      
       requestLobbies();
-
   });
  //To answer a client emit requesting to join a lobby
   socket.on('join_lobby', function (data) {
@@ -286,12 +250,10 @@ io.on('connection', function (socket) {
       socket.join(data.lobby);
       io.to(data.lobby).emit('playerJoined', lobbies[data.lobby].requestInfo());
       requestLobbies();
-      console.log(data.username);
   });
 
     //To answer a client emit requesting to leave a lobby
   socket.on('leave_lobby', function (data) {
-     
       lobbies[data.lobby].playerLeave({"id": socket.id, "username": data.username});
       socket.leave(data.lobby);
       io.to(data.lobby).emit('playerJoined', lobbies[data.lobby].requestInfo());
@@ -301,23 +263,13 @@ io.on('connection', function (socket) {
       delete clients[socket.id];
       requestLobbies();
 
-  });
- socket.on("newScore",function(data){
-    console.log("heyo");
-    console.log(data);
-    console.log(lobbies);
-    //lobbies[data.lobby].updateScores(data.playerid)
-    //socket.emit("updateScores",requestScoreBoard(lobbies[data.lobby]));
-});
-
-  
+  });  
   /*
   * Function for when the client disconnects
   * The clients dictionary is checked to see if they are a part of any lobbies or servers. If they are, the appropriate function is called.
   * If the lobby or server is empty after the client disconnects, the lobby or server is removed from its respective dictionary.
  */
   socket.on('disconnect', function () {
-      console.log("disconnecting");
       var index = clients[socket.id];
       if (index != undefined) {
           if (lobbies[index]) {
