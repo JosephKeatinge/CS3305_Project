@@ -41,7 +41,7 @@ function createBullet(targetX, targetY, shooterX, shooterY,clientID) {
     bullet={
     x: shooterX,
     y: shooterY,
-    speed:10,
+    speed:12,
     xtarget: xtarget,
     ytarget: ytarget,
     w: 5,
