@@ -1,11 +1,23 @@
+
 var text;
+/*
+ *This funciton starts the endGame Screen and waits
+ *For the player to press enter
+*/
 function startEndGame(){
     window.addEventListener("keydown",startGameControls);
     text=["GameOver","To play some more","Press Enter"]
 }
+
+/*
+ *This function calls endGameDraw every Interval
+*/
 function updateEndGame(){
     endGameDraw();
 }
+/*
+ *This draws the menu with the scoreboard and logo
+*/
 function endGameDraw(){
     canvasContext.fillStyle="#000000"
     canvasContext.fillRect(0,0,canvas.width,canvas.height);
@@ -21,6 +33,11 @@ function endGameDraw(){
     drawGUI();
     canvasContext.fillStyle="#ffffff";
 }
+
+/*
+ *This checks if the person has pressed Enter
+ *If so it will change state to the main menu 
+*/
 function startGameControls(e){
     if(e.keyCode==13){
         endGameControls();
@@ -28,6 +45,9 @@ function startGameControls(e){
         gameState="main_menu";
     }
 }
+/*
+ *Removes the event listeners for the endGame Menu
+*/
 function endGameControls(){
     window.removeEventListener("keydown",startGameControls);
     endGame=false;
