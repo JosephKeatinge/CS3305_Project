@@ -86,6 +86,9 @@ function createLobbyDraw(){
     canvasContext.fillText("Press escape to enter the main menu",canvas.width/2,40*7+100)
 }
 function createLobbyInfo(){
+    /*
+    Sends the data needed to create a lobby
+    */
     var newlobbiesinfo =
     {   lobby_id : lobbyName,
         host : clientUsername,
@@ -103,6 +106,11 @@ function createLobbyControls(e){
     */
     console.log("test")
     if(enterPassword){
+        /*Checks the keycode for entering a password
+        if the keycode was enter the name entering stops
+        if the keycode is between A-Z or 1-9 it appends this to the password
+        if the keycode was backspace it removes the last character from the password
+        */
         switch(e.keyCode){
             case 13:
                 menuSound.play()
@@ -125,6 +133,11 @@ function createLobbyControls(e){
                 break;
         }
     } else if (enteringName) {
+        /*Checks the keycode for entering a lobby name
+        if the keycode was enter the name entering stops
+        if the keycode is between A-Z or 1-9 it appends this to the lobby name
+        if the keycode was backspace it removes the last character from the name
+        */
         switch(e.keyCode){
             case 13:
                 menuSound.play()
@@ -163,12 +176,17 @@ function createLobbyControls(e){
                 menuSound.play()
                 menuSound.currentTime=0;
                 if (passwordOn) {
+                    /*moves down unless the pointer is at the end 
+                    */
                     if (pointer<text.length-1) {
                         pointer+=1;
                     } else {
                         pointer=text.length-1;
                     }
                 } else {
+                    /*if password is set to flase then the user cannot enter a password
+                       the enter password is hidden from the user
+                    */
                     if (pointer<text.length-2) {
                         pointer+=1;
                         password = "";
@@ -182,10 +200,10 @@ function createLobbyControls(e){
                 menuSound.currentTime=0; 
                 // D key pressed
                 switch(pointer) {
-		    case 2:
-			if(mapPointer<maps.length-1){mapPointer +=1;}
-			currentMap=maps[mapPointer]
-			break;
+		            case 2:
+			            if(mapPointer<maps.length-1){mapPointer +=1;}
+			            currentMap=maps[mapPointer]
+			            break;
                     case 3:
                         if (numOfPlayers < maxPlayers) { numOfPlayers += 1; }
                         break;
@@ -193,7 +211,7 @@ function createLobbyControls(e){
                         if(maxScore<20){
                             maxScore+=1
                         }
-			break;
+			            break;
                     case 5:
                         passwordOn = !passwordOn;
                         break;
@@ -205,19 +223,23 @@ function createLobbyControls(e){
                 menuSound.play()
                 menuSound.currentTime=0;
                 switch(pointer) {
-	            case 2:
-			if(mapPointer>0){mapPointer -=1;}
-			currentMap=maps[mapPointer]
+	                case 2:
+                        //if pointer is on map select move the map select pointer to the left
+			            if(mapPointer>0){mapPointer -=1;}
+			            currentMap=maps[mapPointer]
                         break;
                     case 3:
+                        //if pointer is on the number of players the subtract one from the number of players allowed in the game
                         if (numOfPlayers > 0) { numOfPlayers -= 1; }
                         break;
                     case 4:
+                        //take one from the max score of the game
                         if(maxScore>2){
                             maxScore-=1;
                         }
-			break;
+			            break;
                     case 5:
+                        //change the value of password on
                         passwordOn = !passwordOn;
                         break;
                     default:
@@ -225,35 +247,40 @@ function createLobbyControls(e){
                 }
                 break;
             case 13: // Enter key pressed
-            menuSound.play()
-            menuSound.currentTime=0;
-		if(text[pointer]=="Create Lobby"){
-                        if(lobbyName.length>0){
-			currentMap=maps[mapPointer]
-			newLobby = createLobbyInfo();
+                menuSound.play()
+                menuSound.currentTime=0;
+		        if(text[pointer]=="Create Lobby"){
+                    //if pointer is on create lobby
+                    if(lobbyName.length>0){
+                        //if the lobby name is greater than 0 then create the lobby
+			            currentMap=maps[mapPointer]
+			            newLobby = createLobbyInfo();
                         create_lobby(socket,newLobby,clientUsername,currentMap);
                         gameState="lobby"
-			console.log(maxScore)
                         endCreateLobbyMenu();
-			}
-		}else if(text[pointer]=="Lobby Name: "){
+			        }
+		        }else if(text[pointer]=="Lobby Name: "){
+                        //allows the user to enter the lobby name
                         enteringName = true;
                         break;
                 }else if(text[pointer]=="Password :"){
+                        //enter the password 
                         enterPassword = true;
-		}
-		break;
-	    case 27:
+		        }
+		        break;
+	        case 27:
+                //press escape to leave the menu
                 menuSound.play()
                 menuSound.currentTime=0;
                 endCreateLobbyMenu();
                 gameState="main_menu"
                 break;
             }
-    }
+        }
 }
 
 function endCreateLobbyMenu(){
+    //turns off the controls and turns off the create lobby menu state
   window.removeEventListener("keydown",createLobbyControls);
   createLobbyMenu = false;
 }
