@@ -6,7 +6,6 @@
     >create_lobby_menu
     >game
     >lobby
-    >pause_menu
     >settingsMenu
     */
 
@@ -149,18 +148,4 @@ function updateAll() {
       updateEndGame();
       break;
   }
-  if(inLobby){
-  if(currentLobby.map=="Sand"){
-    BRICK_COLS = 20;
-    BRICK_ROWS = 15;
-  }else if(currentLobby.map=="Factory"){
-    BRICK_COLS = 22;
-    BRICK_ROWS = 19;
-  }else if(currentLobby.map=="Stone"){
-    BRICK_COLS = 21;
-    BRICK_ROWS = 15;
-  }
-}
-
-//console.log(gameState);
 }

@@ -13,7 +13,6 @@ var clients = {};
 var servers = {};
 //Dictionary containing lobby numbers (same as their game server number) as keys and lobby objects as values
 var lobbies = {};
-var lobbyno = 0;
 
 
 app.set('port', 1194);
@@ -31,16 +30,16 @@ server.listen(1194, function() {
 });
 
 //Lobby Server Class
-function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword,init_map,init_score) {
+function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword, init_map, init_score) {
     /*
      *@constructor for the Lobby API
-     *@params players, the list of players in the lobby
-     *@params id, the lobby id
-     *@params host, the host of the lobby
-     *@params max_players max players in the lobby
-     *@params pwordOn, if password is set. Initially set to false
-     *@params password, the password for the lobby. Initially null.
-
+     *@params init_id the name of the lobby
+     *@params lobbyhost the user who created the lobby
+     *@params init_max_players max players in the lobby
+     *@params init_pwordOn true if lobby is password protected, false otherwise
+     *@params init_pword the password for the lobby
+     *@params init_map the map chosen by the host to play on
+     *@params init_score the score required to win and end the game
     */
     this.players = [];
     this.playernames = [];
@@ -53,7 +52,6 @@ function Lobby(init_id, lobbyhost, init_max_players, init_pwordon, init_pword,in
     this.scores = {};
     this.map=init_map;
     this.score=init_score;
-    console.log(this.score)
 }
 
 Lobby.prototype={
@@ -124,7 +122,8 @@ GameServer.prototype = {
           w:player.w,
           h:player.h,
           score:player.score,
-          id:playerName
+          id:playerName,
+          direction:player.direction,
       }
       console.log(this.players);
   },
@@ -140,6 +139,7 @@ GameServer.prototype = {
               player.x = newpos.x;
               player.y = newpos.y;
               player.health=newpos.health;
+              player.direction = newpos.direction;
           }
           this.sendPlayerData();
       }
@@ -267,9 +267,9 @@ io.on('connection', function (socket) {
   });
     //To answer a client emit requesting to create a lobby
   socket.on('create_lobby', function (lobbyinfo) {
-      lobbyno += 1
-      newlobby = new Lobby(lobbyinfo.lobby_id, lobbyinfo.host, lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password,lobbyinfo.map,lobbyinfo.score);
-      //console.log(newlobby);
+      //Create a new lobby object
+      newlobby = new Lobby(lobbyinfo.lobby_id, lobbyinfo.host, lobbyinfo.max_players, lobbyinfo.pwordOn, lobbyinfo.password, lobbyinfo.map, lobbyinfo.score);
+      //Add new lobby into the lobbies dictionary, referenced by its id and add the lobby host into the lobby
       lobbies[newlobby.id] = newlobby;
       lobbies[newlobby.id].playerJoin({"id":socket.id, "username":newlobby.host});
       clients[socket.id] = newlobby.id;

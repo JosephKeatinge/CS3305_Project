@@ -104,7 +104,6 @@ function createLobbyControls(e){
     /*
     Sets the controls for the user and keeps track of pointers
     */
-    console.log("test")
     if(enterPassword){
         /*Checks the keycode for entering a password
         if the keycode was enter the name entering stops
@@ -247,6 +246,7 @@ function createLobbyControls(e){
                 }
                 break;
             case 13: // Enter key pressed
+<<<<<<< HEAD
                 menuSound.play()
                 menuSound.currentTime=0;
 		        if(text[pointer]=="Create Lobby"){
@@ -261,6 +261,19 @@ function createLobbyControls(e){
 			        }
 		        }else if(text[pointer]=="Lobby Name: "){
                         //allows the user to enter the lobby name
+=======
+            menuSound.play()
+            menuSound.currentTime=0;
+		if(text[pointer]=="Create Lobby"){
+            if(lobbyName.length>0){
+			    currentMap=maps[mapPointer];
+			    newLobby = createLobbyInfo();
+                create_lobby(socket,newLobby,clientUsername,currentMap);
+                gameState="lobby";
+                endCreateLobbyMenu();
+			}
+		}else if(text[pointer]=="Lobby Name: "){
+>>>>>>> bc531c302b353f6e211fa54380dc5f78b4cf8fe0
                         enteringName = true;
                         break;
                 }else if(text[pointer]=="Password :"){

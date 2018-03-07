@@ -6,7 +6,6 @@ var camPanY=0.0;
 const PLAYER_DIST_FROM_CENTER_BEFORE_CAMERA_PAN_X = 150;
 const PLAYER_DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y = 100;
 const GUI_WIDTH=200;
-console.log(currentLobby);
 // 0 Corresponds to a floor tile, 1 for a wall, 2 is the starting position for the player
 const TILE_FLOOR = 0;
 const TILE_WALL = 1;
@@ -21,16 +20,16 @@ function resetMap(){
              brickGrid =
       [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
-        1, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+        1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1,
         1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
@@ -45,7 +44,7 @@ function resetMap(){
         1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1,
         1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1,
-        1, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1,
+        1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1,
         1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1,
@@ -59,7 +58,7 @@ function resetMap(){
       [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,
         1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,
-        1, 0, 0, 2, 0, 0, 1, 0, 0, 0, 2, 0, 0, 1, 0, 0, 2, 0, 0, 0, 1, 1,
+        1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,
         1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,
         1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1,
         1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
@@ -73,7 +72,7 @@ function resetMap(){
         1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0 ,1, 1,
         1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1,
         1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,
-        1, 0, 0, 2, 0, 0, 1, 0, 0, 0, 2, 0, 0, 1, 0, 0, 2, 0, 0, 0, 1, 1,
+        1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 
     }
@@ -81,33 +80,36 @@ function resetMap(){
 
 }
 
-function loadImages() {
-	currentMap=currentLobby.map
-	console.log(currentLobby);
+function loadMap() {
+	var currentMap=currentLobby.map;
 	if(currentMap=="Stone"){
-	wallPic.src = "/Client/Assets/stoneFloor.png";
-	floorPic.src = "/Client/Assets/stoneWall.png";
-       brickGrid =
+    BRICK_COLS = 21;
+    BRICK_ROWS = 15;
+	  wallPic.src = "/Client/Assets/stoneFloor.png";
+	  floorPic.src = "/Client/Assets/stoneWall.png";
+    brickGrid =
 	   [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
-        1, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+        1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1,
         1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 	}else if(currentMap=="Sand"){
+    BRICK_COLS = 20;
+    BRICK_ROWS = 15;
 	  floorPic.src="/Client/Assets/floor2.png";
 	  wallPic.src="/Client/Assets/wall.jpg";
-	brickGrid =
+	  brickGrid =
       [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
         1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -115,7 +117,7 @@ function loadImages() {
         1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1,
         1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1,
-        1, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1,
+        1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1,
         1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
         1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1,
@@ -124,14 +126,15 @@ function loadImages() {
         1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 	}else if(currentMap=="Factory"){
+    BRICK_COLS = 22;
+    BRICK_ROWS = 19;
 		wallPic.src="/Client/Assets/metalfloor.png";
 	  floorPic.src="/Client/Assets/metalwall.png";
-
-	brickGrid =
+	  brickGrid =
       [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,
         1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,
-        1, 0, 0, 2, 0, 0, 1, 0, 0, 0, 2, 0, 0, 1, 0, 0, 2, 0, 0, 0, 1, 1,
+        1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,
         1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,
         1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1,
         1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
@@ -145,7 +148,7 @@ function loadImages() {
         1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0 ,1, 1,
         1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1,
         1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,
-        1, 0, 0, 2, 0, 0, 1, 0, 0, 0, 2, 0, 0, 1, 0, 0, 2, 0, 0, 0, 1, 1,
+        1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 	}
 }
@@ -232,46 +235,49 @@ function cameraFollow() {
     }
 
 }
- function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
+
+function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
     canvasContext.fillStyle = fillColor;
     canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
-  }
+}
 
-  function colorCircle(centerX, centerY, radius, fillColor) {
-    canvasContext.fillStyle = fillColor;
-    canvasContext.beginPath();
-    canvasContext.arc(centerX, centerY, radius, 0, Math.PI*2, true);
-    canvasContext.fill();
-  }
-  function drawOnlyBricksOnScreen() {
-    // what are the top-left most col and row visible on canvas?
-    var cameraLeftMostCol = Math.floor(camPanX / BRICK_W);
-    var cameraTopMostRow = Math.floor(camPanY / BRICK_H);
+function colorCircle(centerX, centerY, radius, fillColor) {
+  canvasContext.fillStyle = fillColor;
+  canvasContext.beginPath();
+  canvasContext.arc(centerX, centerY, radius, 0, Math.PI*2, true);
+  canvasContext.fill();
+}
 
-    // how many columns and rows of tiles fit on one screenful of area?
-    var colsThatFitOnScreen = Math.floor((canvas.width-GUI_WIDTH) / BRICK_W);
-    var rowsThatFitOnScreen = Math.floor(canvas.height / BRICK_H);
+function drawOnlyBricksOnScreen() {
+  // what are the top-left most col and row visible on canvas?
+  var cameraLeftMostCol = Math.floor(camPanX / BRICK_W);
+  var cameraTopMostRow = Math.floor(camPanY / BRICK_H);
 
-    // finding the rightmost and bottommost tiles to draw.
-    // the +1 and + 2 on each pushes the new tile popping in off visible area
-    // +2 for columns since BRICK_W doesn't divide evenly into canvas.width
-    var cameraRightMostCol = cameraLeftMostCol + colsThatFitOnScreen + 2;
-    var cameraBottomMostRow = cameraTopMostRow + rowsThatFitOnScreen + 1;
+  // how many columns and rows of tiles fit on one screenful of area?
+  var colsThatFitOnScreen = Math.floor((canvas.width-GUI_WIDTH) / BRICK_W);
+  var rowsThatFitOnScreen = Math.floor(canvas.height / BRICK_H);
 
-    for(var eachCol=cameraLeftMostCol; eachCol<cameraRightMostCol; eachCol++) {
-      for(var eachRow=cameraTopMostRow; eachRow<cameraBottomMostRow; eachRow++) {
+  // finding the rightmost and bottommost tiles to draw.
+  // the +1 and + 2 on each pushes the new tile popping in off visible area
+  // +2 for columns since BRICK_W doesn't divide evenly into canvas.width
+  var cameraRightMostCol = cameraLeftMostCol + colsThatFitOnScreen + 2;
+  var cameraBottomMostRow = cameraTopMostRow + rowsThatFitOnScreen + 1;
 
-        if( isBrickAtTileCoord(eachCol, eachRow) ) {
-          var arrayIndex=rowColToArrayIndex(eachCol,eachRow);
-          var brickLeftEdgeX = eachCol * BRICK_W;
-          var brickTopEdgeY = eachRow * BRICK_H;
-          if (brickGrid[arrayIndex]==TILE_WALL){
-               canvasContext.drawImage(wallPic, brickLeftEdgeX,brickTopEdgeY);
-          }
-        } // end of isBrickAtTileCoord()
-      } // end of for eachRow
-    } // end of for eachCol
-  } // end of drawBricks()
+  for(var eachCol=cameraLeftMostCol; eachCol<cameraRightMostCol; eachCol++) {
+    for(var eachRow=cameraTopMostRow; eachRow<cameraBottomMostRow; eachRow++) {
+
+      if( isBrickAtTileCoord(eachCol, eachRow) ) {
+        var arrayIndex=rowColToArrayIndex(eachCol,eachRow);
+        var brickLeftEdgeX = eachCol * BRICK_W;
+        var brickTopEdgeY = eachRow * BRICK_H;
+        if (brickGrid[arrayIndex]==TILE_WALL){
+              canvasContext.drawImage(wallPic, brickLeftEdgeX,brickTopEdgeY);
+        }
+      } // end of isBrickAtTileCoord()
+    } // end of for eachRow
+  } // end of for eachCol
+} // end of drawBricks()
+
 function rowColToArrayIndex(col, row) {
 	//Converts array x and y coords to actual array index
 	return col + BRICK_COLS * row;
@@ -300,12 +306,13 @@ function drawFloor() {
 			var brickLeftEdgeX = eachCol * BRICK_W;
             var brickTopEdgeY = eachRow * BRICK_H;
 
-		    if(brickGrid[arrayIndex] == TILE_FLOOR) {
+		    if(brickGrid[arrayIndex] != TILE_WALL) {
 				    canvasContext.drawImage(floorPic, BRICK_W*eachCol,BRICK_H*eachRow);
 			}
 		}
 	}
 }
+
 function playerReset(player) {
     //Converts the player's starting position in the map array to x and y coordinates on the canvas.
     //Also changes the array value at that point from player object to floor.

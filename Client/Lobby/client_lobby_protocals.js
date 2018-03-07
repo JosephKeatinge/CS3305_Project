@@ -56,7 +56,6 @@ function request_lobbies(socket){
 socket.on("begingame", function(){
     gameState = "game"
     endLobbyWaitRoom();
-    console.log("begingame")
 })
 
 /*procceses the info recieved for all open lobbies on the server
