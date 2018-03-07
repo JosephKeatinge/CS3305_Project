@@ -263,21 +263,22 @@ function createLobbyControls(e){
             menuSound.play()
             menuSound.currentTime=0;
 		if(text[pointer]=="Create Lobby"){
-            if(lobbyName.length>0){
-			    currentMap=maps[mapPointer];
-			    newLobby = createLobbyInfo();
-                create_lobby(socket,newLobby,clientUsername,currentMap);
-                gameState="lobby";
-                endCreateLobbyMenu();
+            	    if(lobbyName.length>0){
+			currentMap=maps[mapPointer];
+			newLobby = createLobbyInfo();
+                	create_lobby(socket,newLobby,clientUsername,currentMap);
+               		 gameState="lobby";
+               		 endCreateLobbyMenu();
 			}
-		}else if(text[pointer]=="Lobby Name: "){
-                        enteringName = true;
-                        break;
-                }else if(text[pointer]=="Password :"){
+		    }else if(text[pointer]=="Lobby Name: "){
+                        	enteringName = true;
+                        	break;
+                    }else if(text[pointer]=="Password :"){
                         //enter the password 
                         enterPassword = true;
-		        }
-		        break;
+		    }
+		    break;
+		}
 	        case 27:
                 //press escape to leave the menu
                 menuSound.play()
