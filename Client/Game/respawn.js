@@ -35,6 +35,9 @@ var respawnCo = {
 }
 var dead=false;
 
+/* Spawns you to 1 of 5 respawn points randomely, spots depend on map
+  *@param deadPlayer: Your player class if your health falls to 0 or below
+*/
 function respawn(deadPlayer){
     dead = true;
     if(currentLobby.map=="Sand"){respawnSpots.push(sandRespawnSpot1, sandRespawnSpot2, sandRespawnSpot3, sandRespawnSpot4);}
