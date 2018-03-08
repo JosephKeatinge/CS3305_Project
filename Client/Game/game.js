@@ -14,7 +14,8 @@ var otherPlayers;
 function startGame(){
   //Initiate proxy between client and server
   proxy=new Proxy(socket,currentLobby.id);
-  //Load All Images
+  soundtrack.play();
+  //Load All Image
   loadMap();
   respawn(player);
   playerImageLoad();
@@ -33,6 +34,7 @@ function startGame(){
   //Add bullets received from server to list
   socket.on('bullets',function(bullets){
             sound.play();
+            sound.currentTime=0;
             allBullets.push(bullets);
   });
 

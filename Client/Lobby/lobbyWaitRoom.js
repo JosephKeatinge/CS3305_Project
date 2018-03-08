@@ -1,5 +1,6 @@
 var lobbyWaitRoomNumberOfPlayers = 0;
 function startLobbyWaitRoom() {
+//starts the current lobby and sets variables
   canvasContext.font = "20px Silkscreen";
   canvasContext.textAlign = "center";
   window.addEventListener("keydown",lobbyWaitRoomControls);
@@ -12,9 +13,10 @@ function updateLobbyWaitRoom() {
 }
 
 function WaitRoomnumberOfPlayers() {
-  var str="";
-  str="Number of players : "+ currentLobby.playernames.length +" / " +currentLobby.max_players;
-  return str;
+  //gets the current number of players in the lobby   
+    var str="";
+    str="Number of players : "+ currentLobby.playernames.length +" / " +currentLobby.max_players;
+    return str;
 }
 
 function lobbyWaitRoomDraw() {
@@ -31,19 +33,23 @@ function lobbyWaitRoomDraw() {
 }
 
 function lobbyWaitRoomControls(e) {
+//controls for the lobby wait room
   switch(e.keyCode) {
       case 13:
-      socket.emit("start_game",currentLobby.id);
-      break
-    case 27:
-	leave_lobby(currentLobby.id,socket);
-        endLobbyWaitRoom();
-	gameState="main_menu";
-	break;
+        //if entered is selected then the game begins
+        socket.emit("start_game",currentLobby.id);
+        break
+        case 27:
+            //if escape is selected then the user is sent back to the main menu
+	        leave_lobby(currentLobby.id,socket);
+            endLobbyWaitRoom();
+	        gameState="main_menu";
+	        break;
     }
 }
 
 function endLobbyWaitRoom() {
+    //turns off controls and leaves the current state 
     window.removeEventListener("keydown",lobbyWaitRoomControls);
     lobbyWaitRoom= false;
 }

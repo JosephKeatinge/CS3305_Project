@@ -1,4 +1,3 @@
-
 /*
  *This function draws the gui on the righthand side 
  *It includes the scoreboard and the healthBar
@@ -18,7 +17,12 @@ function drawGUI(){
   //Draw Health Bar
   canvasContext.fillStyle = "#ff0000"
   canvasContext.fillRect(canvas.width - 180,40,160,20)
+  if(player.hasShield===false){
   canvasContext.fillStyle = "#00ff00"
+  }
+  else{
+      canvasContext.fillStyle = "#0000ff"
+  }
   canvasContext.fillRect(canvas.width - 180,40,(160 - (((200-player.health)/200)*160)),20)
  }
 }

@@ -17,6 +17,7 @@ socket.on('lobbyList', function (data) {
 });
 
 function startLobbyMenu() {
+    //starts the current menu and sets variables
     lobbies = []
     window.addEventListener("keydown",lobbyMenuControls);
     pageNum=0;
@@ -86,9 +87,11 @@ function lobbyMenuControls(e) {
                 console.log("Entered: " + passwordAttempt);
                 break;
             case 8:
+                //remove last letter using backspace
                 passwordAttempt = passwordAttempt.slice(0,passwordAttempt.length-1);
                 break;
             default:
+                //enter values A-Z or 1-9 and append to passwordAttempt
                 if(e.keyCode>=65 && e.keyCode<=90 ){
                         letter = String.fromCharCode(e.keyCode)
                         passwordAttempt+=letter.toUpperCase();
@@ -101,7 +104,7 @@ function lobbyMenuControls(e) {
         }
     }
     switch(e.keyCode){
-        case 87:
+        case 87://s key pressed
             menuSound.play()
             menuSound.currentTime=0;
             if(lobbyMenuPointer > 0 + (pagesPerPage*pageNum)){
@@ -111,12 +114,14 @@ function lobbyMenuControls(e) {
                 pageNum-=1;
             }
             break;
-        case 83:
+        case 83://a key pressed
             menuSound.play()
             menuSound.currentTime=0;
             if(lobbyMenuPointer < lobbies.length-1){
                 lobbyMenuPointer+=1;
+                //moves the lobby pointer up one if its less than the total number of lobbies
             }if(lobbyMenuPointer>(pagesPerPage-1)+(pagesPerPage*pageNum)){
+                //changes the current page if the pointer has reached the end of the current page
                 pageNum+=1;
             }
             break;
@@ -135,35 +140,33 @@ function lobbyMenuControls(e) {
                     gameState = "lobby";
                     endLobbyMenu();
                 //If the current attempt is not correct or no attempt has been made, allow the user to enter the password
-            } else {
-                passwordAttempt = "";
-                enteringLobbyPassword = true;}
-            } else {
+                } else {
+                    passwordAttempt = "";
+                    enteringLobbyPassword = true;}
+            }else{
+                //join the selected lobby if entered password is correct and end the menu
                 socket.emit('join_lobby', { "lobby": selectedLobby.id,"username":clientUsername});
                 currentLobby = selectedLobby;
                 gameState = "lobby";
                 endLobbyMenu();
             }
             break;
-	case 27:
-        menuSound.play()
-        menuSound.currentTime=0;
-		if(!enteringLobbyPassword){
-		  endLobbyMenu();
-		  gameState="main_menu";
-		}else{
-		  enteringLobbyPassword=false;
-		}
-		break;
-            //test case
-        /*(case 71:
-            console.log('here');
-            socket.emit('create_lobby', { "host": socket.id, "max_players": 4, 'pwordOn': false, 'password': '' });
-            break;*/
+	    case 27:
+            //leave menu if escape is pressed
+            menuSound.play()
+            menuSound.currentTime=0;
+		    if(!enteringLobbyPassword){
+		        endLobbyMenu();
+		        gameState="main_menu";
+		    }else{
+		        enteringLobbyPassword=false;
+		    }      
+		    break;
         }
 }
 
 function endLobbyMenu() {
+    //ends the currrent menu and turns off the controls
     window.removeEventListener("keydown", lobbyMenuControls);
     lobbyMenu = false;
 }

@@ -5,10 +5,11 @@
 var words;
 var MainMenuPointer;
 function startmainmenu(){
-window.addEventListener("keydown",mainmenucontrols);
-words = ["Create Lobby","Join Lobby","Settings","How to play","Credits"];
-MainMenuPointer=0;
-canvasContext.font = "30px Silkscreen";
+    //starts the main menu and sets variables
+    window.addEventListener("keydown",mainmenucontrols);
+    words = ["Create Lobby","Join Lobby","Settings","How to play","Credits"];
+    MainMenuPointer=0;
+    canvasContext.font = "30px Silkscreen";
 }
 function updategamemenu(){
     /* 
@@ -38,39 +39,48 @@ function mainmenucontrols(e){
     */
     switch(e.keyCode){
     case 87:
+        //if w is presserd pointer moves up and menu sound is played
         MainMenuPointer=MainMenuPointer-1;
         menuSound.play()
         menuSound.currentTime=0;
         break;
     case 83:
+        //if s is pressed poinyer moves down one
         MainMenuPointer=MainMenuPointer+1;
         menuSound.play()
         menuSound.currentTime=0;
         break;
     case 13:
+    //if enter is pressed selects the state on which the pointer is on
       if(words[MainMenuPointer]=="Create Lobby"){
+            //create lobby state
             gameState="create_lobby_menu";
         }else if(words[MainMenuPointer]=="Join Lobby"){
-	        endMainMenu()
+            //lobby list menu
             gameState="lobby_list_menu";
         }else if(words[MainMenuPointer]=="Settings"){
+            //settings menu
 	        gameState="settingsMenu";
         }else if(words[MainMenuPointer]=="How to play"){
-            	gameState="howToPlay";
+            //how to play menu
+            gameState="howToPlay";
         }else if(words[MainMenuPointer]="Credits"){
-		gameState="creditsMenu"
+            //credits menu
+		    gameState="creditsMenu"
             }
         endMainMenu();
         break;
         }
-        if(MainMenuPointer<0){
-            MainMenuPointer=0;
-        }else if(MainMenuPointer>=words.length-1){
-            MainMenuPointer=words.length-1;
-        }
+    if(MainMenuPointer<0){
+        //checks if pointer is outside the range of words
+        MainMenuPointer=0;
+    }else if(MainMenuPointer>=words.length-1){
+        MainMenuPointer=words.length-1;
+    }
 
     }
 function endMainMenu(){
+    //ends the current state and removes the controls
     window.removeEventListener("keydown",mainmenucontrols);
     mainMenuEventListeners = false;
 }
